@@ -1,0 +1,41 @@
+[{
+    "id": "ĐH1",
+    "name": "Phạm Minh Anh",
+    "date_order": "27-07-2022",
+    "date_ship":"08-08-2022",
+    "total": "200.000đ",
+    "static":"Chưa giao"
+},
+{
+    "id": "ĐH2",
+    "name": "Nguyễn Hùng Mạnh",
+    "date_order": "14-06-2022",
+    "date_ship":"30-07-2022",
+    "total": "50.000đ",
+    "static":"Đang giao"
+},
+{
+    "id": "ĐH3",
+    "name": "Hồ Phan Bảo Như",
+    "date_order": "02-04-2022",
+    "date_ship":"25-04-2022",
+    "total": "98.600đ",
+    "static":"Đã giao"
+},
+{
+    "id": "ĐH4",
+    "name": "Nguyễn Ngọc Gia Bảo",
+    "date_order": "02-12-2021",
+    "date_ship":"25-12-2021",
+    "total": "129.600đ",
+    "static":"Đã giao"
+},
+{
+    "id": "ĐH5",
+    "name": "Trương Hồ Hải",
+    "date_order": "13-12-2021",
+    "date_ship":"25-12-2021",
+    "total": "129.600đ",
+    "static":"Đã giao"
+}
+]

@@ -1,0 +1,144 @@
+
+
+.page_controller_btn_active:hover {
+  background: #ee4d2dde;
+}
+
+
+.page_controller_btn_active {
+  color: #fff;
+  padding: 0;
+  min-width: 2.5rem;
+  text-align: center;
+  height: 1.875rem;
+  font-size: 1.25rem;
+  margin-left: 0.9375rem;
+  margin-right: 0.9375rem;
+  position: relative;
+  overflow: visible;
+  outline: 0;
+  background: #ee4d2d;
+  cursor: pointer;
+  border: 0;
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity .2s ease;
+  border-radius: 2px;
+  user-select: none;
+  box-shadow: 0 1px 1px 0 rgb(0 0 0 / 9%);
+}
+.page_controller_btn_no_outline {
+  padding: 0;
+  min-width: 2.5rem;
+  text-align: center;
+  height: 1.875rem;
+  font-size: 1.25rem;
+  margin-left: 0.9375rem;
+  margin-right: 0.9375rem;
+  color: rgba(0, 0, 0, .4);
+  position: relative;
+  overflow: visible;
+  outline: 0;
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color .1s cubic-bezier(.4, 0, .6, 1);
+}
+
+.page_controller_btn_no_outline:hover {
+  color: #ee4d2d;
+}
+.page_controller {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
+
+.page_controller_btn {
+  outline: none;
+  cursor: pointer;
+  border: 0;
+  font-size: 1.5rem;
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color .1s cubic-bezier(.4, 0, .6, 1);
+}
+
+.btn_prev {
+  text-align: right;
+  margin-right: 0.9375rem;
+  color: rgba(0, 0, 0, .4);
+  min-width: 2.5rem;
+  height: 1.875rem;
+  border: 0;
+  background-color: transparent;
+  padding: 0;
+}
+
+.btn_next {
+  text-align: left;
+  margin-left: 0.9375rem;
+  color: rgba(0, 0, 0, .4);
+  min-width: 2.5rem;
+  height: 1.875rem;
+  border: 0;
+  background-color: transparent;
+  padding: 0;
+}
+
+
+
+  
+.paginationBttns {
+  width: 80%;
+  height: 40px;
+  list-style: none;
+  display: flex;
+  margin: 3.25rem 0 3.75rem;
+  justify-content: center;
+}
+
+.paginationBttns a {
+  padding: 0;
+  min-width: 2.5rem;
+  color: rgba(0,0,0,.4);
+  font-size: 1.25rem;
+  margin-left: 1rem;
+  margin-right: 1.9375rem;
+  position: relative;
+  cursor: pointer;
+  overflow: visible;
+  outline: 0;
+  padding: 0.3525rem 1rem;
+  border-radius: 4px;
+  background-color: transparent;
+  border: 0;
+}
+
+.paginationBttns a:hover {
+  color: rgb(238, 77, 45);
+  
+}
+
+.paginationActive a {
+  color: white;
+  background-color: rgb(238, 77, 45);
+
+}
+
+

@@ -1,0 +1,17 @@
+[
+    {
+        "id" : 1,
+        "nameLogin" : "liuphuong",
+        "name" : "Dai",
+        "email" : "abcddai123@gmail.com",
+        "phone" : "0377707514",
+        "nameShop" : "liluphuong",
+        "gender" : "male",
+        "birthDay" : {
+            "date": 20,
+            "month": 6,
+            "year": 2001
+        },
+        "avatar" : "https://scontent.xx.fbcdn.net/v/t1.15752-9/260973034_620697476041810_7358295328192465228_n.jpg?stp=dst-jpg_p206x206&_nc_cat=103&ccb=1-7&_nc_sid=aee45a&_nc_ohc=Gq1GzLV0CYgAX9XLFBD&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_AVJyltMWzSreRu7oIMcMcbLg-knSJRRvF3--F0Hzpg07oA&oe=63052D3E"
+    }
+]

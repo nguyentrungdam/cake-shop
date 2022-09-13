@@ -1,0 +1,14 @@
+.admin_dashboard{
+    display: flex;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.home{
+    padding: 0 20rem;
+    position: relative;
+    margin-top: 16px;
+    /* margin-right: auto;
+    margin-left: auto; */
+    background-color: #fff;
+}

@@ -1,0 +1,342 @@
+/* CSS Header */
+.SubA {
+  padding: 7px 12px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.SubA:hover {
+  background-color: #fafafa;
+  color: #2ecab5 !important;
+}
+
+.LeftNavbarLinkLeft {
+  color: #fff;
+  text-decoration: none !important;
+  font-size: 0.8125rem;
+  font-weight: 450;
+  padding: 0.25rem;
+  position: relative;
+  overflow: visible;
+  outline: 0;
+  background-color: transparent;
+}
+
+.LeftNavbarLinkLeft:hover {
+  color: hsla(0, 0%, 100%, 0.7);
+  cursor: pointer;
+}
+
+.LeftNavbarLinkRight {
+  color: #fff;
+  text-decoration: none !important;
+  font-size: 0.8125rem;
+  font-weight: 450;
+  padding: 0.25rem;
+  position: relative;
+  overflow: visible;
+  outline: 0;
+  background-color: transparent;
+  margin-left: 0.625rem;
+  display: flex;
+}
+
+.LeftNavbarLinkRight:hover {
+  color: hsla(0, 0%, 100%, 0.7);
+  cursor: pointer;
+}
+
+.LeftNavbarLinkRight::after {
+  content: "";
+  height: 0.9375rem;
+  width: 0;
+  border-left: 1px solid hsla(0, 0%, 100%, 0.22);
+  border-right: 1px solid hsla(0, 0%, 100%, 0.22);
+  position: absolute;
+  left: -6px;
+  top: calc(50% - 7px);
+}
+
+.FacebookLink {
+  width: 16px;
+  height: 16px;
+  margin-top: 4px;
+  display: inline-block;
+  overflow: hidden;
+  text-indent: -9999px;
+  text-align: left;
+  margin-right: 10px;
+  background-size: 487.5% 293.75%;
+  background-position: 8.064516129032258% 16.129032258064516%;
+  background-image: url(https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg/assets/cab134ca96b0829b591cfaff892ae62c.png);
+  text-decoration: none;
+  background-color: transparent;
+  color: -webkit-link;
+  cursor: pointer;
+  font-size: 0.8125rem;
+  font-weight: 300;
+}
+
+.InstagramLink {
+  width: 16px;
+  margin-top: 4px;
+  height: 16px;
+  display: inline-block;
+  overflow: hidden;
+  text-indent: -9999px;
+  text-align: left;
+  margin-right: 10px;
+  background-size: 487.5% 293.75%;
+  background-position: 58.064516129032256% 16.129032258064516%;
+  text-decoration: none;
+  background-color: transparent;
+  color: -webkit-link;
+  cursor: pointer;
+  font-size: 0.8125rem;
+  font-weight: 300;
+  background-image: url(https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg/assets/cab134ca96b0829b591cfaff892ae62c.png);
+}
+
+.NotiLink {
+  pointer-events: none;
+  background-color: transparent;
+  user-select: none;
+  cursor: pointer;
+  color: currentColor;
+  list-style: none;
+  align-items: center;
+  display: flex;
+  text-decoration: none;
+}
+
+.SupportNavbar {
+  padding-left: 0;
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  justify-content: center;
+  padding: 0 0.625rem;
+  display: flex;
+  align-items: center;
+  color: currentColor;
+  text-decoration: none !important;
+  background-color: transparent;
+  list-style: none;
+}
+
+.SupportNavbar:hover {
+  color: hsla(0, 0%, 100%, 0.7);
+  cursor: pointer;
+}
+
+.RegisterNavbar {
+  cursor: pointer;
+  color: white !important;
+  text-transform: none;
+  font-weight: 500;
+  font-size: 0.8125rem;
+  position: relative;
+  justify-content: center;
+  padding: 0 0.625rem;
+  text-decoration: none;
+  background-color: transparent;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  user-select: none;
+}
+
+.RegisterNavbar .link {
+  color: white;
+  text-decoration: none;
+}
+
+.RegisterNavbar .link:hover {
+  color: hsla(0, 0%, 100%, 0.7);
+  cursor: pointer;
+}
+
+.LoginNavbar {
+  cursor: pointer;
+  color: white !important;
+  text-transform: none;
+  font-weight: 500;
+  font-size: 0.8125rem;
+  position: relative;
+  justify-content: center;
+  padding: 0 0.625rem;
+  text-decoration: none;
+  background-color: transparent;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  user-select: none;
+}
+
+.LoginNavbar .link {
+  color: white;
+  text-decoration: none;
+}
+
+.LoginNavbar .link:hover {
+  color: hsla(0, 0%, 100%, 0.7);
+  cursor: pointer;
+}
+
+.HeaderLogo {
+  position: relative;
+  top: -0.1875rem;
+  padding-right: 2.5rem;
+  box-sizing: border-box;
+  cursor: pointer;
+  text-decoration: none;
+  background-color: transparent;
+  color: -webkit-link;
+}
+
+.SearchItemLink {
+  margin-left: 10px;
+  position: relative;
+  text-decoration: none !important;
+  overflow: visible;
+  outline: 0;
+  white-space: nowrap;
+  display: block;
+  color: hsla(0, 0%, 100%, 0.9) !important;
+  height: 0.875rem;
+  line-height: 0.875rem;
+  margin-top: 0.3125rem;
+  margin-bottom: 0.3125rem;
+  background-color: transparent;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+.SearchItemLink:hover {
+  opacity: 0.8;
+}
+
+.CartLink {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  margin: 0 0 0 5px;
+  position: relative;
+  overflow: visible;
+  outline: 0;
+  text-decoration: none;
+  background-color: transparent;
+}
+
+.CartImg {
+  fill: currentColor;
+  width: 26px;
+  height: 26px;
+  cursor: pointer;
+  color: #fff !important;
+  stroke: #fff;
+  overflow: hidden;
+  display: inline-block;
+  position: relative;
+  font-size: 1.0625rem;
+  margin-right: 0.625rem;
+}
+
+.QrLink {
+  border: 0;
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.8125rem;
+  font-weight: 450;
+  padding: 0.25rem;
+  position: relative;
+  overflow: visible;
+  cursor: pointer;
+  outline: 0;
+  background-color: transparent;
+}
+
+.QrLink:hover {
+  color: hsla(0, 0%, 100%, 0.7) !important;
+}
+
+.QrLink:hover .HeaderQr {
+  color: hsla(0, 0%, 100%, 0.7);
+  cursor: pointer;
+  display: block;
+}
+
+.QrLink::after {
+  content: "";
+  height: 0.9375rem;
+  width: 0;
+  border-left: 1px solid hsla(0, 0%, 100%, 0.22);
+  border-right: 1px solid hsla(0, 0%, 100%, 0.22);
+  position: absolute;
+  left: -6px;
+  top: calc(50% - 7px);
+}
+
+/* Footer */
+.A {
+  color: inherit;
+  display: inline-block;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.SocialLink {
+  text-decoration: none !important;
+  color: rgba(0, 0, 0, 0.54);
+  align-content: center;
+  display: flex;
+  background-color: transparent;
+  cursor: pointer;
+  text-transform: capitalize;
+  text-align: -webkit-match-parent;
+  list-style-type: none;
+  font-size: 0.75rem;
+}
+
+.SocialLink:hover {
+  color: #ee4d2d;
+  cursor: pointer;
+}
+
+.NoReferrer {
+  width: 100%;
+  flex-direction: row;
+  display: flex;
+  text-decoration: none;
+  background-color: transparent;
+  color: -webkit-link;
+  cursor: pointer;
+}
+
+.AreaItemLink {
+  text-decoration: none;
+  color: rgba(0, 0, 0, 0.54);
+  line-height: 1.125rem;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.PrivacyPolicyLink {
+  text-decoration: none;
+  display: block;
+  color: rgba(0, 0, 0, 0.54);
+  background-color: transparent;
+  cursor: pointer;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+}
+
+.CertificationLink {
+  text-decoration: none;
+  color: rgba(0, 0, 0, 0.8);
+  margin: 0 1.25rem;
+  background-color: transparent;
+  cursor: pointer;
+  font-size: 0.75rem;
+}

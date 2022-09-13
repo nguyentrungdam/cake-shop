@@ -1,0 +1,25 @@
+.trending_search_list{
+    padding-top: 1.25rem;
+    height: 183px;
+}
+.trending_search_header{
+    background: #fff;
+    height: 3.75rem;
+    border-bottom: 1px solid rgba(0,0,0,.05);
+    padding: 0 1.25rem;
+
+    display: flex;
+    align-items: center;
+}
+.trending_search_content{
+    display: flex;
+    background-color: #fff;
+    height: 200px;
+}
+.trending_search_header_title{
+    font-size: 1rem;
+    color: rgba(0,0,0,.54);
+    font-weight: 500;
+    width: 1040px;
+    margin-right: 1.25rem;
+}

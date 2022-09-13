@@ -1,0 +1,109 @@
+.section_recommend_products_wrapper {
+  position: relative;
+  z-index: 0;
+  margin-top: -5.5rem;
+}
+
+.recommend_products_wrapper {
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.05);
+  margin-top: 7.375rem;
+  background-color: #fff;
+
+  position: -webkit-sticky;
+  position: sticky;
+  z-index: 999;
+  width: 100%;
+}
+
+.tabs_header {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.09);
+
+  height: 60px;
+}
+
+.tabs_header_tab {
+  position: relative;
+  padding: 0.9375rem 2.875rem;
+  flex: 0 0 auto;
+  height: 3.75rem;
+  font-size: 1rem;
+  font-weight: 500;
+  box-sizing: border-box;
+
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tabs_header_tab_title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: flex;
+  position: relative;
+  max-width: 100%;
+  color: #ee4d2d;
+  text-transform: uppercase;
+  align-items: center;
+}
+
+.recommend_products_panels__panel {
+  min-height: 3.75rem;
+  width: 100%;
+}
+
+.panel {
+  display: flex;
+  min-height: calc(100vh - 11.25rem);
+  flex-wrap: wrap;
+  align-content: flex-start;
+  padding-top: 0.3125rem;
+}
+
+.recommend_products_show_more {
+  width: 100%;
+  margin-top: 1.25rem;
+  text-align: center;
+  text-indent: none !important;
+  text-decoration: none !important;
+}
+
+.recommend_products_btn_show_more {
+  min-width: 24.375rem;
+  height: 2.5rem;
+  color: #555 !important;
+  outline: 0;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.09);
+  box-shadow: 0 1px 1px 0 rgb(0 0 0 / 3%) !important;
+  position: relative;
+  overflow: visible;
+  padding: 0 20px;
+  max-width: 220px;
+  display: inline-flex;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 1;
+  flex-direction: column;
+  font-size: 14px;
+  box-sizing: border-box;
+  border-radius: 2px;
+  box-shadow: 0 1px 1px 0 rgb(0 0 0 / 9%);
+  border-radius: 2px;
+  align-items: center;
+  justify-content: center;
+  text-transform: capitalize;
+  cursor: pointer;
+  text-decoration: none;
+}
+.recommend_products_btn_show_more:hover{
+  text-decoration: none;
+}
+
+.recommend_products_btn_show_more:hover {
+  background-color: rgba(0, 0, 0, 0.03);
+}
