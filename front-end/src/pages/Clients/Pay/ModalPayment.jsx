@@ -23,7 +23,7 @@ function ModalPayment({ closeModal }) {
           />
         </div>
         <div className="modalTitle">
-          <h5>Thanh toán sản phẩm thành công!</h5>
+          <h5>Thanh toán sản phẩm thành công!!</h5>
         </div>
       </div>
     </div>
