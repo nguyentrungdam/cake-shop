@@ -67,7 +67,7 @@ exports.getCartItems = (req, res) => {
       if (cart) {
         return res.status(200).json({ cart });
       }
-      res.status(400).json({ error: "Something went wrong" });
+      res.status(400).json({ error: "Something went wrong!" });
     });
 };
 

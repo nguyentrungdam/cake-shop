@@ -166,7 +166,7 @@ html {
 }
 
 .pagination-item .pagination-item-link:hover {
-  box-shadow: 0 0 3px #333;
+  box-shadow: 0 0 4px #333;
 }
 
 .pagination-item-link {
