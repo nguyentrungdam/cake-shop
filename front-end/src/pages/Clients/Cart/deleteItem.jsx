@@ -1,8 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { db } from "../../../firebase/firebase-config";
-import { deleteDoc, doc } from "firebase/firestore";
-import { handleDelete } from "./cart";
 
 const Background = styled.div`
   width: 100vw;
@@ -93,27 +90,21 @@ const DeleteItem = ({
   item,
   handleDeleteBtn,
   showDeleteItem,
-  setShowDeleteItem
+  setShowDeleteItem,
 }) => {
   const handleDelete = () => {
     handleDeleteBtn(item.productId, item.variantId);
     setShowDeleteItem((prev) => !prev);
-  }
+  };
   return (
     <React.Fragment>
       {showDeleteItem ? (
         <Background>
-          <DialogWrapper
-            style={{ display: "inline-table" }}
-          >
+          <DialogWrapper style={{ display: "inline-table" }}>
             <Title>Bạn chắc chắn muốn bỏ sản phẩm này?</Title>
-            <ShopeeAlertPopupMessage>
-              {item.name}
-            </ShopeeAlertPopupMessage>
+            <ShopeeAlertPopupMessage>{item.name}</ShopeeAlertPopupMessage>
             <Item>
-              <ButtonPrimary onClick={handleDelete}>
-                Có
-              </ButtonPrimary>
+              <ButtonPrimary onClick={handleDelete}>Có</ButtonPrimary>
               <SpaceBetweenButton> </SpaceBetweenButton>
               <ButtonWhite onClick={() => setShowDeleteItem((prev) => !prev)}>
                 Không

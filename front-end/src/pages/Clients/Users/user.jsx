@@ -1,6 +1,6 @@
 import React from "react";
 import { ThemeProvider } from "styled-components";
-import { GlobalStyles } from "../../../styles/global";
+import "../../../index.css";
 import { Theme } from "../../../styles/theme";
 import UserMain from "./userRoutes";
 import Header from "../../../components/header";
@@ -21,7 +21,6 @@ const User = () => {
       <Header />
       <div style={{ paddingBottom: "70px" }}>
         <ThemeProvider theme={Theme}>
-          <GlobalStyles />
           <UserMain />
         </ThemeProvider>
       </div>
