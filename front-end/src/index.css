@@ -3,16 +3,22 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Quicksand", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+  letter-spacing: 0.025em;
+  line-height: 1.6;
+  font-size: 17px;
+  font-weight: 400;
+  text-rendering: optimizeSpeed;
+}
+
+*,
+:after,
+:before,
+input {
+  box-sizing: border-box;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
-}
-
-.home_page {
-  display: flex;
-  flex-direction: column;
-  padding-bottom: 4.375rem;
-  background-color: #f5f5f5;
 }
