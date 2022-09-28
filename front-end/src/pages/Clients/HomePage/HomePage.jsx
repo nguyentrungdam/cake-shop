@@ -1,15 +1,13 @@
 import React from "react";
-import styled from "styled-components";
 import Footer from "../../../components/Footer";
 import Header from "../../../components/Header";
-const Content = styled.div`
-  height: 100vh;
-`;
+import HomePageContent from "./HomePageContent";
+
 function HomePage() {
   return (
     <>
       <Header />
-      <Content></Content>
+      <HomePageContent></HomePageContent>
       <Footer></Footer>
     </>
   );

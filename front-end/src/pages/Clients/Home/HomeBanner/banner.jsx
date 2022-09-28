@@ -125,38 +125,6 @@ export default function Banner() {
                 <Slider sliderImage={sliderImage} />
               </div>
             </div>
-
-            <div className="full_home_banner_main_right_wrapper">
-              <a
-                className="full_home_banner_main_right_banner"
-                href="https://shopee.vn/m/shopeepay"
-              >
-                <div className="full_home_banner_main_right_banner_frame">
-                  <div
-                    className="full_home_banner_main_right_banner_img"
-                    style={{
-                      backgroundImage: `url(https://cf.shopee.vn/file/478196166f180404559e2244bb57d289_xhdpi)`,
-                    }}
-                  ></div>
-                </div>
-              </a>
-
-              <a
-                className="full_home_banner_main_right_banner"
-                href="https://shopee.vn/mothestandardchartered"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <div className="full_home_banner_main_right_banner_frame">
-                  <div
-                    className="full_home_banner_main_right_banner_img"
-                    style={{
-                      backgroundImage: `url(https://cf.shopee.vn/file/53708213793ca86ff191fc8d5ee781a0_xhdpi)`,
-                    }}
-                  ></div>
-                </div>
-              </a>
-            </div>
           </div>
         </div>
 
