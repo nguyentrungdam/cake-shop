@@ -90,24 +90,9 @@ export const HomeContentWrapper = styled.div`
     line-height: 1.2;
   }
 
-  .btn-banner {
-    margin-top: 30px;
-    border-radius: 2px;
-    background-color: #111;
-    padding: 5px 10px;
-    color: #fff;
-    cursor: pointer;
-  }
-
   ///////////Best seller//////////////
   .index-section {
     margin: 100px 0;
-  }
-
-  .page-width {
-    padding: 0 40px;
-    max-width: 1500px;
-    margin: 0 auto;
   }
 
   .section-header {
@@ -186,7 +171,7 @@ export const HomeContentWrapper = styled.div`
     background: #fff;
     overflow: hidden;
     height: 0;
-    padding-bottom: 99.55555555555554%;
+    padding-bottom: 100%;
   }
 
   .grid-product__image {
@@ -244,5 +229,167 @@ export const HomeContentWrapper = styled.div`
     padding: 0 40px;
     max-width: 1500px;
     margin: 0 auto;
+  }
+
+  .btn-shopnow {
+    font-family: ITC Avant Garde Gothic, sans-serif;
+    font-weight: 700;
+    display: inline-block;
+    user-select: none;
+    -webkit-appearance: none;
+    border-radius: 0;
+    color: #fff;
+    padding: 9px 20px;
+    transition: padding-right 0.3s, background 0.3s;
+    width: auto;
+    min-width: 90px;
+    line-height: 1.42;
+    font-size: 0.94118em;
+    text-decoration: none;
+    text-align: center;
+    vertical-align: middle;
+    white-space: normal;
+    cursor: pointer;
+    border: 1px solid transparent;
+    letter-spacing: 0;
+    margin: 20px 13.33333px 0 0;
+    background: #111
+      url(//cdn.shopify.com/s/files/1/0261/0108/8359/t/2/assets/button-arrow.png)
+      no-repeat 150% 35%;
+    background-size: 29px;
+    background-image: url(//cdn.shopify.com/s/files/1/0261/0108/8359/t/2/assets/button-arrow-2x.png);
+  }
+  .btn-shopnow:hover {
+    padding-right: 55px;
+    background-position: 91% 35%;
+  }
+
+  ///////////Free Delivery/////////////
+  .feature-row {
+    margin: 0 6%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .feature-row__item {
+    min-width: 50%;
+    flex: 0 1 50%;
+  }
+
+  .feature-row__text--left {
+    padding-left: 80px;
+  }
+
+  .feature-row__text {
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+
+  .feature-row__item--image {
+    margin: 0 auto;
+    max-width: 500px;
+  }
+
+  .feature-row__item--image--link {
+    color: #000;
+    text-decoration: none;
+    background: 0;
+  }
+
+  .feature-row__image {
+    opacity: 0;
+    display: block;
+    width: 100%;
+    margin: 0 auto;
+    transition: opacity 1s ease;
+    animation: h 2s cubic-bezier(0.26, 0.54, 0.32, 1) 0s forwards;
+  }
+
+  .feature-row__text .rte {
+    margin: 0;
+  }
+
+  .rte p {
+    margin-bottom: 25px;
+    font-weight: 500;
+  }
+
+  .larger-text p {
+    font-size: 1.11765em;
+    margin: 0 0 20px;
+  }
+
+  .rte > p:last-child {
+    margin-bottom: 0;
+  }
+
+  ////////////Calling all Vegans//////////
+  .grid-product__tag--usps {
+    position: absolute;
+    top: 9px;
+    left: 0;
+    z-index: 1;
+  }
+
+  .grid-product__tag--usps .grid-product__tag--usp__vegan {
+    background: url(https://cdn.shopify.com/s/files/1/0261/0108/8359/files/vegan_1.svg?v=1662558718)
+      no-repeat center / contain;
+  }
+
+  .grid-product__tag--usps .grid-product__tag--usp {
+    height: 100px;
+    width: 100px;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /////////// Delivery box ////////////
+  .background-media-text__image {
+    animation: h 2.5s cubic-bezier(0.26, 0.54, 0.32, 1) 0s forwards;
+    transition: none;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-repeat: no-repeat;
+    z-index: 0;
+    bottom: 0;
+    width: 100%;
+    background-size: cover;
+    min-height: 550px;
+    background-position: center;
+    background-image: url(https://cdn.shopify.com/s/files/1/0261/0108/8359/files/boxing_d52cd9b7-1992-4eeb-b7c9-d57c3e437b76_540x.gif?v=1636706853);
+  }
+
+  .index-section--flush--delivery {
+    min-height: 550px;
+    margin: 0;
+  }
+
+  .background-media-text--delivery {
+    min-height: 550px;
+    position: absolute;
+    width: 100%;
+    overflow: hidden;
+    background: #111;
+  }
+
+  .background-media-text__inner--delivery {
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    max-height: 550px;
+  }
+
+  .background-media-text__inner--delivery .animation-contents {
+    -webkit-animation: f 1s cubic-bezier(0.26, 0.54, 0.32, 1) 0.5s forwards;
+    animation: f 1s cubic-bezier(0.26, 0.54, 0.32, 1) 0.5s forwards;
+  }
+
+  .animation-contents {
+    opacity: 0;
   }
 `;
