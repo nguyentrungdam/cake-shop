@@ -8,6 +8,10 @@ export const HeaderWrapper = styled.div`
   z-index: 14;
   transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1),
     -webkit-transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  a {
+    color: #000000;
+    text-decoration: none;
+  }
   .announcement {
     position: absolute;
     top: 0;
@@ -89,6 +93,8 @@ export const HeaderWrapper = styled.div`
     color: white;
     background-color: black;
     padding: 10px;
+    user-select: none;
+    cursor: pointer;
   }
 
   .header-item--navigation {

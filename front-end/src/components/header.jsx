@@ -17,7 +17,9 @@ const Header = () => {
             <div className="header-layout">
               {/* left */}
               <div className="header-item--logo">
-                <h1 className="site-header__logo">Cakes By Damn</h1>
+                <a href="/">
+                  <h1 className="site-header__logo">Cakes By Damn</h1>
+                </a>
               </div>
               {/* center */}
               <div className="header-item--navigation">
@@ -244,7 +246,7 @@ const Header = () => {
               <div className="header-item--icons">
                 <div className="site-nav--icons">
                   <div className="site-nav__icons">
-                    <a href="/" className="item-navigate">
+                    <a href="/signin" className="item-navigate">
                       <svg
                         aria-hidden="true"
                         focusable="false"
@@ -329,13 +331,12 @@ const Header = () => {
             </div>
             <div className="usp">
               <p>
-                4.9
                 <img
-                  src="https://cdn.shopify.com/s/files/1/0261/0108/8359/t/9/assets/trustpilot.svg?v=1532696285518344691634042053"
+                  src="https://cdn.shopify.com/s/files/1/0261/0108/8359/t/9/assets/baker.svg?v=69629155624760271491664540011"
                   alt="Flag of VietNam"
                   className="usp-location--image star"
                 />
-                on Trustpilot
+                Handmade, taste the difference
               </p>
             </div>
           </div>
