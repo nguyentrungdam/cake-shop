@@ -44,7 +44,7 @@ const HomePageContent = () => {
             <div className="page-width">
               <div className="section-header">
                 <h2 className="section-header__title">
-                  BEST SELLERS
+                  BEST SELLERS 🔥
                   <a
                     href="/collections/may-promotions"
                     className="section-header__link"
@@ -215,30 +215,278 @@ const HomePageContent = () => {
         {/* Delivery box */}
         <div
           id="shopify-section-1624614674770c6c7a"
-          class="shopify-section index-section--flush--delivery"
+          className="shopify-section index-section--flush--delivery"
         >
           <div
-            class="background-media-text--delivery  "
+            className="background-media-text--delivery  "
             data-aos="background-media-text__animation"
           >
-            <div class="background-media-text__image lazyloaded">
-              <div class="background-media-text__inner--delivery">
-                <div class="page-width">
-                  <div class="background-media-text__aligner background-media-text--left">
-                    <div class="animation-cropper">
-                      <div class="animation-contents">
-                        <div class="background-media-text__text larger-text">
-                          <p class="subtitle"></p>
-                          <h2 class="h3 ">
+            <div className="background-media-text__image lazyloaded">
+              <div className="background-media-text__inner--delivery">
+                <div className="page-width">
+                  <div className="background-media-text__aligner background-media-text--left">
+                    <div className="animation-cropper">
+                      <div className="animation-contents">
+                        <div className="background-media-text__text larger-text">
+                          <p className="subtitle"></p>
+                          <h2 className="h3 ">
                             FREE Nationwide delivery on your chosen date, with
                             all cakes sent frozen in protective boxes using our
                             specialist courier.
                           </h2>
-                          <a href="/" class="btn-shopnow">
+                          <a href="/" className="btn-shopnow">
                             View Process
                           </a>
                         </div>
                       </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Shop by */}
+        <div
+          className="shopify-section index-section-shopby"
+          id="shopify-section-1499789718857"
+        >
+          <div className="page-width">
+            <div className="section-header">
+              <h2 className="section-header__title">Shop by...</h2>
+            </div>
+            <div className="grid grid--small-gutters">
+              <div className="grid__item medium-up--one-half skrim__item collection--square-large ">
+                <a href="/" className="skrim__link skrim__item-content">
+                  <div className="skrim__overlay grid__image"></div>
+                  <div className="skrim__title">
+                    <div className="skrim__underline-me">All Cakes</div>
+                  </div>
+                </a>
+              </div>
+              <div className="grid__item medium-up--one-quarter skrim__item small--one-half collection--square-small ">
+                <a
+                  href="/collections/corporate-cakes"
+                  className="skrim__link skrim__item-content"
+                >
+                  <div
+                    className="skrim__overlay grid__image "
+                    style={{
+                      backgroundImage:
+                        "url(https://cdn.shopify.com/s/files/1/0261/0108/8359/collections/colour_match_360x.png?v=1654606754)",
+                    }}
+                  ></div>
+
+                  <div className="skrim__title">
+                    <div className="skrim__underline-me">Corporate Cakes</div>
+                  </div>
+                </a>
+              </div>
+              <div className="grid__item medium-up--one-quarter skrim__item small--one-half collection--square-small ">
+                <a
+                  href="/collections/corporate-cakes"
+                  className="skrim__link skrim__item-content"
+                >
+                  <div
+                    className="skrim__overlay grid__image "
+                    style={{
+                      backgroundImage:
+                        "url(https://cdn.shopify.com/s/files/1/0261/0108/8359/collections/vegan_logo_360x.png?v=1646405985)",
+                    }}
+                  ></div>
+
+                  <div className="skrim__title">
+                    <div className="skrim__underline-me">
+                      Vegan Cake Delivery
+                    </div>
+                  </div>
+                </a>
+              </div>
+              <div className="grid__item medium-up--one-half skrim__item collection--wide ">
+                <a href="/" className="skrim__link skrim__item-content">
+                  <div
+                    className="skrim__overlay grid__image"
+                    style={{
+                      backgroundImage:
+                        "url(https://cdn.shopify.com/s/files/1/0261/0108/8359/collections/m_m_900x.jpg?v=1624457918)",
+                    }}
+                  ></div>
+                  <div className="skrim__title">
+                    <div className="skrim__underline-me">Treat Boxes</div>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Easy top */}
+        <div
+          id="shopify-section-1570459510672"
+          className="shopify-section index-section"
+          style={{ height: "90px", paddingTop: "30px" }}
+        >
+          <div
+            data-section-id="1570459510672"
+            data-section-type="featured-content-section"
+            className="text-center"
+          >
+            <div className="page-width">
+              <div className="grid">
+                <div className="grid__item medium-up--three-quarters medium-up--push-one-eighth">
+                  <h2 className="h2-easy">Easy as 1-2-3</h2>
+
+                  <div className="rte">
+                    <div className="enlarge-text">
+                      <p>
+                        Choose your perfect cake, buy online and await delivery.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Easy bottom */}
+        <div
+          id="shopify-section-1570439891441"
+          className="shopify-section index-section"
+        >
+          <div className="page-width">
+            <div className="grid grid--uniform grid--flush-bottom">
+              <div
+                className="grid__item medium-up--one-third text-left aos-init aos-animate"
+                data-aos="row-of-3"
+              >
+                <div className="image-wrap--easy text-spacing">
+                  <img
+                    className="lazyautosizes lazyloaded"
+                    data-widths="[180, 360, 540, 720, 900, 1080]"
+                    data-aspectratio="1.5"
+                    data-sizes="auto"
+                    alt="cakes liverpool"
+                    data-srcset="//cdn.shopify.com/s/files/1/0261/0108/8359/files/cba_step_1_180x.jpg?v=1613536603 180w, //cdn.shopify.com/s/files/1/0261/0108/8359/files/cba_step_1_360x.jpg?v=1613536603 360w, //cdn.shopify.com/s/files/1/0261/0108/8359/files/cba_step_1_540x.jpg?v=1613536603 540w, //cdn.shopify.com/s/files/1/0261/0108/8359/files/cba_step_1_720x.jpg?v=1613536603 720w, //cdn.shopify.com/s/files/1/0261/0108/8359/files/cba_step_1_900x.jpg?v=1613536603 900w, //cdn.shopify.com/s/files/1/0261/0108/8359/files/cba_step_1_1080x.jpg?v=1613536603 1080w"
+                    sizes="334px"
+                    srcSet="//cdn.shopify.com/s/files/1/0261/0108/8359/files/cba_step_1_180x.jpg?v=1613536603 180w, //cdn.shopify.com/s/files/1/0261/0108/8359/files/cba_step_1_360x.jpg?v=1613536603 360w, //cdn.shopify.com/s/files/1/0261/0108/8359/files/cba_step_1_540x.jpg?v=1613536603 540w, //cdn.shopify.com/s/files/1/0261/0108/8359/files/cba_step_1_720x.jpg?v=1613536603 720w, //cdn.shopify.com/s/files/1/0261/0108/8359/files/cba_step_1_900x.jpg?v=1613536603 900w, //cdn.shopify.com/s/files/1/0261/0108/8359/files/cba_step_1_1080x.jpg?v=1613536603 1080w"
+                  />
+                </div>
+                <h3 className="h3-easy">1. Pick your cake or treats</h3>
+                <div className="rte-setting text-spacing">
+                  <p>
+                    Choose from our range of flavour-packed cakes and treats.
+                    From celebration cakes to cupcake boxes, there's something
+                    for everyone!
+                  </p>
+                </div>
+              </div>
+              <div
+                className="grid__item medium-up--one-third text-left aos-init aos-animate"
+                data-aos="row-of-3"
+              >
+                <div className="image-wrap--easy text-spacing">
+                  <img
+                    className="lazyautosizes lazyloaded"
+                    data-widths="[180, 360, 540, 720, 900, 1080]"
+                    data-aspectratio="1.5"
+                    data-sizes="auto"
+                    alt="buy cake online"
+                    data-srcset="//cdn.shopify.com/s/files/1/0261/0108/8359/files/cba_checkout_180x.jpg?v=1613536605 180w, //cdn.shopify.com/s/files/1/0261/0108/8359/files/cba_checkout_360x.jpg?v=1613536605 360w, //cdn.shopify.com/s/files/1/0261/0108/8359/files/cba_checkout_540x.jpg?v=1613536605 540w, //cdn.shopify.com/s/files/1/0261/0108/8359/files/cba_checkout_720x.jpg?v=1613536605 720w, //cdn.shopify.com/s/files/1/0261/0108/8359/files/cba_checkout_900x.jpg?v=1613536605 900w, //cdn.shopify.com/s/files/1/0261/0108/8359/files/cba_checkout_1080x.jpg?v=1613536605 1080w"
+                    sizes="334px"
+                    srcSet="//cdn.shopify.com/s/files/1/0261/0108/8359/files/cba_checkout_180x.jpg?v=1613536605 180w, //cdn.shopify.com/s/files/1/0261/0108/8359/files/cba_checkout_360x.jpg?v=1613536605 360w, //cdn.shopify.com/s/files/1/0261/0108/8359/files/cba_checkout_540x.jpg?v=1613536605 540w, //cdn.shopify.com/s/files/1/0261/0108/8359/files/cba_checkout_720x.jpg?v=1613536605 720w, //cdn.shopify.com/s/files/1/0261/0108/8359/files/cba_checkout_900x.jpg?v=1613536605 900w, //cdn.shopify.com/s/files/1/0261/0108/8359/files/cba_checkout_1080x.jpg?v=1613536605 1080w"
+                  />
+                </div>
+                <h3 className="h3-easy">2. Buy online</h3>
+                <div className="rte-setting text-spacing">
+                  <p>
+                    Choose your delivery date and purchase through our online
+                    checkout.
+                  </p>
+                </div>
+              </div>
+              <div
+                className="grid__item medium-up--one-third text-left aos-init aos-animate"
+                data-aos="row-of-3"
+              >
+                <div className="image-wrap--easy text-spacing">
+                  <img
+                    className="lazyautosizes lazyloaded"
+                    data-widths="[180, 360, 540, 720, 900, 1080]"
+                    data-aspectratio="1.4979166666666666"
+                    data-sizes="auto"
+                    alt=""
+                    data-srcset="//cdn.shopify.com/s/files/1/0261/0108/8359/files/await_delivery_180x.jpg?v=1625495984 180w, //cdn.shopify.com/s/files/1/0261/0108/8359/files/await_delivery_360x.jpg?v=1625495984 360w, //cdn.shopify.com/s/files/1/0261/0108/8359/files/await_delivery_540x.jpg?v=1625495984 540w, //cdn.shopify.com/s/files/1/0261/0108/8359/files/await_delivery_720x.jpg?v=1625495984 720w, //cdn.shopify.com/s/files/1/0261/0108/8359/files/await_delivery_900x.jpg?v=1625495984 900w, //cdn.shopify.com/s/files/1/0261/0108/8359/files/await_delivery_1080x.jpg?v=1625495984 1080w"
+                    sizes="334px"
+                    srcSet="//cdn.shopify.com/s/files/1/0261/0108/8359/files/await_delivery_180x.jpg?v=1625495984 180w, //cdn.shopify.com/s/files/1/0261/0108/8359/files/await_delivery_360x.jpg?v=1625495984 360w, //cdn.shopify.com/s/files/1/0261/0108/8359/files/await_delivery_540x.jpg?v=1625495984 540w, //cdn.shopify.com/s/files/1/0261/0108/8359/files/await_delivery_720x.jpg?v=1625495984 720w, //cdn.shopify.com/s/files/1/0261/0108/8359/files/await_delivery_900x.jpg?v=1625495984 900w, //cdn.shopify.com/s/files/1/0261/0108/8359/files/await_delivery_1080x.jpg?v=1625495984 1080w"
+                  />
+                </div>
+                <h3 className="h3-easy">3. Await delivery</h3>
+                <div className="rte-setting text-spacing">
+                  <p>
+                    Once your order has been confirmed, all you need to do is
+                    sit back, relax and wait for your delivery!
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* About bottom */}
+        <div
+          id="shopify-section-1624617711a30538ae"
+          className="shopify-section"
+        >
+          <div className="custom-content">
+            <div className="custom__item one-whole align--top-middle">
+              <div className="custom__item-inner custom__item-inner--image ">
+                <div className="aos-animate">
+                  <div className="image-wrap--about">
+                    <img
+                      className="lazyautosizes lazyloaded"
+                      data-widths="[360, 540, 720, 900, 1080, 1600]"
+                      data-aspectratio="1.885014137606032"
+                      data-sizes="auto"
+                      alt=""
+                      data-srcset="//cdn.shopify.com/s/files/1/0261/0108/8359/files/cakes_2a80a058-2395-411a-b4cd-a68a91765506_360x.jpg?v=1625497330 360w, //cdn.shopify.com/s/files/1/0261/0108/8359/files/cakes_2a80a058-2395-411a-b4cd-a68a91765506_540x.jpg?v=1625497330 540w, //cdn.shopify.com/s/files/1/0261/0108/8359/files/cakes_2a80a058-2395-411a-b4cd-a68a91765506_720x.jpg?v=1625497330 720w, //cdn.shopify.com/s/files/1/0261/0108/8359/files/cakes_2a80a058-2395-411a-b4cd-a68a91765506_900x.jpg?v=1625497330 900w, //cdn.shopify.com/s/files/1/0261/0108/8359/files/cakes_2a80a058-2395-411a-b4cd-a68a91765506_1080x.jpg?v=1625497330 1080w, //cdn.shopify.com/s/files/1/0261/0108/8359/files/cakes_2a80a058-2395-411a-b4cd-a68a91765506_1600x.jpg?v=1625497330 1600w"
+                      sizes="1074px"
+                      srcSet="//cdn.shopify.com/s/files/1/0261/0108/8359/files/cakes_2a80a058-2395-411a-b4cd-a68a91765506_360x.jpg?v=1625497330 360w, //cdn.shopify.com/s/files/1/0261/0108/8359/files/cakes_2a80a058-2395-411a-b4cd-a68a91765506_540x.jpg?v=1625497330 540w, //cdn.shopify.com/s/files/1/0261/0108/8359/files/cakes_2a80a058-2395-411a-b4cd-a68a91765506_720x.jpg?v=1625497330 720w, //cdn.shopify.com/s/files/1/0261/0108/8359/files/cakes_2a80a058-2395-411a-b4cd-a68a91765506_900x.jpg?v=1625497330 900w, //cdn.shopify.com/s/files/1/0261/0108/8359/files/cakes_2a80a058-2395-411a-b4cd-a68a91765506_1080x.jpg?v=1625497330 1080w, //cdn.shopify.com/s/files/1/0261/0108/8359/files/cakes_2a80a058-2395-411a-b4cd-a68a91765506_1600x.jpg?v=1625497330 1600w"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          id="shopify-section-1498163293234"
+          className="shopify-section index-section--bottom"
+          style={{ height: "293px" }}
+        >
+          <div
+            data-section-id="1498163293234"
+            data-section-type="featured-content-section"
+            className="text-center"
+          >
+            <div className="page-width">
+              <div className="grid">
+                <div className="grid__item medium-up--three-quarters medium-up--push-one-eighth">
+                  <div className="rte">
+                    <div className="enlarge-text">
+                      <p>
+                        From our family-run cake shop, we&nbsp;create delicious
+                        cakes for every occasion. Our unique, innovative
+                        approach has led us to become one of the most respected
+                        cake makers in Liverpool and now the VietNam!
+                      </p>
+                      <p>
+                        Looking for a last minute cake? You'll be glad to hear
+                        that we now offer next day delivery! Order your cake
+                        online from Cakes By Damn now. 🎂
+                      </p>
                     </div>
                   </div>
                 </div>
