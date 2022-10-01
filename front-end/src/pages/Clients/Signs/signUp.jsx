@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Alert } from "@mui/material";
-import FooterMini from "../../../components/footerMini";
+import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { signup } from "../../../slices/authSlice";
 import { useEffect } from "react";
+import Footer from "../../../components/Footer";
+import Header from "../../../components/Header";
+import { SignInWrapper } from "../../../styles/signInStyle";
 
 export default function Signup() {
   const [email, setEmail] = useState("");
@@ -21,6 +22,7 @@ export default function Signup() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
   const handleSignUp = async (e) => {
     e.preventDefault();
     if (name.length < 3) {
@@ -54,29 +56,96 @@ export default function Signup() {
 
   return (
     <>
-      <nav className="navbar__sign">
-        <div className="navbar__sign__content">
-          <div className="navbar__sign__content--left">
-            <Link to="/">
-              <span className="navbar__sign_content--logo">
-                <img
-                  className="navbar__sign_content--logo--img"
-                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Shopee.svg/2560px-Shopee.svg.png"
-                  alt="logo"
-                />
-              </span>
-            </Link>
-            <div className="navbar__sign__content--left--title">Đăng ký</div>
-          </div>
-          <span>
-            <Link className="SignLink" to="/support">
-              Bạn cần giúp đỡ?
-            </Link>
-          </span>
-        </div>
-      </nav>
+      <Header></Header>
+      <SignInWrapper>
+        <main
+          className="main-content"
+          id="MainContent"
+          style={{ minHeight: "760px" }}
+        >
+          <div className="page-width page-content">
+            <div className="grid">
+              <div className="grid__item medium-up--one-third medium-up--push-one-third">
+                <header className="section-header">
+                  <h1 className="section-header__title">Create Account</h1>
+                </header>
+                <div id="CustomerLoginForm" className={`form-vertical `}>
+                  <form
+                    method="post"
+                    //action="/account/login"
+                    id="customer_login"
+                    acceptCharset="UTF-8"
+                    onSubmit={handleSignUp}
+                    autoComplete="nope"
+                  >
+                    <label className="CustomerName">Full Name</label>
+                    <input
+                      type="text"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      placeholder="Your name"
+                      required
+                      className="input-full"
+                      autoorrect="off"
+                      autoCapitalize="off"
+                      autoFocus
+                    />
 
-      <div className="sign__container">
+                    <label htmlFor="CustomerEmail">Email</label>
+                    <input
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="Email"
+                      className="input-full"
+                      type="email"
+                      required
+                    />
+
+                    <label htmlFor="CustomerPassword">Password</label>
+                    <input
+                      className="input-full"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      placeholder="Password"
+                      type="password"
+                      required
+                      autoComplete="new-password"
+                    />
+
+                    <label className="CustomerConfirmPassword">
+                      Confirm Password
+                    </label>
+                    <input
+                      type="password"
+                      className="input-full"
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      placeholder="Confirm password"
+                      required
+                    />
+
+                    <p>
+                      <input
+                        type="submit"
+                        className="btn btn--full btn--animate"
+                        value="Sign Up"
+                      />
+                    </p>
+                    <p>
+                      <a href="/signin" id="customer_register_link">
+                        Log In
+                      </a>
+                    </p>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </SignInWrapper>
+      <Footer></Footer>
+
+      {/* <div className="sign__container">
         <div className="sign__container__content">
           <section className="SectionSign">
             <h1 className="H1__tag">Đăng Ký</h1>
@@ -145,8 +214,7 @@ export default function Signup() {
             </div>
           </section>
         </div>
-      </div>
-      <FooterMini />
+      </div> */}
     </>
   );
 }

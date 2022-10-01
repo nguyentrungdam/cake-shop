@@ -184,7 +184,7 @@ export const FooterWrapper = styled.div`
     max-width: 100%;
     padding: 8px 10px;
     border-radius: 0;
-    font-family: Futura, sans-serif;
+    font-family: Quicksand, sans-serif;
     letter-spacing: 0.025em;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
@@ -232,7 +232,7 @@ export const FooterWrapper = styled.div`
     max-width: 100%;
     padding: 8px 10px;
     border-radius: 0;
-    font-family: Futura, sans-serif;
+    font-family: Quicksand, sans-serif;
     letter-spacing: 0.025em;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;

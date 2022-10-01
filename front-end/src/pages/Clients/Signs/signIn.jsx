@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Alert } from "@mui/material";
+
 import { useDispatch } from "react-redux";
 import { signin } from "../../../slices/authSlice";
 import { useEffect } from "react";
@@ -120,6 +120,7 @@ export default function Signin() {
                       className="input-full"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
+                      autoComplete="new-password"
                       placeholder="Password"
                       type="password"
                       required

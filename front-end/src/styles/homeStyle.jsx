@@ -74,7 +74,7 @@ export const HomeContentWrapper = styled.div`
     text-transform: uppercase;
     letter-spacing: 0.2em;
     margin-bottom: 5px;
-    font-family: Futura, sans-serif;
+    font-family: Quicksand, sans-serif;
     margin: 0 0 20px;
     -webkit-font-smoothing: antialiased;
     -webkit-text-size-adjust: 100%;
@@ -112,7 +112,7 @@ export const HomeContentWrapper = styled.div`
   }
 
   .section-header__link {
-    font-family: Futura, sans-serif;
+    font-family: Quicksand, sans-serif;
     letter-spacing: 0.025em;
     line-height: 1.6;
     font-weight: 400;
@@ -214,7 +214,7 @@ export const HomeContentWrapper = styled.div`
 
   .free-delivery {
     color: #ff01bd;
-    font-family: Futura, sans-serif;
+    font-family: Quicksand, sans-serif;
     letter-spacing: 0.025em;
     line-height: 1.6;
     font-size: 0.9rem;

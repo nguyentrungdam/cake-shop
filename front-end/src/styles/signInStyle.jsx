@@ -74,6 +74,7 @@ export const SignInWrapper = styled.div`
     margin-bottom: 30px;
     min-width: 250px;
   }
+
   input {
     background-color: transparent;
     color: inherit;
@@ -82,7 +83,7 @@ export const SignInWrapper = styled.div`
     padding: 8px 10px;
     -webkit-appearance: none;
     border-radius: 0;
-    font-family: Futura, sans-serif;
+    font-family: Quicksand, sans-serif;
     letter-spacing: 0.025em;
     line-height: 1.6;
     font-size: 17px;
@@ -130,10 +131,11 @@ export const SignInWrapper = styled.div`
   }
   p {
     margin: 0 0 20px;
-    font-family: Futura, sans-serif;
+    font-family: Quicksand, sans-serif;
     letter-spacing: 0.025em;
     line-height: 1.6;
     font-size: 17px;
+    font-weight: 500;
     -webkit-font-smoothing: antialiased;
     -webkit-text-size-adjust: 100%;
     text-rendering: optimizeSpeed;
