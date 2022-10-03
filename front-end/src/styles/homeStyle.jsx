@@ -85,7 +85,7 @@ export const HomeContentWrapper = styled.div`
     font-size: 1.6em;
     margin: 0 0 20px;
     display: block;
-    font-family: ITC Avant Garde Gothic, sans-serif;
+    font-family: Poppins, sans-serif;
     font-weight: 800;
     letter-spacing: 0;
     line-height: 1.2;
@@ -105,7 +105,7 @@ export const HomeContentWrapper = styled.div`
     font-size: 1.58824em;
     margin: 0 0 20px;
     display: block;
-    font-family: ITC Avant Garde Gothic, sans-serif;
+    font-family: Poppins, sans-serif;
     font-weight: 800;
     letter-spacing: 0;
     line-height: 1.2;
@@ -233,7 +233,7 @@ export const HomeContentWrapper = styled.div`
   }
 
   .btn-shopnow {
-    font-family: ITC Avant Garde Gothic, sans-serif;
+    font-family: Poppins, sans-serif;
     font-weight: 700;
     display: inline-block;
     user-select: none;
@@ -432,7 +432,7 @@ export const HomeContentWrapper = styled.div`
     font-size: 1.58824em;
     margin: 0 0 20px;
     display: block;
-    font-family: ITC Avant Garde Gothic, sans-serif;
+    font-family: Poppins, sans-serif;
     font-weight: 800;
     letter-spacing: 0;
     line-height: 1.2;
@@ -510,7 +510,7 @@ export const HomeContentWrapper = styled.div`
     color: #fff;
     transition: bottom 0.5s ease;
     font-size: 1.23529em;
-    font-family: ITC Avant Garde Gothic, sans-serif;
+    font-family: Poppins, sans-serif;
     font-weight: 700;
     letter-spacing: 0;
     line-height: 1.2;
@@ -631,7 +631,7 @@ export const HomeContentWrapper = styled.div`
   .h3-easy {
     font-size: 1.47059em;
     display: block;
-    font-family: ITC Avant Garde Gothic, sans-serif;
+    font-family: Poppins, sans-serif;
     font-weight: 700;
     letter-spacing: 0;
     line-height: 1.2;

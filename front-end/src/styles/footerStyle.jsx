@@ -66,7 +66,7 @@ export const FooterWrapper = styled.div`
     text-align: left;
     font-size: 1.2em;
     display: block;
-    font-family: ITC Avant Garde Gothic, sans-serif;
+    font-family: Poppins, sans-serif;
     font-weight: 700;
     letter-spacing: 0;
     line-height: 1.2;
@@ -104,7 +104,7 @@ export const FooterWrapper = styled.div`
   .footer__title {
     font-size: 0.82353em;
     margin-bottom: 20px;
-    font-family: ITC Avant Garde Gothic, sans-serif;
+    font-family: Poppins, sans-serif;
     font-weight: 700;
     line-height: 1.2;
     text-transform: uppercase;
@@ -166,7 +166,7 @@ export const FooterWrapper = styled.div`
     display: block;
     margin-bottom: 10px;
     font-size: 0.76471em;
-    font-family: ITC Avant Garde Gothic, sans-serif;
+    font-family: Poppins, sans-serif;
     font-weight: 700;
     line-height: 1.2;
     text-transform: uppercase;

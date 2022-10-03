@@ -86,7 +86,7 @@ export const HeaderWrapper = styled.div`
     font-size: 1.47059em;
     margin: 13.33333px 0;
     display: block;
-    font-family: ITC Avant Garde Gothic, sans-serif;
+    font-family: Poppins, sans-serif;
     font-weight: 700;
     letter-spacing: 0;
     line-height: 1.2;
@@ -226,6 +226,7 @@ export const HeaderWrapper = styled.div`
   }
 
   .product__usp {
+    max-width: 1500px;
     margin: 10px 0;
     justify-content: space-evenly;
     flex-wrap: nowrap;

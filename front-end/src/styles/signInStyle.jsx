@@ -38,7 +38,7 @@ export const SignInWrapper = styled.div`
     font-size: 1.76471em;
     margin: 0 0 20px;
     display: block;
-    font-family: ITC Avant Garde Gothic, sans-serif;
+    font-family: Poppins, sans-serif;
     font-weight: 800;
     letter-spacing: 0;
     line-height: 1.2;
@@ -96,7 +96,7 @@ export const SignInWrapper = styled.div`
     display: block;
     margin-bottom: 10px;
     font-size: 0.76471em;
-    font-family: ITC Avant Garde Gothic, sans-serif;
+    font-family: Poppins, sans-serif;
     font-weight: 800;
     line-height: 1.2;
     text-transform: uppercase;
@@ -166,7 +166,7 @@ export const SignInWrapper = styled.div`
   }
 
   .btn {
-    font-family: ITC Avant Garde Gothic, sans-serif;
+    font-family: Poppins, sans-serif;
     font-weight: 700;
     letter-spacing: 0;
     margin: 0;
@@ -186,7 +186,7 @@ export const SignInWrapper = styled.div`
     font-size: 1.58824em;
     margin: 0 0 20px;
     display: block;
-    font-family: ITC Avant Garde Gothic, sans-serif;
+    font-family: Poppins, sans-serif;
     font-weight: 800;
     letter-spacing: 0;
     line-height: 1.2;
@@ -198,7 +198,7 @@ export const SignInWrapper = styled.div`
     cursor: pointer;
     overflow: visible;
     -webkit-appearance: none;
-    font-family: Futura, sans-serif;
+    font-family: Quicksand, sans-serif;
     letter-spacing: 0.025em;
     line-height: 1.6;
     font-size: 17px;

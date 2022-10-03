@@ -46,7 +46,7 @@ const Header = () => {
                     <ul className="site-nav__dropdown">
                       <li className="site-nav__dropdown-item">
                         <a
-                          href="/"
+                          href="/list-product"
                           className="site-nav__dropdown-link--second-level"
                         >
                           All Cakes
@@ -54,7 +54,7 @@ const Header = () => {
                       </li>
                       <li className="site-nav__dropdown-item">
                         <a
-                          href="/"
+                          href="/list-product"
                           className="site-nav__dropdown-link--second-level"
                         >
                           Customisable Cakes
@@ -62,7 +62,7 @@ const Header = () => {
                       </li>
                       <li className="site-nav__dropdown-item">
                         <a
-                          href="/"
+                          href="/list-product"
                           className="site-nav__dropdown-link--second-level"
                         >
                           Cakes For Kids
@@ -70,7 +70,7 @@ const Header = () => {
                       </li>
                       <li className="site-nav__dropdown-item">
                         <a
-                          href="/"
+                          href="/list-product"
                           className="site-nav__dropdown-link--second-level"
                         >
                           Chocolate Cakes
@@ -79,7 +79,10 @@ const Header = () => {
                     </ul>
                   </li>
                   <li className="site-nav__expanded-item">
-                    <a href="/" className="site-nav__link--has-dropdown">
+                    <a
+                      href="/list-product"
+                      className="site-nav__link--has-dropdown"
+                    >
                       Bakes
                       <svg
                         aria-hidden="true"
@@ -100,7 +103,7 @@ const Header = () => {
                     <ul className="site-nav__dropdown">
                       <li className="site-nav__dropdown-item">
                         <a
-                          href="/"
+                          href="/list-product"
                           className="site-nav__dropdown-link--second-level"
                         >
                           All Cakes
@@ -108,7 +111,7 @@ const Header = () => {
                       </li>
                       <li className="site-nav__dropdown-item">
                         <a
-                          href="/"
+                          href="/list-product"
                           className="site-nav__dropdown-link--second-level"
                         >
                           Customisable Cakes
@@ -116,7 +119,7 @@ const Header = () => {
                       </li>
                       <li className="site-nav__dropdown-item">
                         <a
-                          href="/"
+                          href="/list-product"
                           className="site-nav__dropdown-link--second-level"
                         >
                           Cakes For Kids
@@ -124,7 +127,7 @@ const Header = () => {
                       </li>
                       <li className="site-nav__dropdown-item">
                         <a
-                          href="/"
+                          href="/list-product"
                           className="site-nav__dropdown-link--second-level"
                         >
                           Chocolate Cakes
@@ -133,7 +136,10 @@ const Header = () => {
                     </ul>
                   </li>
                   <li className="site-nav__expanded-item">
-                    <a href="/" className="site-nav__link--has-dropdown">
+                    <a
+                      href="/list-product"
+                      className="site-nav__link--has-dropdown"
+                    >
                       Accessories
                       <svg
                         aria-hidden="true"
@@ -154,7 +160,7 @@ const Header = () => {
                     <ul className="site-nav__dropdown">
                       <li className="site-nav__dropdown-item">
                         <a
-                          href="/"
+                          href="/list-product"
                           className="site-nav__dropdown-link--second-level"
                         >
                           All Cakes
@@ -162,7 +168,7 @@ const Header = () => {
                       </li>
                       <li className="site-nav__dropdown-item">
                         <a
-                          href="/"
+                          href="/list-product"
                           className="site-nav__dropdown-link--second-level"
                         >
                           Customisable Cakes
@@ -170,7 +176,7 @@ const Header = () => {
                       </li>
                       <li className="site-nav__dropdown-item">
                         <a
-                          href="/"
+                          href="/list-product"
                           className="site-nav__dropdown-link--second-level"
                         >
                           Cakes For Kids
@@ -178,7 +184,7 @@ const Header = () => {
                       </li>
                       <li className="site-nav__dropdown-item">
                         <a
-                          href="/"
+                          href="/list-product"
                           className="site-nav__dropdown-link--second-level"
                         >
                           Chocolate Cakes
@@ -187,7 +193,10 @@ const Header = () => {
                     </ul>
                   </li>
                   <li className="site-nav__expanded-item">
-                    <a href="/" className="site-nav__link--has-dropdown">
+                    <a
+                      href="/list-product"
+                      className="site-nav__link--has-dropdown"
+                    >
                       Buying For Your Company?
                       <svg
                         aria-hidden="true"
@@ -208,7 +217,7 @@ const Header = () => {
                     <ul className="site-nav__dropdown">
                       <li className="site-nav__dropdown-item">
                         <a
-                          href="/"
+                          href="/list-product"
                           className="site-nav__dropdown-link--second-level"
                         >
                           All Cakes
@@ -216,7 +225,7 @@ const Header = () => {
                       </li>
                       <li className="site-nav__dropdown-item">
                         <a
-                          href="/"
+                          href="/list-product"
                           className="site-nav__dropdown-link--second-level"
                         >
                           Customisable Cakes
@@ -224,7 +233,7 @@ const Header = () => {
                       </li>
                       <li className="site-nav__dropdown-item">
                         <a
-                          href="/"
+                          href="/list-product"
                           className="site-nav__dropdown-link--second-level"
                         >
                           Cakes For Kids
@@ -232,7 +241,7 @@ const Header = () => {
                       </li>
                       <li className="site-nav__dropdown-item">
                         <a
-                          href="/"
+                          href="/list-product"
                           className="site-nav__dropdown-link--second-level"
                         >
                           Chocolate Cakes
