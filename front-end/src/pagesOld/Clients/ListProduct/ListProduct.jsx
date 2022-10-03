@@ -84,7 +84,7 @@ const ListProduct = () => {
                         >
                           <div className="grid-product__content">
                             <a
-                              href="/product-detail"
+                              href="/collections/all-cakes/products/90s-love"
                               className="grid-product__link "
                             >
                               <div className="grid-product__image-mask">
