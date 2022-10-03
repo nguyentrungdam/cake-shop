@@ -227,7 +227,10 @@ const HomePageContent = () => {
                   <div className="background-media-text__aligner background-media-text--left">
                     <div className="animation-cropper">
                       <div className="animation-contents">
-                        <div className="background-media-text__text larger-text">
+                        <div
+                          className="background-media-text__text larger-text"
+                          style={{ height: "420px" }}
+                        >
                           <p className="subtitle"></p>
                           <h2 className="h3 ">
                             FREE Nationwide delivery on your chosen date, with

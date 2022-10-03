@@ -64,7 +64,7 @@ export const HomeContentWrapper = styled.div`
     text-align: left;
     background: #fff;
     padding: 40px;
-    height: 420px;
+    height: 360px;
     width: 380px;
   }
 
