@@ -53,6 +53,18 @@ export default function Signup() {
       }
     }
   };
+  const handleChangeColor = (color, e) => {
+    let btn = document.getElementById("btn");
+    let txt = document.getElementById("txt");
+    document.getElementById("signinwrapper").style.backgroundColor = color;
+    btn.style.background = color;
+    txt.style.borderColor = color;
+    //set active///////
+    document.querySelectorAll(".color-span").forEach(function (item) {
+      item.classList.remove("active");
+    });
+    e.target.classList.add("active");
+  };
 
   return (
     <>
@@ -60,14 +72,16 @@ export default function Signup() {
       <SignInWrapper>
         <main
           className="main-content"
-          id="MainContent"
-          style={{ minHeight: "760px" }}
+          id="signinwrapper"
+          style={{ minHeight: "850px" }}
         >
           <div className="page-width page-content">
             <div className="grid">
               <div className="grid__item medium-up--one-third medium-up--push-one-third">
                 <header className="section-header">
-                  <h1 className="section-header__title">Create Account</h1>
+                  <h1 id="txt" className="section-header__title">
+                    Create Account
+                  </h1>
                 </header>
                 <div id="CustomerLoginForm" className={`form-vertical `}>
                   <form
@@ -126,6 +140,7 @@ export default function Signup() {
 
                     <p>
                       <input
+                        id="btn"
                         type="submit"
                         className="btn btn--full btn--animate"
                         value="Sign Up"
@@ -138,6 +153,33 @@ export default function Signup() {
                     </p>
                   </form>
                 </div>
+              </div>
+              <div className="colors">
+                <span
+                  onClick={(e) => handleChangeColor("#1dd1a1", e)}
+                  className="color-span active"
+                  style={{ backgroundColor: "#1dd1a1" }}
+                ></span>
+                <span
+                  onClick={(e) => handleChangeColor("#ff6b6b", e)}
+                  className="color-span"
+                  style={{ backgroundColor: "#ff6b6b" }}
+                ></span>
+                <span
+                  onClick={(e) => handleChangeColor("#2e86de", e)}
+                  className="color-span"
+                  style={{ backgroundColor: "#2e86de" }}
+                ></span>
+                <span
+                  onClick={(e) => handleChangeColor("#f368e0", e)}
+                  className="color-span"
+                  style={{ backgroundColor: "#f368e0" }}
+                ></span>
+                <span
+                  onClick={(e) => handleChangeColor("#ff9f43", e)}
+                  className="color-span"
+                  style={{ backgroundColor: "#ff9f43" }}
+                ></span>
               </div>
             </div>
           </div>

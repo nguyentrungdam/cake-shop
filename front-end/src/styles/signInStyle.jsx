@@ -1,8 +1,9 @@
 import styled from "styled-components";
 export const SignInWrapper = styled.div`
+  background-color: #1dd1a1;
   .main-content {
-    min-height: 600px;
-    margin-top: 100px;
+    min-height: 650px;
+    padding-top: 100px;
     display: block;
   }
 
@@ -18,11 +19,13 @@ export const SignInWrapper = styled.div`
   .grid {
     list-style: none;
     margin: 0;
-    padding: 0;
-    margin-left: -30px;
   }
+
   .grid__item[class*="--push"] {
+    padding: 20px;
+    background-color: #fff;
     position: relative;
+    border-radius: 4px;
   }
   .medium-up--push-one-third {
     left: 33.33333%;
@@ -42,6 +45,9 @@ export const SignInWrapper = styled.div`
     font-weight: 800;
     letter-spacing: 0;
     line-height: 1.2;
+    transition: 0.5s;
+    border-left: 15px solid #1dd1a1;
+    padding-left: 15px;
   }
   .note--success {
     color: #56ad6a;
@@ -120,7 +126,6 @@ export const SignInWrapper = styled.div`
   }
   .grid__item {
     float: left;
-    padding-left: 30px;
     min-height: 1px;
   }
   a {
@@ -151,9 +156,9 @@ export const SignInWrapper = styled.div`
     padding: 9px 20px;
     font-size: 0.94118em;
   }
-  .btn--animate {
+  /* .btn--animate {
     transition: padding-right 0.3s, background 0.3s;
-    background: #111
+    background: #1dd1a1
       url(//cdn.shopify.com/s/files/1/0261/0108/8359/t/2/assets/button-arrow.png)
       no-repeat 150% 35%;
     background-size: 29px;
@@ -163,7 +168,7 @@ export const SignInWrapper = styled.div`
   .btn--animate:hover {
     padding-right: 55px;
     background-position: 65% 35%;
-  }
+  } */
 
   .btn {
     font-family: Poppins, sans-serif;
@@ -180,6 +185,11 @@ export const SignInWrapper = styled.div`
     -webkit-appearance: none;
     border-radius: 2px;
     color: #fff;
+    transition: 0.5s;
+    background: #1dd1a1;
+  }
+  .btn:hover {
+    opacity: 0.8;
   }
   //////forgot password reset////////
   h2 {
@@ -205,5 +215,29 @@ export const SignInWrapper = styled.div`
     -webkit-font-smoothing: antialiased;
     -webkit-text-size-adjust: 100%;
     text-rendering: optimizeSpeed;
+  }
+  /////set color//////
+  .colors {
+    position: absolute;
+    right: 10px;
+    padding: 10px;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 4px;
+  }
+  .colors span {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    margin: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  .colors span.active {
+    border: 2px solid #333;
+    scale: 1.5;
   }
 `;
