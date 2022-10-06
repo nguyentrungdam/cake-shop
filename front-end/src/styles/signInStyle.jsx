@@ -1,6 +1,6 @@
 import styled from "styled-components";
 export const SignInWrapper = styled.div`
-  background-color: #1dd1a1;
+  background-color: #fff;
   .main-content {
     min-height: 650px;
     padding-top: 100px;
@@ -46,7 +46,7 @@ export const SignInWrapper = styled.div`
     letter-spacing: 0;
     line-height: 1.2;
     transition: 0.5s;
-    border-left: 15px solid #1dd1a1;
+    border-left: 15px solid #000;
     padding-left: 15px;
   }
   .note--success {
@@ -156,19 +156,6 @@ export const SignInWrapper = styled.div`
     padding: 9px 20px;
     font-size: 0.94118em;
   }
-  /* .btn--animate {
-    transition: padding-right 0.3s, background 0.3s;
-    background: #1dd1a1
-      url(//cdn.shopify.com/s/files/1/0261/0108/8359/t/2/assets/button-arrow.png)
-      no-repeat 150% 35%;
-    background-size: 29px;
-    background-image: url(//cdn.shopify.com/s/files/1/0261/0108/8359/t/2/assets/button-arrow-2x.png);
-  }
-
-  .btn--animate:hover {
-    padding-right: 55px;
-    background-position: 65% 35%;
-  } */
 
   .btn {
     font-family: Poppins, sans-serif;
@@ -186,7 +173,7 @@ export const SignInWrapper = styled.div`
     border-radius: 2px;
     color: #fff;
     transition: 0.5s;
-    background: #1dd1a1;
+    background: #000;
   }
   .btn:hover {
     opacity: 0.8;
@@ -221,7 +208,7 @@ export const SignInWrapper = styled.div`
     position: absolute;
     right: 10px;
     padding: 10px;
-    background: #fff;
+    background: #f9f9f9;
     display: flex;
     justify-content: center;
     align-items: center;

@@ -56,7 +56,11 @@ export default function Signin() {
     let btn = document.getElementById("btn");
     let btn2 = document.getElementById("btn-2");
     let txt = document.getElementById("txt");
-    document.getElementById("signinwrapper").style.backgroundColor = color;
+    if (color === "#000") {
+      document.getElementById("signinwrapper").style.backgroundColor = "#fff";
+    } else {
+      document.getElementById("signinwrapper").style.backgroundColor = color;
+    }
     btn.style.background = color;
     btn2.style.background = color;
     txt.style.borderColor = color;
@@ -211,8 +215,13 @@ export default function Signin() {
               </div>
               <div className="colors">
                 <span
-                  onClick={(e) => handleChangeColor("#1dd1a1", e)}
+                  onClick={(e) => handleChangeColor("#000", e)}
                   className="color-span active"
+                  style={{ backgroundColor: "#fff" }}
+                ></span>
+                <span
+                  onClick={(e) => handleChangeColor("#1dd1a1", e)}
+                  className="color-span"
                   style={{ backgroundColor: "#1dd1a1" }}
                 ></span>
                 <span

@@ -56,7 +56,11 @@ export default function Signup() {
   const handleChangeColor = (color, e) => {
     let btn = document.getElementById("btn");
     let txt = document.getElementById("txt");
-    document.getElementById("signinwrapper").style.backgroundColor = color;
+    if (color === "#000") {
+      document.getElementById("signinwrapper").style.backgroundColor = "#fff";
+    } else {
+      document.getElementById("signinwrapper").style.backgroundColor = color;
+    }
     btn.style.background = color;
     txt.style.borderColor = color;
     //set active///////
@@ -156,8 +160,13 @@ export default function Signup() {
               </div>
               <div className="colors">
                 <span
-                  onClick={(e) => handleChangeColor("#1dd1a1", e)}
+                  onClick={(e) => handleChangeColor("#000", e)}
                   className="color-span active"
+                  style={{ backgroundColor: "#fff" }}
+                ></span>
+                <span
+                  onClick={(e) => handleChangeColor("#1dd1a1", e)}
+                  className="color-span"
                   style={{ backgroundColor: "#1dd1a1" }}
                 ></span>
                 <span

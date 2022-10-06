@@ -10,7 +10,8 @@ const ProductDetail = () => {
       <Header></Header>
       <ProductDetailWrapper>
         <main className="main-content">
-          <div className="" id="shopify-section-product-cupcake-template">
+          {/* Thông tin sản phẩm */}
+          <div className="top" id="shopify-section-product-cupcake-template">
             <div className="product-section">
               <div className="page-content">
                 <div className="page-width">
@@ -77,9 +78,6 @@ const ProductDetail = () => {
                             className="product__thumbs product__thumbs--below aos-init slick-initialized slick-slider aos-animate"
                             data-position="below"
                             data-aos=""
-                            onClick={() => {
-                              setOpenIframe("open");
-                            }}
                           >
                             <div
                               aria-live="polite"
@@ -113,6 +111,9 @@ const ProductDetail = () => {
                                   aria-hidden="false"
                                   tabIndex="-1"
                                   aria-describedby="slick-slide11"
+                                  onClick={() => {
+                                    setOpenIframe("open");
+                                  }}
                                 >
                                   <div className="image-wrap">
                                     <div className="product__thumb product__thumb-7593662546171 js-no-transition">
@@ -236,12 +237,56 @@ const ProductDetail = () => {
                                   // value="Tall"
                                   data-index="option1"
                                   name="Size"
+                                  className="variant__input-7593662546171 "
+                                  id="ProductSelect-7593662546171-option-size-Tall"
+                                />
+
+                                <label
+                                  className="active"
+                                  htmlFor="ProductSelect-7593662546171-option-size-Tall"
+                                >
+                                  Rainbow Sponge{" "}
+                                  <span className="money">£81.00</span>
+                                </label>
+                              </div>
+                              <div
+                                className="variant-input"
+                                data-index="option1"
+                                data-value="Tall"
+                              >
+                                <input
+                                  type="radio"
+                                  // checked="checked"
+                                  // value="Tall"
+                                  data-index="option1"
+                                  name="Size"
                                   className="variant__input-7593662546171"
                                   id="ProductSelect-7593662546171-option-size-Tall"
                                 />
 
                                 <label htmlFor="ProductSelect-7593662546171-option-size-Tall">
-                                  Tall <span className="money">£81.00</span>
+                                  Vanilla & Jam{" "}
+                                  <span className="money">£81.00</span>
+                                </label>
+                              </div>
+                              <div
+                                className="variant-input"
+                                data-index="option1"
+                                data-value="Tall"
+                              >
+                                <input
+                                  type="radio"
+                                  // checked="checked"
+                                  // value="Tall"
+                                  data-index="option1"
+                                  name="Size"
+                                  className="variant__input-7593662546171"
+                                  id="ProductSelect-7593662546171-option-size-Tall"
+                                />
+
+                                <label htmlFor="ProductSelect-7593662546171-option-size-Tall">
+                                  Chocolate{" "}
+                                  <span className="money">£81.00</span>
                                 </label>
                               </div>
                             </fieldset>
@@ -421,6 +466,247 @@ const ProductDetail = () => {
                     </div>
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+          {/* Gợi ý */}
+          <div
+            id="shopify-section-product-recommendations"
+            className="shopify-section"
+          >
+            <div
+              id="Recommendations-4323356278887"
+              data-section-id="4323356278887"
+              data-section-type="product-recommendations"
+              data-enable="true"
+              data-product-id="4323356278887"
+              data-limit="4"
+            >
+              <div
+                data-section-id="4323356278887"
+                data-subsection=""
+                data-section-type="collection-template"
+                className="index-section"
+              >
+                <div className="page-width">
+                  <header className="section-header">
+                    <h3 className="section-header__title">You may also like</h3>
+                  </header>
+                </div>
+
+                <div className="page-width page-width--flush-small">
+                  <div className="grid-overflow-wrapper">
+                    <div className="product-recommendations-placeholder">
+                      <div className="product-recommendations">
+                        <div
+                          className="product-single__related grid grid--uniform aos-init aos-animate"
+                          data-aos="overflow__animation"
+                        >
+                          <div
+                            className="grid__item grid-product small--one-half medium-up--one-third aos-init aos-animate"
+                            data-aos="row-of-3"
+                          >
+                            <div className="grid-product__content">
+                              <a
+                                href="/products/pastel-pink-name-age-cake?pr_prod_strat=description&amp;pr_rec_id=e9aaa09bd&amp;pr_rec_pid=7736219238651&amp;pr_ref_pid=4323356278887&amp;pr_seq=uniform"
+                                className="grid-product__link "
+                              >
+                                <div className="grid-product__image-mask">
+                                  <div className="image-wrap  image-recommend">
+                                    <img
+                                      className="grid-product__image lazyautosizes lazyloaded"
+                                      data-aspectratio="0.9932935916542474"
+                                      data-sizes="auto"
+                                      alt="Pastel Pink Name &amp; Age Cake"
+                                      sizes="318px"
+                                      srcSet=" //cdn.shopify.com/s/files/1/0261/0108/8359/products/pastelpinkName_Age2_360x.png?v=1655126936 360w"
+                                    />
+                                  </div>
+                                  <div
+                                    className="grid-product__secondary-image lazyloaded"
+                                    style={{
+                                      backgroundImage:
+                                        "url(https://cdn.shopify.com/s/files/1/0261/0108/8359/products/pastelpinkname_Age_360x.png?v=1655126937",
+                                    }}
+                                  ></div>
+
+                                  <div className="grid-product__meta">
+                                    <div className="grid-product__title">
+                                      Pastel Pink Name &amp; Age Cake
+                                    </div>
+
+                                    <p className="free-delivery">
+                                      Free Delivery
+                                    </p>
+                                  </div>
+                                </div>
+                              </a>
+                            </div>
+                          </div>
+
+                          <div
+                            className="grid__item grid-product small--one-half medium-up--one-third aos-init aos-animate"
+                            data-aos="row-of-3"
+                          >
+                            <div className="grid-product__content">
+                              <a
+                                href="/products/pastel-blue-age-cake?pr_prod_strat=description&amp;pr_rec_id=e9aaa09bd&amp;pr_rec_pid=7736177656059&amp;pr_ref_pid=4323356278887&amp;pr_seq=uniform"
+                                className="grid-product__link "
+                              >
+                                <div className="grid-product__image-mask">
+                                  <div className="image-wrap  image-recommend">
+                                    <img
+                                      className="grid-product__image lazyautosizes lazyloaded"
+                                      data-aspectratio="0.9932935916542474"
+                                      data-sizes="auto"
+                                      alt="Pastel Blue Age Cake"
+                                      sizes="318px"
+                                      srcSet=" //cdn.shopify.com/s/files/1/0261/0108/8359/products/blueagecakestepped_360x.png?v=1655123073 360w"
+                                    />
+                                  </div>
+                                  <div
+                                    className="grid-product__secondary-image lazyloaded"
+                                    style={{
+                                      backgroundImage:
+                                        "url(https://cdn.shopify.com/s/files/1/0261/0108/8359/products/Bluewatercolourtopper_360x.png?v=1655123073",
+                                    }}
+                                  ></div>
+
+                                  <div className="grid-product__meta">
+                                    <div className="grid-product__title">
+                                      Pastel Blue Age Cake
+                                    </div>
+
+                                    <p className="free-delivery">
+                                      Free Delivery
+                                    </p>
+                                  </div>
+                                </div>
+                              </a>
+                            </div>
+                          </div>
+
+                          <div
+                            className="grid__item grid-product small--one-half medium-up--one-third aos-init aos-animate"
+                            data-aos="row-of-3"
+                          >
+                            <div className="grid-product__content">
+                              <a
+                                href="/products/sprinkle-party?pr_prod_strat=description&amp;pr_rec_id=e9aaa09bd&amp;pr_rec_pid=4624459038823&amp;pr_ref_pid=4323356278887&amp;pr_seq=uniform"
+                                className="grid-product__link "
+                              >
+                                <div className="grid-product__image-mask">
+                                  <div className="image-wrap image-recommend ">
+                                    <img
+                                      className="grid-product__image lazyautosizes lazyloaded"
+                                      data-aspectratio="1.0044642857142858"
+                                      data-sizes="auto"
+                                      alt="Sprinkle Party Cake"
+                                      sizes="318px"
+                                      srcSet="https://cdn.shopify.com/s/files/1/0261/0108/8359/products/swirlcustomtopperoncake2_360x.png?v=1642439239"
+                                    />
+                                  </div>
+
+                                  <div
+                                    className="grid-product__secondary-image lazyloaded"
+                                    style={{
+                                      backgroundImage:
+                                        "url(https://cdn.shopify.com/s/files/1/0261/0108/8359/products/swirlcustomtopperSmall_180x.png?v=1642439239",
+                                    }}
+                                  ></div>
+                                </div>
+                                <div className="grid-product__meta">
+                                  <div className="grid-product__title">
+                                    Paint Swirl Cake Topper
+                                  </div>
+
+                                  <p className="free-delivery">Free Delivery</p>
+                                </div>
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {/* Collection */}
+          <div
+            id="shopify-section-product-collection-links"
+            className=" shopify-section2"
+          >
+            <div className="grid grid--no-gutters skrim-grid skrim-grid--pagination product-navigation">
+              <div
+                className="grid__item medium-up--one-half skrim__item aos-init aos-animate"
+                data-aos="skrim__animation"
+              >
+                <a
+                  href="/collections/all-cakes"
+                  className="skrim__link skrim__item-content"
+                >
+                  <div
+                    className="skrim__overlay grid__image lazyloaded"
+                    style={{
+                      backgroundImage:
+                        'url("https://cdn.shopify.com/s/files/1/0261/0108/8359/collections/stripes_900x.png?v=1638202423")',
+                    }}
+                  >
+                    <div className="skrim__title-wrapper">
+                      <span className="skrim__title">
+                        <svg
+                          aria-hidden="true"
+                          focusable="false"
+                          role="presentation"
+                          className="icon icon--wide icon-arrow-left"
+                          viewBox="0 0 50 15"
+                        >
+                          <path d="M50 5.38v4.25H15V15L0 7.5 15 0v5.38z"></path>
+                        </svg>{" "}
+                        <div className="skrim__underline-me">
+                          Back to All Cakes
+                        </div>
+                      </span>
+                    </div>
+                  </div>
+                </a>
+              </div>
+
+              <div
+                className="grid__item medium-up--one-half skrim__item small--hide aos-init aos-animate"
+                data-aos="skrim__animation"
+              >
+                <a
+                  href="/collections/all-cakes/products/reeses-pieces-cake"
+                  className="skrim__link skrim__item-content"
+                >
+                  <div
+                    className="skrim__overlay grid__image lazyloaded"
+                    style={{
+                      backgroundImage:
+                        'url("https://cdn.shopify.com/s/files/1/0261/0108/8359/products/Reesessolidsite_900x.png?v=1637146780")',
+                    }}
+                  >
+                    <div className="skrim__title-wrapper">
+                      <span className="skrim__title skrim__title--right">
+                        <div className="skrim__underline-me">
+                          Next: Reese's Pieces Cake
+                        </div>{" "}
+                        <svg
+                          aria-hidden="true"
+                          focusable="false"
+                          role="presentation"
+                          className="icon icon--wide icon-arrow-right"
+                          viewBox="0 0 50 15"
+                        >
+                          <path d="M0 9.63V5.38h35V0l15 7.5L35 15V9.63z"></path>
+                        </svg>
+                      </span>
+                    </div>{" "}
+                  </div>
+                </a>
               </div>
             </div>
           </div>
