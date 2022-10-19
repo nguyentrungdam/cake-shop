@@ -289,7 +289,7 @@ const Header = () => {
                         ></path>
                       </svg>
                     </a>
-                    <a href="/" className="item-navigate">
+                    <a href="/cart" className="item-navigate">
                       <svg
                         aria-hidden="true"
                         focusable="false"
