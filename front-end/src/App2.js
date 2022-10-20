@@ -3,6 +3,7 @@ import Cart from "./pages/Clients/Cart/cart";
 // import Home from "./pages/Clients/Home/home";
 import HomePage from "./pages/Clients/HomePage/HomePage";
 import ListProduct from "./pages/Clients/ListProduct/ListProduct";
+import Pay from "./pages/Clients/Payment/Pay";
 import ProductDetail from "./pages/Clients/ProductDetail/ProductDetail";
 import Signin from "./pages/Clients/Signs/signIn";
 import Signup from "./pages/Clients/Signs/signUp";
@@ -17,6 +18,7 @@ function App() {
       <Route path="/list-product" element={<ListProduct />} />
       <Route path="/product-detail" element={<ProductDetail />} />
       <Route path="/cart" element={<Cart />} />
+      <Route path="/payment" element={<Pay />} />
       {/* <Route path="/" element={<Home />} /> */}
     </Routes>
   );

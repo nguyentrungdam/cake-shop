@@ -12,7 +12,7 @@ import { cartItem } from "./data";
 
 function Cart() {
   // const dispatch = useDispatch();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   // const [selected, setSelected] = useState([]);
   // const { isAuthenticated } = useSelector((state) => state.auth);
   // const [showDeleteItem, setShowDeleteItem] = useState(false);
@@ -258,10 +258,12 @@ function Cart() {
                           <a className="link link--small" href="/list-product">
                             Continue Shopping
                           </a>
+
                           <button
                             type="submit"
                             name="update"
                             className="cart__update btn btn--no-animate "
+                            onClick={() => navigate("/payment")}
                           >
                             Check Out
                           </button>
