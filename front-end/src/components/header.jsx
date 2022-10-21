@@ -255,7 +255,7 @@ const Header = () => {
               <div className="header-item--icons">
                 <div className="site-nav--icons">
                   <div className="site-nav__icons">
-                    <a href="/signin" className="item-navigate">
+                    <a href="/account" className="item-navigate">
                       <svg
                         aria-hidden="true"
                         focusable="false"
