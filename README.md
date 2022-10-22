@@ -57,6 +57,12 @@ Email: adminson@gmail.com
 
 Pass: 12345678
 
+## Tài khoản test backend
+
+Email: devtest@gmail.com
+
+Pass: devtest
+
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
