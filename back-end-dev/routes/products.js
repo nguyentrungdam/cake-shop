@@ -2,10 +2,16 @@ const express = require("express");
 const router = express.Router();
 const {
     createProduct,
-    getProduct
+    getProduct,
+    getProductById,
+    updateProduct
 } = require('../controllers/productController')
 
 const { uploadImage } = require('../utils/uploadImage');
+
+const multer = require("multer");
+
+const upload = multer()
 
 
 /**
@@ -89,7 +95,7 @@ router.get("/getProduct", getProduct);
 
 /**
  * @swagger
- * /products/create:
+ * /products/createProduct:
  *   post:
  *     summary: Returns product
  *     tags: [Products]
@@ -109,6 +115,70 @@ router.get("/getProduct", getProduct);
  *               items:
  *                 $ref: '#/components/schemas/Product'
  */
- router.post("/create", uploadImage, createProduct);
+ router.post("/createProduct", uploadImage, createProduct);
+
+ /**
+ * @swagger
+ * /products/getProductById:
+ *   get:
+ *     summary: Returns product
+ *     tags: [Products]
+ *     parameters:
+ *     - in: query
+ *       name: Id
+ *       description: Id
+ *       schema:
+ *         type: string
+ *     responses:
+ *       200:
+ *         description: Create new product
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Product'
+ */
+  router.get("/getProductById", getProductById);
+
+ /**
+ * @swagger
+ * /products/updateProduct:
+ *   post:
+ *     summary: Returns product
+ *     consumes:
+ *       - application/json
+ *     tags: [Products]
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               Id:
+ *                 type: string   
+ *               Name:
+ *                 type: string 
+ *               Description:
+ *                 type: string 
+ *               Price:
+ *                 type: number 
+ *               Quantity:
+ *                 type: number 
+ *               Category:
+ *                 type: string 
+ *               Size:
+ *                 type: string 
+ *     responses:
+ *       200:
+ *         description: Create new product
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Product'
+ */
+  router.post("/updateProduct", upload.none(), updateProduct);
 
 module.exports = router;
