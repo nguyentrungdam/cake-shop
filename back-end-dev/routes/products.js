@@ -2,9 +2,10 @@ const express = require("express");
 const router = express.Router();
 const {
     createProduct,
-    getProduct,
+    getProductList,
     getProductById,
-    updateProduct
+    updateProduct,
+    deleteProduct
 } = require('../controllers/productController')
 
 const { uploadImage } = require('../utils/uploadImage');
@@ -76,13 +77,13 @@ const upload = multer()
 
  /**
  * @swagger
- * /products/getProduct:
+ * /products/getProductList:
  *   get:
  *     summary: Returns the list of all the products
  *     tags: [Products]
  *     responses:
  *       200:
- *         description: The list of the books
+ *         description: The list of the products
  *         content:
  *           application/json:
  *             schema:
@@ -91,7 +92,7 @@ const upload = multer()
  *                 $ref: '#/components/schemas/Product'
  */
 
-router.get("/getProduct", getProduct);
+router.get("/getProductList", getProductList);
 
 /**
  * @swagger
@@ -115,7 +116,7 @@ router.get("/getProduct", getProduct);
  *               items:
  *                 $ref: '#/components/schemas/Product'
  */
- router.post("/createProduct", uploadImage, createProduct);
+router.post("/createProduct", uploadImage, createProduct);
 
  /**
  * @swagger
@@ -131,7 +132,7 @@ router.get("/getProduct", getProduct);
  *         type: string
  *     responses:
  *       200:
- *         description: Create new product
+ *         description: Get single product
  *         content:
  *           application/json:
  *             schema:
@@ -139,12 +140,12 @@ router.get("/getProduct", getProduct);
  *               items:
  *                 $ref: '#/components/schemas/Product'
  */
-  router.get("/getProductById", getProductById);
+router.get("/getProductById", getProductById);
 
  /**
  * @swagger
  * /products/updateProduct:
- *   post:
+ *   put:
  *     summary: Returns product
  *     consumes:
  *       - application/json
@@ -171,7 +172,7 @@ router.get("/getProduct", getProduct);
  *                 type: string 
  *     responses:
  *       200:
- *         description: Create new product
+ *         description: Update product
  *         content:
  *           application/json:
  *             schema:
@@ -179,6 +180,30 @@ router.get("/getProduct", getProduct);
  *               items:
  *                 $ref: '#/components/schemas/Product'
  */
-  router.post("/updateProduct", upload.none(), updateProduct);
+router.put("/updateProduct", upload.none(), updateProduct);
+
+ /**
+ * @swagger
+ * /products/deleteProduct:
+ *   delete:
+ *     summary: Returns message
+ *     tags: [Products]
+ *     parameters:
+ *     - in: query
+ *       name: Id
+ *       description: Id
+ *       schema:
+ *         type: string
+ *     responses:
+ *       200:
+ *         description: Delete product
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Product'
+ */
+  router.delete("/deleteProduct", deleteProduct);
 
 module.exports = router;

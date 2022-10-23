@@ -10,21 +10,21 @@ exports.createProduct = async (req, res, next) => {
         Public_Id: req.file.filename,
         Url: req.file.path
     };
-    const nProduct = await product.create(newProduct);
+    const Product = await product.create(newProduct);
 
     res.status(201).json({
         success: true,
-        nProduct
+        Product
     })
 }
 
-exports.getProduct = async (req, res, next) => {
-    const tempProduct = await product.find().populate("Category");
-    const total = tempProduct.length;
+exports.getProductList = async (req, res, next) => {
+    const Product = await product.find({isDelete: false}).populate("Category");
+    const total = Product.length;
     res.status(201).json({
         success: true,
         total: total,
-        tempProduct
+        Product
     })
 }
 
@@ -37,8 +37,8 @@ exports.getProductById = async (req, res, next) => {
             message: 'Id is not valid'
         })
     }
-    const tempProduct = await product.findById(tempId).populate("Category");
-    if (!tempProduct) {
+    const Product = await product.findById(tempId).populate("Category");
+    if (!Product || Product.isDelete == true) {
         return res.json({
             success: false,
             message: 'Not found product'
@@ -46,7 +46,7 @@ exports.getProductById = async (req, res, next) => {
     }
     res.status(201).json({
         success: true,
-        tempProduct
+        Product
     })
 }
 
@@ -63,7 +63,7 @@ exports.updateProduct = async (req, res, next) => {
 
     // Check product exists in database
     const oldProduct = await product.findById(tempId);
-    if (!oldProduct) {
+    if (!oldProduct || oldProduct.isDelete == true) {
         return res.json({
             success: false,
             message: 'Product not found'
@@ -81,7 +81,7 @@ exports.updateProduct = async (req, res, next) => {
     }
 
     // Update product
-    const newProduct = await product.findByIdAndUpdate(tempId, tempProduct, {
+    const Product = await product.findByIdAndUpdate(tempId, tempProduct, {
         new: true,
         runValidators: true,
         useFindAndModified: false
@@ -90,6 +90,39 @@ exports.updateProduct = async (req, res, next) => {
     res.json({
         success: true,
         message: 'Product updated',
-        newProduct
+        Product
+    })
+}
+
+exports.deleteProduct = async (req, res, next) => {
+    const tempId = req.query.Id;
+    const ObjectId = mongoose.Types.ObjectId;
+    if (!tempId || !ObjectId.isValid(tempId)) {
+        return res.json({
+            success: false,
+            message: 'Id is not valid'
+        })
+    }
+
+    let tempProduct = await product.findById(tempId).populate("Category");
+    if (!tempProduct || tempProduct.isDelete == true) {
+        return res.json({
+            success: false,
+            message: 'Not found product'
+        })
+    }
+
+    tempProduct = {
+        isDelete: true,
+    }
+    const newProduct = await product.findByIdAndUpdate(tempId, tempProduct, {
+        new: true,
+        runValidators: true,
+        useFindAndModified: false
+    });
+
+    res.status(201).json({
+        success: true,
+        message: 'Product deleted'
     })
 }
