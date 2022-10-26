@@ -1,23 +1,24 @@
 const category = require('../models/category');
+const catchAsyncErrors = require('../middlewares/catchAsyncErrors');
 
 // Create new product   =>   /api/v1/admin/product/new
-exports.createCategory = async (req, res, next) => {
+exports.createCategory = catchAsyncErrors(async (req, res, next) => {
     let newCategory = new category;
     newCategory = req.body;
-    const nCategory = await category.create(newCategory);
+    const Category = await category.create(newCategory);
 
     res.status(201).json({
         success: true,
-        nCategory
+        Category
     })
-}
+})
 
-exports.getCategory = async (req, res, next) => {
-    const tempCategory = await category.find();
-    const total = tempCategory.length;
+exports.getCategoryList = catchAsyncErrors(async (req, res, next) => {
+    const Category = await category.find();
+    const total = Category.length;
     res.status(201).json({
         success: true,
         total: total,
-        tempCategory
+        Category
     })
-}
+})

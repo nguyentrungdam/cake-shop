@@ -42,12 +42,6 @@ app.use("/swagger", swaggerUI.serve, swaggerUI.setup(specs, { explorer: true }))
 
 app.use(express.json());
 
-//////////////////////////////////////////////////////
-
-
-
-//////////////////////////////////////////////////////
-
 routes(app);
 
 let url = 'http://localhost:' + PORT + '/swagger'

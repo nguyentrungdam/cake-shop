@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const {
     createCategory,
-    getCategory
+    getCategoryList
 } = require('../controllers/categoryController');
 
 const multer = require("multer");
@@ -52,13 +52,13 @@ const upload = multer()
 
  /**
  * @swagger
- * /Categories/getCategory:
+ * /Categories/getCategoryList:
  *   get:
  *     summary: Returns the list of all the Categories
  *     tags: [Categories]
  *     responses:
  *       200:
- *         description: The list of the books
+ *         description: The list of the categories
  *         content:
  *           application/json:
  *             schema:
@@ -67,7 +67,7 @@ const upload = multer()
  *                 $ref: '#/components/schemas/Category'
  */
 
-router.get("/getCategory", getCategory);
+router.get("/getCategoryList", getCategoryList);
 
 /**
  * @swagger

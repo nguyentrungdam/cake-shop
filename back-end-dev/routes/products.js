@@ -5,7 +5,9 @@ const {
     getProductList,
     getProductById,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    searchProduct,
+    filterProduct
 } = require('../controllers/productController')
 
 const { uploadImage } = require('../utils/uploadImage');
@@ -13,7 +15,6 @@ const { uploadImage } = require('../utils/uploadImage');
 const multer = require("multer");
 
 const upload = multer()
-
 
 /**
  * @swagger
@@ -81,6 +82,12 @@ const upload = multer()
  *   get:
  *     summary: Returns the list of all the products
  *     tags: [Products]
+ *     parameters:
+ *     - in: query
+ *       name: page
+ *       description: Current page
+ *       schema:
+ *         type: number
  *     responses:
  *       200:
  *         description: The list of the products
@@ -91,16 +98,16 @@ const upload = multer()
  *               items:
  *                 $ref: '#/components/schemas/Product'
  */
-
-router.get("/getProductList", getProductList);
+  router.get("/getProductList", getProductList);
 
 /**
  * @swagger
  * /products/createProduct:
  *   post:
- *     summary: Returns product
+ *     summary: Not used!!! Updating...
  *     tags: [Products]
  *     requestBody:
+ *       description: Create product
  *       required: true
  *       content:
  *         application/json:
@@ -116,7 +123,7 @@ router.get("/getProductList", getProductList);
  *               items:
  *                 $ref: '#/components/schemas/Product'
  */
-router.post("/createProduct", uploadImage, createProduct);
+  router.post("/createProduct", uploadImage, createProduct);
 
  /**
  * @swagger
@@ -140,13 +147,13 @@ router.post("/createProduct", uploadImage, createProduct);
  *               items:
  *                 $ref: '#/components/schemas/Product'
  */
-router.get("/getProductById", getProductById);
+  router.get("/getProductById", getProductById);
 
  /**
  * @swagger
  * /products/updateProduct:
  *   put:
- *     summary: Returns product
+ *     summary: Not used!!! Updating...
  *     consumes:
  *       - application/json
  *     tags: [Products]
@@ -180,7 +187,7 @@ router.get("/getProductById", getProductById);
  *               items:
  *                 $ref: '#/components/schemas/Product'
  */
-router.put("/updateProduct", upload.none(), updateProduct);
+  router.put("/updateProduct", upload.none(), updateProduct);
 
  /**
  * @swagger
@@ -205,5 +212,68 @@ router.put("/updateProduct", upload.none(), updateProduct);
  *                 $ref: '#/components/schemas/Product'
  */
   router.delete("/deleteProduct", deleteProduct);
+
+ /**
+ * @swagger
+ * /products/searchProduct:
+ *   get:
+ *     summary: Returns product
+ *     tags: [Products]
+ *     parameters:
+ *     - in: query
+ *       name: Keyword
+ *       description: Search product by keyword for field Name and Description
+ *       schema:
+ *         type: string
+ *     - in: query
+ *       name: page
+ *       description: Current page
+ *       schema:
+ *         type: number
+ *     responses:
+ *       200:
+ *         description: Product
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Product'
+ */
+  router.get("/searchProduct", searchProduct);
+
+ /**
+ * @swagger
+ * /products/filterProduct:
+ *   get:
+ *     summary: Returns product
+ *     tags: [Products]
+ *     parameters:
+ *     - in: query
+ *       name: Category
+ *       description: Filter Product by category
+ *       schema:
+ *         type: string
+ *     - in: query
+ *       name: Sort
+ *       description: Sort Product by name or price (name = nameAsc/nameDesc, price = priceAsc/priceDesc)
+ *       schema:
+ *         type: string
+ *     - in: query
+ *       name: page
+ *       description: Current page
+ *       schema:
+ *         type: number
+ *     responses:
+ *       200:
+ *         description: Product
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Product'
+ */
+  router.get("/filterProduct", filterProduct);
 
 module.exports = router;
