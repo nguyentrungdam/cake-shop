@@ -1,8 +1,8 @@
 import { Route, Routes } from "react-router-dom";
+import Dashboard from "./pages/Admins/Dashboard/Dashboard";
 import Account from "./pages/Clients/Account/Account";
 import Addresses from "./pages/Clients/Account/Addresses";
 import Cart from "./pages/Clients/Cart/cart";
-// import Home from "./pages/Clients/Home/home";
 import HomePage from "./pages/Clients/HomePage/HomePage";
 import ListProduct from "./pages/Clients/ListProduct/ListProduct";
 import Pay from "./pages/Clients/Payment/Pay";
@@ -23,7 +23,14 @@ function App() {
       <Route path="/payment" element={<Pay />} />
       <Route path="/account" element={<Account />} />
       <Route path="/account/addresses" element={<Addresses />} />
-      {/* <Route path="/" element={<Home />} /> */}
+      <Route
+        path="/admin/*"
+        element={
+          // * <Protected isLoggedIn={isAuthenticated}>
+          <Dashboard />
+          // * </Protected>
+        }
+      />
     </Routes>
   );
 }

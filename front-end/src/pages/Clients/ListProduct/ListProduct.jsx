@@ -1,9 +1,32 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Footer from "../../../components/Footer";
 import Header from "../../../components/Header";
 import { itemListProduct } from "../../../data/itemHomePage";
+import { getProducts } from "../../../slices/productSlice";
 import { ListProductWrapper } from "../../../styles/listProductStyle";
 const ListProduct = () => {
+  const dispatch = useDispatch();
+  const { products, getCartItems } = useSelector((state) => state.product);
+  console.log(products);
+
+  useEffect(() => {
+    // if (isAuthenticated) {
+    //   const fetchData = () => {
+    dispatch(getProducts());
+    // dispatch(getUserAddress());
+    // dispatch(getOrdersByUser());
+    //     };
+    //     fetchData();
+    //   } else {
+    //     const checkUser = () => {
+    //       dispatch(isUserLoggedIn());
+    //     };
+    //     checkUser();
+    //   }
+    // }, [isAuthenticated]);
+  }, []);
+
   return (
     <>
       <Header></Header>
@@ -75,10 +98,10 @@ const ListProduct = () => {
                   id="CollectionAjaxContent"
                 >
                   <div className="grid ">
-                    {itemListProduct.length > 0 &&
-                      itemListProduct.map((item) => (
+                    {products.length > 0 &&
+                      products.map((item) => (
                         <div
-                          key={item.id}
+                          key={item._id}
                           className="grid__item grid-product small--one-half medium-up--one-quarter aos-init aos-animate"
                           data-aos="row-of-4"
                         >
@@ -92,20 +115,20 @@ const ListProduct = () => {
                                   <img
                                     alt="product-img"
                                     className="grid-product__image image-in-list"
-                                    src={item.img}
+                                    src={item.Image.Url}
                                   />
                                 </div>
                               </div>
 
                               <div className="grid-product__meta">
                                 <div className="grid-product__title">
-                                  {item.itemName}
+                                  {item.Name}
                                 </div>
                                 <div className="grid-product__price">
                                   from{" "}
                                   <span className="money">
                                     £
-                                    {Number(item.price).toLocaleString(
+                                    {Number(item.Price).toLocaleString(
                                       "en-US",
                                       {
                                         minimumFractionDigits: 2,
@@ -127,7 +150,7 @@ const ListProduct = () => {
                           aria-hidden="true"
                           focusable="false"
                           role="presentation"
-                          class="icon icon-chevron-left"
+                          className="icon icon-chevron-left"
                           viewBox="0 0 284.49 498.98"
                         >
                           <path d="M249.49 0a35 35 0 0 1 24.75 59.75L84.49 249.49l189.75 189.74a35.002 35.002 0 1 1-49.5 49.5L10.25 274.24a35 35 0 0 1 0-49.5L224.74 10.25A34.89 34.89 0 0 1 249.49 0z"></path>
