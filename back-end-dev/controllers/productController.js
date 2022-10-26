@@ -170,36 +170,37 @@ exports.filterProduct = catchAsyncErrors(async (req, res, next) => {
 
     // find category id
     const tempCategory = await category.findOne({ Name: nameCategory });
-    if (!tempCategory) {
-        const err = new Error('Category not found');
-        return next(err);
-    }
 
     const nameSort = req.query.Sort || '';
 
-    let Product;
-    let total;
-    const tempSort = ['nameasc', 'namedesc', 'priceasc', 'pricedesc']
-    if (tempSort.includes(nameSort.toLowerCase())) {
-        // Set field and sort name
-        let field = 'Name';
-        let sort = nameSort.slice(4, nameSort.length);
+    // Set field and sort name
+    let field = 0;
+    let sort = 0;
+    tempSort = ['nameasc', 'namedesc', 'priceasc', 'pricedesc']
+    if(tempSort.includes(nameSort.toLowerCase())) {
+        field = 'Name';
+        sort = nameSort.slice(4, nameSort.length);
         if (nameSort.slice(0, 5).toLowerCase() == 'price') {
             field = 'Price';
             sort = nameSort.slice(5, nameSort.length);
         }
+    }
 
-        total = await product.where({ Category: tempCategory}).countDocuments();
-        // filter and sort products
+    let Product;
+    let total;
+
+    //const tempSort = ['nameasc', 'namedesc', 'priceasc', 'pricedesc']
+    if (!tempCategory) {
+        total = await product.find().sort([[ field, sort]]).countDocuments();
         Product = await pagination(
-            product.find({ Category: tempCategory}).sort([[ field, sort]]).populate("Category"),
+            product.find().sort([[ field, sort]]).populate("Category"),
             page
         )
     }
     else {
-        total = await product.find({ Category: tempCategory}).countDocuments();
+        total = await product.find({ Category: tempCategory}).sort([[ field, sort]]).countDocuments();
         Product = await pagination(
-            product.find({ Category: tempCategory}).populate("Category"),
+            product.find({ Category: tempCategory}).sort([[ field, sort]]).populate("Category"),
             page
         )
     }
