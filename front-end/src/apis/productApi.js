@@ -2,9 +2,19 @@ import axios from "./axios";
 
 const productApi = {
   getProducts: () => {
-    const url = "/products/getProduct";
+    const url = "/products/getProductList";
     return axios.get(url);
   },
+  filterProducts: (category, sort) => {
+    const url = `/products/filterProduct?Category=${category}&Sort=${sort}`;
+    return axios.get(url);
+  },
+  searchProducts: async (keyword) => {
+    const url = `/products/searchProduct?Keyword=${keyword}`;
+    return axios.get(url);
+  },
+
+  //TODO từ đây xuống là chưa làm
   getProductBySlug: (slug) => {
     const url = `/product/${slug}`;
     return axios.get(url);

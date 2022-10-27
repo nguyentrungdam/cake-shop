@@ -2,10 +2,35 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import productApi from "../apis/productApi";
 // TODO Đã có
 export const getProducts = createAsyncThunk(
-  "products/getProduct",
+  "products/getProductList",
   async (rejectWithValue) => {
     try {
       const response = await productApi.getProducts();
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+export const filterProducts = createAsyncThunk(
+  "products/filterProduct",
+  async (obj, rejectWithValue) => {
+    try {
+      const response = await productApi.filterProducts(
+        obj.category,
+        obj.sortName
+      );
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+export const searchProducts = createAsyncThunk(
+  "products/searchProduct",
+  async (keyword, rejectWithValue) => {
+    try {
+      const response = await productApi.searchProducts(keyword);
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -119,7 +144,29 @@ export const productSlice = createSlice({
     },
     [getProducts.fulfilled]: (state, action) => {
       state.loading = false;
-      state.products = action.payload.data.tempProduct;
+      state.products = action.payload.data.Product;
+    },
+    [filterProducts.pending]: (state) => {
+      state.loading = true;
+    },
+    [filterProducts.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = action.error;
+    },
+    [filterProducts.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.products = action.payload.data.Product;
+    },
+    [searchProducts.pending]: (state) => {
+      state.loading = true;
+    },
+    [searchProducts.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = action.error;
+    },
+    [searchProducts.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.products = action.payload.data.Product;
     },
     [getProductBySlug.pending]: (state) => {
       state.loading = true;

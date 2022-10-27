@@ -7,6 +7,7 @@ import HomePage from "./pages/Clients/HomePage/HomePage";
 import ListProduct from "./pages/Clients/ListProduct/ListProduct";
 import Pay from "./pages/Clients/Payment/Pay";
 import ProductDetail from "./pages/Clients/ProductDetail/ProductDetail";
+import Search from "./pages/Clients/Search/Search";
 import Signin from "./pages/Clients/Signs/signIn";
 import Signup from "./pages/Clients/Signs/signUp";
 
@@ -22,6 +23,7 @@ function App() {
       <Route path="/cart" element={<Cart />} />
       <Route path="/payment" element={<Pay />} />
       <Route path="/account" element={<Account />} />
+      <Route path="/search" element={<Search />} />
       <Route path="/account/addresses" element={<Addresses />} />
       <Route
         path="/admin/*"

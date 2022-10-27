@@ -272,7 +272,7 @@ const Header = () => {
                         ></path>
                       </svg>
                     </a>
-                    <a href="/" className="item-navigate">
+                    <a href="/search" className="item-navigate">
                       <svg
                         aria-hidden="true"
                         focusable="false"

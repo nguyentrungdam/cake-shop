@@ -1,6 +1,103 @@
 import styled from "styled-components";
 export const ListProductWrapper = styled.div`
   margin-top: 80px;
+  .section-header {
+    margin-bottom: 50px;
+  }
+  .section-header__title {
+    font-size: 2.06471em;
+    margin-bottom: 0;
+    margin: 0 0 20px;
+    display: block;
+    font-family: Poppins, sans-serif;
+    font-weight: 700;
+    letter-spacing: 0;
+    line-height: 1.2;
+  }
+  .search-bar--page {
+    max-width: 300px;
+    margin-top: -20px;
+  }
+  .input-group {
+    display: flex;
+  }
+  .input-group .input-group-field {
+    flex: 1 1 auto;
+    min-width: 0;
+    border-radius: 0;
+    margin: 0;
+  }
+  input {
+    background-color: transparent;
+    color: inherit;
+    border: 1px solid #e8e8e1;
+    max-width: 100%;
+    padding: 8px 10px;
+    -webkit-appearance: none;
+    font-family: Quicksand, sans-serif;
+    letter-spacing: 0.025em;
+    line-height: 1.6;
+    font-size: 17px;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeSpeed;
+  }
+  form {
+    margin: 0;
+  }
+  .input-group-btn {
+    flex: 0 1 auto;
+    padding: 0;
+    margin: 0;
+  }
+
+  .input-group-btn .btn {
+    margin-top: 0;
+    height: 100%;
+    background-image: none !important;
+  }
+  .search-bar .icon {
+    width: 24px;
+    height: 24px;
+    vertical-align: middle;
+  }
+
+  .icon {
+    display: inline-block;
+    fill: currentColor;
+  }
+  .btn:not(.btn--no-animate):not(.btn--tertiary) {
+    background: #111;
+    background-size: 29px;
+  }
+  .btn:not(.btn--no-animate):not(.btn--tertiary):hover {
+    opacity: 0.8;
+  }
+  svg:not(:root) {
+    overflow: hidden;
+  }
+  .btn {
+    border-radius: 0;
+    display: inline-block;
+    padding: 9px 20px;
+    margin: 0;
+    width: auto;
+    min-width: 90px;
+    cursor: pointer;
+    user-select: none;
+    -webkit-appearance: none;
+    color: #fff;
+  }
+  h2 {
+    font-size: 1.58824em;
+    margin: 0 0 20px;
+    display: block;
+    font-family: Poppins, sans-serif;
+    font-weight: 700;
+    letter-spacing: 0;
+    line-height: 1.2;
+  }
+  ////////////////
   .main-content {
     min-height: 700px;
     display: block;
@@ -116,6 +213,17 @@ export const ListProductWrapper = styled.div`
   }
   .page-width {
     padding: 60px 40px;
+    max-width: 1500px;
+    margin: 0 auto;
+  }
+  .page-width-padding {
+    padding: 40px 40px;
+    padding-bottom: 60px;
+    max-width: 1500px;
+    margin: 0 auto;
+  }
+  .page-width-little-padding {
+    padding: 0px 40px;
     max-width: 1500px;
     margin: 0 auto;
   }

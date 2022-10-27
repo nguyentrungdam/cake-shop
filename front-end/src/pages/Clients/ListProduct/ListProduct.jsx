@@ -1,31 +1,34 @@
-import React, { useEffect } from "react";
+import { ContactlessOutlined } from "@mui/icons-material";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Footer from "../../../components/Footer";
 import Header from "../../../components/Header";
-import { itemListProduct } from "../../../data/itemHomePage";
-import { getProducts } from "../../../slices/productSlice";
+import ListProductLayout from "../../../components/ListProductLayout";
+import { filterProducts, getProducts } from "../../../slices/productSlice";
 import { ListProductWrapper } from "../../../styles/listProductStyle";
+
 const ListProduct = () => {
   const dispatch = useDispatch();
-  const { products, getCartItems } = useSelector((state) => state.product);
-  console.log(products);
+  const { products } = useSelector((state) => state.product);
+  const [category, setCategory] = useState("");
+  const [sortName, setSortName] = useState("");
 
   useEffect(() => {
-    // if (isAuthenticated) {
-    //   const fetchData = () => {
     dispatch(getProducts());
-    // dispatch(getUserAddress());
-    // dispatch(getOrdersByUser());
-    //     };
-    //     fetchData();
-    //   } else {
-    //     const checkUser = () => {
-    //       dispatch(isUserLoggedIn());
-    //     };
-    //     checkUser();
-    //   }
-    // }, [isAuthenticated]);
   }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      let obj = {
+        category,
+        sortName,
+      };
+      await dispatch(filterProducts(obj));
+    };
+    if (category || sortName) {
+      fetchData();
+    }
+  }, [category, sortName]);
 
   return (
     <>
@@ -57,43 +60,35 @@ const ListProduct = () => {
                   <div className="grid grid--uniform">
                     <div className="grid__item small--one-half medium-up--one-quarter">
                       <label htmlFor="SortTags">Filter by</label>
-                      <select name="SortTags" id="SortTags">
-                        <option value="/collections/all-cakes">
-                          All Cakes
-                        </option>
-                        <option value="/collections/celebration-cakes">
-                          Celebration Cakes
-                        </option>
-                        <option value="/collections/customisable-cakes-cupcakes/custom">
-                          Customisable Cakes
-                        </option>
-                        <option value="/collections/cakes-for-kids">
-                          Cakes For Kids
-                        </option>
+                      <select
+                        name="SortTags"
+                        id="SortTags"
+                        value={category}
+                        onChange={(e) => setCategory(e.target.value)}
+                      >
+                        <option value="all">All Cakes</option>
+                        <option value="Weddings">Weddings</option>
+                        <option value="Cupcakes">Cupcakes</option>
                       </select>
                     </div>
                     <div className="grid__item small--one-half medium-up--one-quarter ">
                       <label htmlFor="SortBy">Sort by</label>
-                      <select name="SortBy" id="SortBy">
-                        <option value="manual">Featured</option>
-                        <option value="best-selling">Best selling</option>
-                        <option value="title-ascending">
-                          Alphabetically, A-Z
-                        </option>
-                        <option value="title-descending">
-                          Alphabetically, Z-A
-                        </option>
-                        <option value="price-ascending">
-                          Price, low to high
-                        </option>
-                        <option value="price-descending">
-                          Price, high to low
-                        </option>
+                      <select
+                        name="SortBy"
+                        id="SortBy"
+                        value={sortName}
+                        onChange={(e) => setSortName(e.target.value)}
+                      >
+                        <option value="nameAsc">Alphabetically, A-Z</option>
+                        <option value="nameDesc">Alphabetically, Z-A</option>
+                        <option value="priceAsc">Price, low to high</option>
+                        <option value="priceDesc">Price, high to low</option>
                       </select>
                     </div>
                   </div>
                 </div>
-                <div
+                <ListProductLayout products={products} />
+                {/* <div
                   className="CollectionAjaxContent"
                   id="CollectionAjaxContent"
                 >
@@ -182,7 +177,7 @@ const ListProduct = () => {
                       </a>
                     </span>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
