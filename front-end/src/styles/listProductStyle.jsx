@@ -235,6 +235,8 @@ export const ListProductWrapper = styled.div`
     margin: 0;
     padding: 0;
     margin-left: -30px;
+    display: flex;
+    flex-wrap: wrap;
   }
   .grid--uniform .medium-up--one-quarter:nth-child(4n + 1) {
     clear: both;
