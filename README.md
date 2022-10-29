@@ -47,15 +47,23 @@ npm run dev
 Sau đó mở web lên truy cập địa chỉ
 http://localhost:3000/
 
-## Tài khoản
+## Tài khoản đăng nhập trên website
 
 Các bạn có thể đăng ký tài khoản user trên web
 
-Tài khoản admin
+/////////////////////////
+User account
 
-Email: adminson@gmail.com
+Email: thanh123@gmail.com
 
-Pass: 12345678
+Pass: 123456
+
+/////////////////////////
+Admin account 
+
+Email: thanh@gmail.com
+
+Pass: 123456
 
 ## Tài khoản test backend
 

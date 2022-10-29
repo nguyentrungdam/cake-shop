@@ -1,5 +1,5 @@
 const category = require('../models/category');
-const catchAsyncErrors = require('../middlewares/catchAsyncErrors');
+const catchAsyncErrors = require('../utils/catchAsyncErrors');
 
 // Create new product   =>   /api/v1/admin/product/new
 exports.createCategory = catchAsyncErrors(async (req, res, next) => {

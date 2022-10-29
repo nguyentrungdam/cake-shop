@@ -52,7 +52,7 @@ const upload = multer()
 
  /**
  * @swagger
- * /Categories/getCategoryList:
+ * /categories/getCategoryList:
  *   get:
  *     summary: Returns the list of all the Categories
  *     tags: [Categories]
@@ -71,7 +71,7 @@ router.get("/getCategoryList", getCategoryList);
 
 /**
  * @swagger
- * /Categories/create:
+ * /categories/createCategory:
  *   post:
  *     summary: Returns Category
  *     tags: [Categories]
@@ -91,6 +91,6 @@ router.get("/getCategoryList", getCategoryList);
  *               items:
  *                 $ref: '#/components/schemas/Category'
  */
- router.post("/create", upload.none(), createCategory);
+ router.post("/createCategory", upload.none(), createCategory);
 
 module.exports = router;

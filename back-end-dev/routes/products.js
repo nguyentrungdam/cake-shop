@@ -10,6 +10,8 @@ const {
     filterProduct
 } = require('../controllers/productController')
 
+const { isAuthenticatedAccount } = require('../middlewares/authAccount');
+
 const { uploadImage } = require('../utils/uploadImage');
 
 const multer = require("multer");

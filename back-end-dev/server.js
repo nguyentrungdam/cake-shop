@@ -5,6 +5,7 @@ const dotenv = require('dotenv');
 const routes = require('./routes')
 const { connectDatabase } = require('./config/connectDB');
 const cors = require('cors')
+const cookiesParser = require('cookie-parser');
 
 dotenv.config({ path: __dirname + '/config/.env', encoding: 'utf8', debug: false});
 
@@ -32,6 +33,7 @@ const specs = swaggerJsDoc(options);
 
 const app = express();
 
+
 // Enable CORS
 app.use(cors({
 	origin: true, //included origin as true
@@ -41,6 +43,7 @@ app.use(cors({
 app.use("/swagger", swaggerUI.serve, swaggerUI.setup(specs, { explorer: true }));
 
 app.use(express.json());
+app.use(cookiesParser());
 
 routes(app);
 

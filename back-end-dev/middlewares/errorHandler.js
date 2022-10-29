@@ -1,7 +1,10 @@
 module.exports = async(err, req, res, next) => {
-    console.log(err.stack);
+    if(err.code) {
+        console.log(err.stack);
+    }
     res.json({
         success: false,
-        error: err.message
+        errorCode: err.code,
+        errorMessage: err.message
     })
   }

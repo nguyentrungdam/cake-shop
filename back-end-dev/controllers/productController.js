@@ -3,8 +3,8 @@ const product = require('../models/product')
 const category = require('../models/category');
 const mongoose = require('mongoose')
 
-const catchAsyncErrors = require('../middlewares/catchAsyncErrors');
-const pagination = require('../middlewares/pagination');
+const catchAsyncErrors = require('../utils/catchAsyncErrors');
+const pagination = require('../utils/pagination');
 
 // Create new product   =>   /api/v1/admin/product/new
 exports.createProduct = catchAsyncErrors(async (req, res, next) => {
