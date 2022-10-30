@@ -81,6 +81,7 @@ exports.updateProduct = catchAsyncErrors(async (req, res, next) => {
         Quantity: req.body.Quantity || oldProduct.Quantity,
         Category: req.body.Category || oldProduct.Category,
         Size: req.body.Size || oldProduct.Size,
+        Modified_At: Date.now(),
     }
 
     // Update product
