@@ -27,9 +27,9 @@ exports.getProductList = catchAsyncErrors(async (req, res, next) => {
     const total = await product.where({isDelete: false}).countDocuments();
     const Product = await pagination(
         product.find({isDelete: false}).populate("Category"),
-        page
+        page,
+        12
     )
-
 
     res.status(201).json({
         success: true,
@@ -111,6 +111,10 @@ exports.deleteProduct = catchAsyncErrors(async (req, res, next) => {
         return next(err);
     }
 
+    if (tempProduct.Quantity <= 0) {
+
+    }
+
     tempProduct = {
         isDelete: true,
     }
@@ -153,7 +157,8 @@ exports.searchProduct = catchAsyncErrors(async (req, res, next) => {
     const total = await product.where({ ...Keyword }).countDocuments();
     const Product = await pagination(
         product.find({ ...Keyword }).populate("Category"),
-        page
+        page,
+        12
     )
 
     res.status(201).json({
@@ -194,14 +199,16 @@ exports.filterProduct = catchAsyncErrors(async (req, res, next) => {
         total = await product.find().sort([[ field, sort]]).countDocuments();
         Product = await pagination(
             product.find().sort([[ field, sort]]).populate("Category"),
-            page
+            page,
+            12
         )
     }
     else {
         total = await product.find({ Category: tempCategory}).sort([[ field, sort]]).countDocuments();
         Product = await pagination(
             product.find({ Category: tempCategory}).sort([[ field, sort]]).populate("Category"),
-            page
+            page,
+            12
         )
     }
     

@@ -10,7 +10,10 @@ const {
     filterProduct
 } = require('../controllers/productController')
 
-const { isAuthenticatedAccount } = require('../middlewares/authAccount');
+const { 
+  isAuthenticatedAccount,
+  authorizeRoles
+} = require('../middlewares/authAccount');
 
 const { uploadImage } = require('../utils/uploadImage');
 
@@ -189,7 +192,7 @@ const upload = multer()
  *               items:
  *                 $ref: '#/components/schemas/Product'
  */
-  router.put("/updateProduct", upload.none(), updateProduct);
+  router.put("/updateProduct", upload.none(), isAuthenticatedAccount, authorizeRoles('admin'), updateProduct);
 
  /**
  * @swagger

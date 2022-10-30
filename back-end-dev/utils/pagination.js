@@ -1,6 +1,6 @@
 
-module.exports = function(model, page) {
-    const resPerPage = 12;
+module.exports = function(model, page, itemsPerPage) {
+    const resPerPage = Number(itemsPerPage) || 10;
     const currentPage = Number(page) || 1;
     const skip = resPerPage * (currentPage - 1);
 

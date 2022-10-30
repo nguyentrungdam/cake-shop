@@ -8,7 +8,8 @@ const {
     loginAccount,
     logoutAccount,
     forgotPassword,
-    resetPassword
+    resetPassword,
+    filterAccount
 } = require('../controllers/AccountController');
 
 const { 
@@ -80,6 +81,12 @@ const {
  *   get:
  *     summary: Returns the list of all the Accounts
  *     tags: [Accounts]
+ *     parameters:
+ *     - in: query
+ *       name: page
+ *       description: Current page
+ *       schema:
+ *         type: number
  *     responses:
  *       200:
  *         description: The list of the Accounts
@@ -229,5 +236,39 @@ router.get("/getAccountList", isAuthenticatedAccount, authorizeRoles('admin'), g
  *                 $ref: '#/components/schemas/Account'
  */
   router.put("/resetPassword", resetPassword);
+
+ /**
+ * @swagger
+ * /accounts/filterAccount:
+ *   get:
+ *     summary: Returns account
+ *     tags: [Accounts]
+ *     parameters:
+ *     - in: query
+ *       name: Role
+ *       description: Filter Account by role
+ *       schema:
+ *         type: string
+ *     - in: query
+ *       name: Sort
+ *       description: Sort Account by name or price (fullName = fullNameAsc/fullNameDesc, address = addressAsc/addressDesc)
+ *       schema:
+ *         type: string
+ *     - in: query
+ *       name: page
+ *       description: Current page
+ *       schema:
+ *         type: number
+ *     responses:
+ *       200:
+ *         description: Account
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Account'
+ */
+  router.get("/filterAccount", filterAccount);
 
 module.exports = router;

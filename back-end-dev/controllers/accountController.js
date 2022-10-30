@@ -5,6 +5,7 @@ const account = require('../models/account');
 const catchAsyncErrors = require('../utils/catchAsyncErrors');
 const sendToken = require('../utils/jwtToken');
 const sendEmail = require('../utils/sendEmail');
+const pagination = require('../utils/pagination');
 
 // Create new product   =>   /api/v1/admin/product/new
 exports.registerAccount = catchAsyncErrors(async (req, res, next) => {
@@ -22,11 +23,18 @@ exports.registerAccount = catchAsyncErrors(async (req, res, next) => {
 })
 
 exports.getAccountList = catchAsyncErrors(async (req, res, next) => {
-    const Account = await account.find();
-    const total = Account.length;
+    const page = req.query.page;
+    const total = await account.find({isDelete: false}).countDocuments();
+    const Account = await pagination(
+        account.find({isDelete: false}),
+        page,
+        10
+    )
+    
     res.status(201).json({
         success: true,
         total: total,
+        totalCurrentPage: Account.length,
         Account
     })
 })
@@ -143,4 +151,54 @@ exports.resetPassword = catchAsyncErrors(async (req, res, next) => {
     await Account.save();
 
     sendToken(Account, res);
+})
+
+exports.filterAccount = catchAsyncErrors(async (req, res, next) => {
+    const nameRole = req.query.Role;
+    const page = req.query.page;
+
+    // find category id
+    const tempAccount = await account.findOne({ Role: nameRole });
+
+    const nameSort = req.query.Sort || '';
+
+    // Set field and sort name
+    let field = 0;
+    let sort = 0;
+    tempSort = ['fullnameasc', 'fullnamedesc', 'addressasc', 'addressdesc']
+    if(tempSort.includes(nameSort.toLowerCase())) {
+        field = 'FullName';
+        sort = nameSort.slice(8, nameSort.length);
+        if (nameSort.slice(0, 7).toLowerCase() == 'address') {
+            field = 'Address';
+            sort = nameSort.slice(7, nameSort.length);
+        }
+    }
+
+    let Account;
+    let total;
+
+    if (!tempAccount) {
+        total = await account.find().sort([[ field, sort ]]).countDocuments();
+        Account = await pagination(
+            account.find().sort([[ field, sort ]]),
+            page,
+            10
+        )
+    }
+    else {
+        total = await account.find({ Role: nameRole }).sort([[ field, sort ]]).countDocuments();
+        Account = await pagination(
+            account.find({ Role: nameRole }).sort([[ field, sort ]]),
+            page,
+            10
+        )
+    }
+    
+    res.status(201).json({
+        success: true,
+        total: total,
+        totalCurrentPage: Account.length,
+        Account
+    })
 })
