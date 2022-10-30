@@ -28,7 +28,7 @@ exports.getProductList = catchAsyncErrors(async (req, res, next) => {
     const Product = await pagination(
         product.find({isDelete: false}).populate("Category"),
         page,
-        12
+        8
     )
 
     res.status(201).json({
@@ -158,7 +158,7 @@ exports.searchProduct = catchAsyncErrors(async (req, res, next) => {
     const Product = await pagination(
         product.find({ ...Keyword }).populate("Category"),
         page,
-        12
+        8
     )
 
     res.status(201).json({
@@ -200,7 +200,7 @@ exports.filterProduct = catchAsyncErrors(async (req, res, next) => {
         Product = await pagination(
             product.find().sort([[ field, sort]]).populate("Category"),
             page,
-            12
+            8
         )
     }
     else {
@@ -208,7 +208,7 @@ exports.filterProduct = catchAsyncErrors(async (req, res, next) => {
         Product = await pagination(
             product.find({ Category: tempCategory}).sort([[ field, sort]]).populate("Category"),
             page,
-            12
+            8
         )
     }
     
