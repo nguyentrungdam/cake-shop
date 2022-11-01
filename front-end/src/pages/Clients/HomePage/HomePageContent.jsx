@@ -62,7 +62,10 @@ const HomePageContent = () => {
                     {itemHomePage1.length > 0 &&
                       itemHomePage1.map((item) => (
                         <div className="grid-product__content" key={item.id}>
-                          <a href="/" className="grid-product__link">
+                          <a
+                            href="/list-product"
+                            className="grid-product__link"
+                          >
                             <div className="grid-product__image-mask">
                               <div className="image-wrap">
                                 <img
@@ -176,7 +179,10 @@ const HomePageContent = () => {
                             <div className="grid-product__tag--usp grid-product__tag--usp__vegan"></div>
                           </div>
 
-                          <a href="/" className="grid-product__link">
+                          <a
+                            href="/list-product"
+                            className="grid-product__link"
+                          >
                             <div className="grid-product__image-mask">
                               <div className="image-wrap">
                                 <img

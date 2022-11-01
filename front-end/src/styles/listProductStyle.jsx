@@ -366,49 +366,41 @@ export const ListProductWrapper = styled.div`
     margin-bottom: 0;
   }
   ///////pagination/////////
+  .contain-pagination {
+    padding: 0;
+    margin-top: 50px;
+  }
   .pagination {
-    font-family: Quicksand, sans-serif;
-    letter-spacing: 0.025em;
-    line-height: 1.6;
-    margin: 0 auto;
-    padding: 80px 0 0;
-    text-align: center;
-    font-size: 0.88235em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    font-weight: 500;
+    font-size: 1.1rem;
   }
-  .pagination .page.current {
-    opacity: 0.3;
-    padding: 8px 12px;
-  }
-  .pagination > span {
-    display: inline-block;
-    line-height: 1;
-  }
-  .pagination a {
-    padding: 8px 12px;
-    display: inline-block;
+
+  a {
     color: #000;
     text-decoration: none;
-    background: 0;
   }
-  .pagination .next,
-  .pagination .prev {
-    color: #fff;
-    background: #111;
-    width: 43px;
-    height: 43px;
-    line-height: 27px;
-    border-radius: 43px;
-    margin: -6px 16px;
+  .a {
+    width: 40px;
+    height: 40px;
+    padding: 8px 14px;
   }
-  .pagination .next .icon,
-  .pagination .prev .icon {
-    color: #fff;
-    width: 13px;
-    height: 13px;
+  .active {
+    color: #ff01bd;
   }
-  .icon {
-    display: inline-block;
-    vertical-align: middle;
-    fill: currentColor;
+  .li {
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    background-color: #f5f5f5;
+    text-align: center;
+    border-radius: 50%;
+  }
+  .li:hover {
+    background-color: pink;
   }
 `;

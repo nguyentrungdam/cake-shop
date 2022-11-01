@@ -5,12 +5,12 @@ const productApi = {
     const url = "/products/getProductList";
     return axios.get(url);
   },
-  filterProducts: (category, sort) => {
-    const url = `/products/filterProduct?Category=${category}&Sort=${sort}`;
+  filterProducts: (category, sort, page) => {
+    const url = `/products/filterProduct?Category=${category}&Sort=${sort}&page=${page}`;
     return axios.get(url);
   },
-  searchProducts: async (keyword) => {
-    const url = `/products/searchProduct?Keyword=${keyword}`;
+  searchProducts: async (keyword, page) => {
+    const url = `/products/searchProduct?Keyword=${keyword}&page=${page}`;
     return axios.get(url);
   },
 

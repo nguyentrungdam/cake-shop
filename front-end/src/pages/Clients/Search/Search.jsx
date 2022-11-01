@@ -1,24 +1,49 @@
-import React, { useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Footer from "../../../components/Footer";
 import Header from "../../../components/Header";
 import ListProductLayout from "../../../components/ListProductLayout";
 import { searchProducts } from "../../../slices/productSlice";
 import { ListProductWrapper } from "../../../styles/listProductStyle";
+import ReactPaginate from "react-paginate";
 
 const Search = () => {
   const dispatch = useDispatch();
-
-  const { products } = useSelector((state) => state.product);
+  const { products, data } = useSelector((state) => state.product);
   const [show, setShow] = useState("false");
   const [keyword, setKeyword] = useState("");
-
+  const limit = 8;
+  const [pageCount, setPageCount] = useState(0);
+  const [itemOffset, setItemOffset] = useState(0);
+  const [nextPage, setNextPage] = useState(1);
+  const obj = {
+    keyword,
+    page: nextPage,
+  };
   const handleSearch = async (e) => {
     e.preventDefault();
-    await dispatch(searchProducts(keyword));
+    await dispatch(searchProducts(obj));
     setShow("true");
   };
+  useEffect(() => {
+    dispatch(searchProducts(obj));
+    return () => {
+      setNextPage();
+    };
+  }, [nextPage]);
 
+  useEffect(() => {
+    if (!data.success) return;
+    setPageCount(Math.ceil(data.total / limit));
+  }, [data, itemOffset]);
+
+  const handlePageClick = async (event) => {
+    const newOffset = (event.selected * limit) % products.length;
+    setItemOffset(newOffset);
+    setNextPage(event.selected + 1);
+    window.scrollTo(0, 0);
+  };
   return (
     <>
       <Header />
@@ -67,12 +92,33 @@ const Search = () => {
                 {show === "true" ? (
                   <>
                     <hr className="hr--medium"></hr>
-                    {products.length <= 1 ? (
-                      <h2>{products.length} result</h2>
+                    {data.total <= 1 ? (
+                      <h2>{data.total} result</h2>
                     ) : (
-                      <h2>{products.length} results</h2>
+                      <h2>{data.total} results</h2>
                     )}
                     <ListProductLayout products={products} />
+                    {products.length === 0 ? (
+                      " "
+                    ) : (
+                      <div className="contain-pagination">
+                        <ReactPaginate
+                          breakLabel="..."
+                          nextLabel=">"
+                          onPageChange={handlePageClick}
+                          pageRangeDisplayed={5}
+                          pageCount={pageCount}
+                          previousLabel="<"
+                          renderOnZeroPageCount={null}
+                          className="pagination"
+                          pageLinkClassName={pageCount === 1 ? `a active` : "a"}
+                          activeLinkClassName="active"
+                          pageClassName="li"
+                          previousClassName="li"
+                          nextClassName=" li"
+                        />
+                      </div>
+                    )}
                   </>
                 ) : (
                   " "

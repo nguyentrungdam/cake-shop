@@ -18,7 +18,8 @@ export const filterProducts = createAsyncThunk(
     try {
       const response = await productApi.filterProducts(
         obj.category,
-        obj.sortName
+        obj.sortName,
+        obj.page
       );
       return response;
     } catch (error) {
@@ -28,9 +29,9 @@ export const filterProducts = createAsyncThunk(
 );
 export const searchProducts = createAsyncThunk(
   "products/searchProduct",
-  async (keyword, rejectWithValue) => {
+  async (obj, rejectWithValue) => {
     try {
-      const response = await productApi.searchProducts(keyword);
+      const response = await productApi.searchProducts(obj.keyword, obj.page);
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -133,6 +134,7 @@ export const productSlice = createSlice({
     search: [],
     loading: false,
     error: null,
+    data: {},
   },
   extraReducers: {
     [getProducts.pending]: (state) => {
@@ -145,6 +147,7 @@ export const productSlice = createSlice({
     [getProducts.fulfilled]: (state, action) => {
       state.loading = false;
       state.products = action.payload.data.Product;
+      state.data = action.payload.data;
     },
     [filterProducts.pending]: (state) => {
       state.loading = true;
@@ -156,6 +159,7 @@ export const productSlice = createSlice({
     [filterProducts.fulfilled]: (state, action) => {
       state.loading = false;
       state.products = action.payload.data.Product;
+      state.data = action.payload.data;
     },
     [searchProducts.pending]: (state) => {
       state.loading = true;
@@ -167,6 +171,7 @@ export const productSlice = createSlice({
     [searchProducts.fulfilled]: (state, action) => {
       state.loading = false;
       state.products = action.payload.data.Product;
+      state.data = action.payload.data;
     },
     [getProductBySlug.pending]: (state) => {
       state.loading = true;
