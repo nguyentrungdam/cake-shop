@@ -39,6 +39,16 @@ exports.getAccountList = catchAsyncErrors(async (req, res, next) => {
     })
 })
 
+exports.getAccountProfile = catchAsyncErrors(async (req, res, next) => {
+    const tempAccount = req.Account;
+    const Account = await account.findById(tempAccount);
+    
+    res.status(201).json({
+        success: true,
+        Account
+    })
+})
+
 exports.loginAccount = catchAsyncErrors(async (req, res, next) => {
     const { Email, Password } = req.body;
     //console.log('Email: ', req.body.Email);
@@ -202,3 +212,4 @@ exports.filterAccount = catchAsyncErrors(async (req, res, next) => {
         Account
     })
 })
+

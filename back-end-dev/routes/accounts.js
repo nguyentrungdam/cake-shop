@@ -5,6 +5,7 @@ const router = express.Router();
 const {
     registerAccount,
     getAccountList,
+    getAccountProfile,
     loginAccount,
     logoutAccount,
     forgotPassword,
@@ -129,6 +130,24 @@ router.get("/getAccountList", isAuthenticatedAccount, authorizeRoles('admin'), g
  *                 $ref: '#/components/schemas/Account'
  */
  router.post("/registerAccount", registerAccount);
+
+/**
+ * @swagger
+ * /accounts/getAccountProfile:
+ *   post:
+ *     summary: Returns Account
+ *     tags: [Accounts] 
+ *     responses:
+ *       200:
+ *         description: Create new Account
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Account'
+ */
+ router.post("/getAccountProfile", isAuthenticatedAccount, getAccountProfile);
 
  /**
  * @swagger

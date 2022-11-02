@@ -6,6 +6,7 @@ module.exports = async(err, req, res, next) => {
     res.json({
         success: false,
         errorCode: err.code,
+        errorName: err.name,
         errorMessage: err.message
     })
   }

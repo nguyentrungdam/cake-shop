@@ -7,3 +7,4 @@ module.exports = function(model, page, itemsPerPage) {
     model = model.limit(resPerPage).skip(skip);
     return model;
 }
+

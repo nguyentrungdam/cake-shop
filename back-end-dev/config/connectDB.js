@@ -6,7 +6,6 @@ const DATABASE_URL = process.env.DATABASE_URL;
 
 exports.connectDatabase = () => {
 
-  
   mongoose
     .connect(DATABASE_URL, {
       useNewUrlParser: true,
