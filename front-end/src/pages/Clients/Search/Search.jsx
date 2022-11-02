@@ -29,7 +29,8 @@ const Search = () => {
   useEffect(() => {
     dispatch(searchProducts(obj));
     return () => {
-      setNextPage();
+      setNextPage(1);
+      setPageCount();
     };
   }, [nextPage]);
 

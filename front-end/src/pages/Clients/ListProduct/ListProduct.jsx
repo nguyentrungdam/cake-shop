@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { ContactlessOutlined } from "@mui/icons-material";
 import React, { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
 import { useDispatch, useSelector } from "react-redux";
@@ -38,6 +37,10 @@ const ListProduct = () => {
 
   useEffect(() => {
     dispatch(filterProducts(obj));
+    return () => {
+      setNextPage(1);
+      setPageCount();
+    };
   }, [nextPage]);
 
   useEffect(() => {
@@ -129,6 +132,7 @@ const ListProduct = () => {
                       pageClassName="li"
                       previousClassName="li"
                       nextClassName=" li"
+                      initialPage={0}
                     />
                   </div>
                 )}
