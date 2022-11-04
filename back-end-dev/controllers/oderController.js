@@ -1,5 +1,6 @@
 
 const mongoose = require('mongoose')
+//const { startSession } = require('mongoose')
 
 const catchAsyncErrors = require('../utils/catchAsyncErrors');
 const pagination = require('../utils/pagination');
@@ -16,6 +17,8 @@ exports.getProductInCart = catchAsyncErrors(async (req, res, next) => {
     const LogOrderDetail = await logOrderDetail.find({ Account: tempAccount._id, isDelete: 0 }).populate("Product");
     const total = LogOrderDetail.length;
 
+    //console.log('quantity: ', LogOrderDetail[0].Product.Quantity);
+
     res.status(201).json({
         success: true,
         total: total,
@@ -24,6 +27,10 @@ exports.getProductInCart = catchAsyncErrors(async (req, res, next) => {
 })
 
 exports.addOrder = catchAsyncErrors(async (req, res, next) => {
+    const session = await mongoose.startSession()
+    session.startTransaction()
+    const pointTransaction = { session };
+
     //get data
     const tempAccount = req.Account;
     
@@ -40,62 +47,74 @@ exports.addOrder = catchAsyncErrors(async (req, res, next) => {
         Order: tempOrder._id, 
         //Account: tempAccount._id, // Use for advanced ordering feature
         isDelete: 0 
-    }).cursor();
+    })
 
     if (!tempLogOrderDetail) {
         const err = new Error('Cart empty');
         return next(err);
     }
 
-    // Check quantity product in warehouse
-    // let tempProduct;
-    // await tempLogOrderDetail.eachAsync(async function(doc) {
-    //     tempProduct = await product.find({ _id: doc.Product, isDelete: 0});
-    //     if (!tempProduct) {
-    //         const err = new Error('Product not found');
-    //         return next(err);
-    //     }
-    //     if (tempProduct.Quantity < doc.Quantity) {
-    //         const err = new Error('Not enough product quantity');
-    //         return next(err);
-    //     }
-    // });
-
     // Insert product into model order detail
-    // Delete product in log model order detail
+    // Delete product in model log order detail
     let tempProduct;
     let tempOrderDetail;
     let OrderDetail;
-    await tempLogOrderDetail.eachAsync(async function(doc) {
-        tempOrderDetail = new orderDetail;
-        tempOrderDetail.Order = doc.Order;
-        tempOrderDetail.Product = doc.Product;
-        tempOrderDetail.Price = doc.Product.Price;
-        tempOrderDetail.Quantity = doc.Quantity;
-        tempOrderDetail.Product_Size = doc.Product_Size;
+    let Product;
+    let Order;
+    let totalPrice = 0;
+    for (var i = 0; i < tempLogOrderDetail.length; i++) {
+        tempProduct = await product.findOne({ _id: tempLogOrderDetail[i].Product, isDelete: 0});
+        if (!tempProduct) {
+            await session.abortTransaction()
+            session.endSession();
 
-        OrderDetail = await orderDetail.create(tempOrderDetail);
+            const err = new Error('Product not found');
+            return next(err);
+        }
+        if (tempProduct.Quantity < tempLogOrderDetail[i].Quantity) {
+            await session.abortTransaction()
+            session.endSession();
+
+            const err = new Error('Not enough product quantity');
+            return next(err);
+        }
+        
+        tempOrderDetail = new orderDetail;
+        tempOrderDetail.Order = tempLogOrderDetail[i].Order;
+        tempOrderDetail.Product = tempLogOrderDetail[i].Product;
+        tempOrderDetail.Price = tempProduct.Price;
+        tempOrderDetail.Quantity = tempLogOrderDetail[i].Quantity;
+        tempOrderDetail.Product_Size = tempLogOrderDetail[i].Product_Size;
+
+        OrderDetail = await orderDetail.create([tempOrderDetail], pointTransaction);
 
         // Delete product in model log detail order
-        doc.isDelete = 1;
-        await doc.save();
+        tempLogOrderDetail[i].isDelete = 1;
+        Product = await tempLogOrderDetail[i].save(pointTransaction);
 
-        // Update product quantity in model product
-        tempProduct = await product.findOne({ _id: doc.Product, isDelete: 0});
-        console.log('product: ', tempProduct);
-        console.log('quantity: ', doc.Quantity);
-        tempProduct.Quantity -= doc.Quantity;
-        console.log('product 2: ', tempProduct);
-        await tempProduct.save();
-    });
+        // TOTAL price order
+        totalPrice += tempProduct.Price;
+
+        // UPDATE product quantity
+        tempProduct.Quantity -= tempLogOrderDetail[i].Quantity;
+        Order = await tempProduct.save(pointTransaction);
+
+        
+    }
 
     // Update order status in model order
+    tempOrder.Amount = totalPrice;
     tempOrder.Order_Status = 'order';
-    await tempOrder.save();
+    tempOrder.Order_Date = Date.now();
+    tempOrder.Modified_At = Date.now();
+    Order = await tempOrder.save(pointTransaction);
+
+    await session.commitTransaction()
+    session.endSession();
 
     res.status(201).json({
         success: true,
-        OrderDetail
+        Order
     })
 })
 

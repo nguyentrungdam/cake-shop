@@ -1,5 +1,6 @@
 
 const { request } = require('express');
+const rollback = require('mongoose-rollback');
 const mongoose = require('mongoose')
 const schema = mongoose.Schema;
 
@@ -40,5 +41,11 @@ const logOrderDetailSchema = new schema({
         default: 0
     }      
 })
+
+// logOrderDetailSchema.plugin(rollback, {
+//     index: true, // index on _version field
+//     conn: process.env.DATABASE_URL, // required if connection isn't explict
+//     collectionName: 'LogOrderDetail' // your collection name or custom collection
+// });
 
 module.exports = mongoose.model('LogOrderDetail', logOrderDetailSchema);

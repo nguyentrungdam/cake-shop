@@ -31,8 +31,8 @@ const productSchema = new schema({
         }
     },
     Size: {
-        type: String,
-        default: null
+        type: Array,
+        default: ["small", "normal", "large"]
     },
     Category: {
         type: schema.ObjectId,
