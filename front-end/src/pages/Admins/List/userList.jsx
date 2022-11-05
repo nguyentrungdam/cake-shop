@@ -33,7 +33,7 @@ function UserList() {
 
   return (
     <Container>
-      <Header />
+      <Header name="Người dùng" />
       <LeftNavbar />
       <div
         className="container"

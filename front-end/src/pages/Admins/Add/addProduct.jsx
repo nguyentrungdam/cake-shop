@@ -5,8 +5,7 @@ import Header from "../../../components/NavbarAdmin/Header";
 import LeftNavbar from "../../../components/NavbarAdmin/LeftNavbar";
 import { useDispatch, useSelector } from "react-redux";
 import { addProduct } from "../../../slices/productSlice";
-import { getCategories } from "../../../slices/categorySlice"
-
+import { getCategories } from "../../../slices/categorySlice";
 
 const Container = styled.div`
   height: 90vh;
@@ -133,9 +132,9 @@ const AddProduct = () => {
   useEffect(() => {
     const fetchData = () => {
       dispatch(getCategories()).unwrap();
-    }
+    };
     fetchData();
-  }, [dispatch])
+  }, [dispatch]);
   const { categories } = useSelector((state) => state.category);
 
   const createCategoryList = (categories, options = []) => {
@@ -153,28 +152,28 @@ const AddProduct = () => {
     discountPercent: 0,
     variants: { name: "red", quantity: 10 },
     productPictures: [],
-    productPictureToChange: []
-  })
+    productPictureToChange: [],
+  });
 
   const handleNameProduct = async (e) => {
     e.preventDefault();
     setProductInfo({ ...productInfo, name: e.target.value });
-  }
+  };
 
   const handleDescProduct = async (e) => {
     e.preventDefault();
     setProductInfo({ ...productInfo, description: e.target.value });
-  }
+  };
 
   const handlePriceProduct = async (e) => {
     e.preventDefault();
     setProductInfo({ ...productInfo, price: Number(e.target.value) });
-  }
+  };
 
   const handleSaleOffProduct = async (e) => {
     e.preventDefault();
     setProductInfo({ ...productInfo, discountPercent: Number(e.target.value) });
-  }
+  };
 
   const handleSelectImage = (e) => {
     const reader = new FileReader();
@@ -183,7 +182,10 @@ const AddProduct = () => {
         setProductInfo({
           ...productInfo,
           productPictures: [...productInfo.productPictures, reader.result],
-          productPictureToChange: [...productInfo.productPictureToChange, e.target.files[0]],
+          productPictureToChange: [
+            ...productInfo.productPictureToChange,
+            e.target.files[0],
+          ],
         });
       } else return;
     };
@@ -191,7 +193,7 @@ const AddProduct = () => {
   };
 
   const handleAddProduct = async () => {
-    console.log(productInfo)
+    console.log(productInfo);
     const form = new FormData();
     form.append("name", productInfo.name);
     form.append("price", productInfo.price);
@@ -210,11 +212,11 @@ const AddProduct = () => {
     } catch (err) {
       alert("Vui lòng kiểm tra lại các thông tin cho chính xác !");
     }
-  }
+  };
 
   return (
     <React.Fragment>
-      <Header />
+      <Header name="Thêm sản phẩm" />
       <LeftNavbar />
       <Container>
         <Title>THÔNG TIN SẢN PHẨM</Title>
@@ -232,7 +234,9 @@ const AddProduct = () => {
             <select
               className="form-control"
               value={productInfo.category}
-              onChange={(e) => setProductInfo({ ...productInfo, category: e.target.value })}
+              onChange={(e) =>
+                setProductInfo({ ...productInfo, category: e.target.value })
+              }
             >
               <option>Select category</option>
               {createCategoryList(categories).map((option) => (
@@ -261,12 +265,24 @@ const AddProduct = () => {
           </Wrapper2>
           <Wrapper2>
             <Label>Hình ảnh</Label>
-            <div style={{ display: "flex", width: 410, height: 400, flexWrap: "wrap" , gap: 5, alignItems: "center", justifyContent: "center"}}>
-              {productInfo.productPictures.length > 0 ?
+            <div
+              style={{
+                display: "flex",
+                width: 410,
+                height: 400,
+                flexWrap: "wrap",
+                gap: 5,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              {productInfo.productPictures.length > 0 ? (
                 productInfo.productPictures.map((pic, index) => (
-                  <ImgProduct src={pic}/>
-                )) :
-                <ImgProduct src="https://icons-for-free.com/iconfiles/png/512/box+document+outline+share+top+upload+icon-1320195323221671611.png" />}
+                  <ImgProduct src={pic} />
+                ))
+              ) : (
+                <ImgProduct src="https://icons-for-free.com/iconfiles/png/512/box+document+outline+share+top+upload+icon-1320195323221671611.png" />
+              )}
             </div>
             <Wrapper1
               style={{
@@ -282,15 +298,15 @@ const AddProduct = () => {
                   accept=".jpg,.jpeg,.png"
                   onChange={handleSelectImage}
                 />
-                <ButtonShort style={{ position: "absolute" }}>Upload Ảnh</ButtonShort>
+                <ButtonShort style={{ position: "absolute" }}>
+                  Upload Ảnh
+                </ButtonShort>
               </div>
             </Wrapper1>
           </Wrapper2>
         </Wrapper1>
         <Wrapper1 style={{ justifyContent: "center", alignContent: "center" }}>
-          <ButtonPrimary
-            onClick={() => handleAddProduct()}
-          >
+          <ButtonPrimary onClick={() => handleAddProduct()}>
             THÊM SẢN PHẨM
           </ButtonPrimary>
         </Wrapper1>

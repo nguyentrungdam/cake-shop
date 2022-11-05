@@ -1,26 +1,47 @@
-import { configureStore } from "@reduxjs/toolkit";
-import authReducer from "../slices/authSlice";
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import accountReducer from "../slices/accountSlice";
 import addressReducer from "../slices/addressSlice";
 import productReducer from "../slices/productSlice";
 import categoryReducer from "../slices/categorySlice";
 import cartReducer from "../slices/cartSlice";
 import userReducer from "../slices/userSlice";
 import orderReducer from "../slices/orderSlice";
+import storage from "redux-persist/lib/storage";
+import {
+  persistStore,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from "redux-persist";
 
-const store = configureStore({
-  reducer: {
-    auth: authReducer,
-    cart: cartReducer,
-    address: addressReducer,
-    product: productReducer,
-    category: categoryReducer,
-    user: userReducer,
-    order: orderReducer,
-  },
+const persistConfig = {
+  key: "root",
+  version: 1,
+  storage,
+};
+
+const rootReducer = combineReducers({
+  account: accountReducer,
+  cart: cartReducer,
+  address: addressReducer,
+  product: productReducer,
+  category: categoryReducer,
+  user: userReducer,
+  order: orderReducer,
+});
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+export const store = configureStore({
+  reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
     }),
 });
 
-export default store;
+export let persistor = persistStore(store);

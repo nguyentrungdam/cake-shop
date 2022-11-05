@@ -26,7 +26,7 @@ const HomePageContent = () => {
                         </h2>
 
                         {/* btn shop now */}
-                        <a href="/" className="btn-shopnow">
+                        <a href="/list-product" className="btn-shopnow">
                           Shop Now
                         </a>
                       </div>
@@ -45,10 +45,7 @@ const HomePageContent = () => {
               <div className="section-header">
                 <h2 className="section-header__title">
                   BEST SELLERS 🔥
-                  <a
-                    href="/collections/may-promotions"
-                    className="section-header__link"
-                  >
+                  <a href="/list-product" className="section-header__link">
                     View all
                   </a>
                 </h2>
@@ -143,7 +140,7 @@ const HomePageContent = () => {
                     Box (6 or 12 treats)
                   </p>
                 </div>
-                <a href="/" className="btn-shopnow">
+                <a href="/list-product" className="btn-shopnow">
                   Shop Now
                 </a>
               </div>
@@ -158,10 +155,7 @@ const HomePageContent = () => {
               <div className="section-header">
                 <h2 className="section-header__title">
                   Calling all Vegans🌿
-                  <a
-                    href="/collections/may-promotions"
-                    className="section-header__link"
-                  >
+                  <a href="/list-product" className="section-header__link">
                     View all
                   </a>
                 </h2>
@@ -267,7 +261,10 @@ const HomePageContent = () => {
             </div>
             <div className="grid grid--small-gutters">
               <div className="grid__item medium-up--one-half skrim__item collection--square-large ">
-                <a href="/" className="skrim__link skrim__item-content">
+                <a
+                  href="/list-product"
+                  className="skrim__link skrim__item-content"
+                >
                   <div className="skrim__overlay grid__image"></div>
                   <div className="skrim__title">
                     <div className="skrim__underline-me">All Cakes</div>
@@ -276,7 +273,7 @@ const HomePageContent = () => {
               </div>
               <div className="grid__item medium-up--one-quarter skrim__item small--one-half collection--square-small ">
                 <a
-                  href="/collections/corporate-cakes"
+                  href="/list-product"
                   className="skrim__link skrim__item-content"
                 >
                   <div
@@ -294,7 +291,7 @@ const HomePageContent = () => {
               </div>
               <div className="grid__item medium-up--one-quarter skrim__item small--one-half collection--square-small ">
                 <a
-                  href="/collections/corporate-cakes"
+                  href="/list-product"
                   className="skrim__link skrim__item-content"
                 >
                   <div
@@ -313,7 +310,10 @@ const HomePageContent = () => {
                 </a>
               </div>
               <div className="grid__item medium-up--one-half skrim__item collection--wide ">
-                <a href="/" className="skrim__link skrim__item-content">
+                <a
+                  href="/list-product"
+                  className="skrim__link skrim__item-content"
+                >
                   <div
                     className="skrim__overlay grid__image"
                     style={{

@@ -1,24 +1,29 @@
 import axios from "./axios";
 
-const authApi = {
+const accountApi = {
   signin: (user) => {
-    const url = "/auth/signin";
+    const url = "/accounts/loginAccount";
     return axios.post(url, user);
   },
   signup: (user) => {
-    const url = "/auth/signup";
+    const url = "/accounts/registerAccount";
     return axios.post(url, user);
   },
+  getAccountProfile: () => {
+    const url = "/accounts/getAccountProfile";
+    return axios.post(url);
+  },
+
   isUserLoggedIn: () => {
-    const url = "/auth/isUserLoggedIn";
+    const url = "/accounts/isUserLoggedIn";
     return axios.post(url);
   },
   sendOtpToEmail: (user) => {
-    const url = "/auth/sendOtpToEmail";
+    const url = "/accounts/sendOtpToEmail";
     return axios.post(url, user);
   },
   verifyOtp: (user) => {
-    const url = "/auth/verifyOtp";
+    const url = "/accounts/verifyOtp";
     return axios.post(url, user);
   },
   updateUserInfo: (user) => {
@@ -27,4 +32,4 @@ const authApi = {
   },
 };
 
-export default authApi;
+export default accountApi;

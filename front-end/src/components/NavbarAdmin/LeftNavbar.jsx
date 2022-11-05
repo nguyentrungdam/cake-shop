@@ -11,6 +11,9 @@ const Container = styled.div`
   border-right: 2px solid #ccc;
   height: 100vh;
   width: 15rem;
+  a {
+    text-decoration: none;
+  }
 `;
 
 const NavbarWrapper = styled.div`
@@ -52,7 +55,7 @@ const NavbarItem = styled.div`
 
   &:hover ${ItemTitle} {
     cursor: pointer;
-    color: #ee4d2d;
+    color: #ff01bd;
   }
 `;
 
@@ -72,28 +75,28 @@ const LeftNavbar = () => {
           <NavbarItems>
             <NavbarItem>
               <Link to="/admin">
-                <ItemImg src="https://scontent.xx.fbcdn.net/v/t1.15752-9/294949062_3109940432650712_5868132305618352140_n.png?stp=cp0_dst-png&_nc_cat=109&ccb=1-7&_nc_sid=aee45a&_nc_ohc=O3AJlDRb5D8AX9LNbes&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_AVJupH4Twkkxvr9e7ikUTj4I3HyzQG9OlR3aeyLIiRCyHw&oe=6313D078" />
+                <ItemImg src="https://img.icons8.com/material-outlined/512/dashboard-layout.png" />
                 <ItemTitle>Dashboard</ItemTitle>
               </Link>
             </NavbarItem>
 
             <NavbarItem>
               <Link to="/listproduct">
-                <ItemImg src="https://scontent.xx.fbcdn.net/v/t1.15752-9/292400588_1752744948398141_5773032048932831310_n.png?stp=cp0_dst-png&_nc_cat=100&ccb=1-7&_nc_sid=aee45a&_nc_ohc=GjsJeiG851EAX9dfiV7&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_AVIphj3hn0aO-qfKXnpMJoR6a2HWR0WMKf1fTIyGAsKukg&oe=63140777" />
+                <ItemImg src="https://img.icons8.com/ios/2x/grocery-shelf.png" />
                 <ItemTitle>Quản lý sản phẩm</ItemTitle>
               </Link>
             </NavbarItem>
 
             <NavbarItem>
               <Link to="/listUser">
-                <ItemImg src="https://scontent.xx.fbcdn.net/v/t1.15752-9/285987155_7707237642680636_4370171135936883137_n.png?stp=cp0_dst-png&_nc_cat=109&ccb=1-7&_nc_sid=aee45a&_nc_ohc=qsSVH0khad8AX9fCd7Z&_nc_oc=AQnMk7516v0B4zhcVJ3WG303I0tyVSj0pikWl0pFypW_0tfPGWLRF0Zl0iVmMrqF4Gc2TbdOxh3M4BzCQGBa2frR&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_AVLPplKl6sqEbH6pK8h5R9LPKMISYEkZyQizmCa6xtv5Nw&oe=6310E3D3" />
+                <ItemImg src="https://img.icons8.com/ios/2x/conference-call.png" />
                 <ItemTitle>Quản lý người dùng</ItemTitle>
               </Link>
             </NavbarItem>
 
             <NavbarItem>
               <Link to="/listorder">
-                <ItemImg src="https://scontent.xx.fbcdn.net/v/t1.15752-9/289851327_620396612717398_1944980771515204186_n.png?stp=cp0_dst-png&_nc_cat=109&ccb=1-7&_nc_sid=aee45a&_nc_ohc=vqgsaj-01NcAX-gqFla&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_AVLVPmfMuJ9wUo2sJZOVeZA16_ZVbjC5dr70xcDj6hw18Q&oe=63102A9F" />
+                <ItemImg src="https://img.icons8.com/material-rounded/512/favorite-cart.png" />
                 <ItemTitle>Quản lý đơn hàng</ItemTitle>
               </Link>
             </NavbarItem>

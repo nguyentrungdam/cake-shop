@@ -18,23 +18,24 @@ function ProductList() {
   useEffect(() => {
     const fetchData = () => {
       dispatch(getProducts()).unwrap();
-    }
+    };
     fetchData();
-  }, [dispatch])
-
+  }, [dispatch]);
 
   const handleDeleteProduct = async (id) => {
     // e.preventDefault();
-    const response = await dispatch(deleteProductById({ productId: id })).unwrap();
+    const response = await dispatch(
+      deleteProductById({ productId: id })
+    ).unwrap();
     // console.log(response);
-    if(response.status === 202){
-      alert('Xóa Thành Công');
+    if (response.status === 202) {
+      alert("Xóa Thành Công");
     }
-  }
+  };
 
   return (
     <Container>
-      <Header />
+      <Header name="Sản phẩm" />
       <LeftNavbar />
       <div
         className="container"
@@ -84,12 +85,15 @@ function ProductList() {
                 <td style={{ textAlign: "center" }}>{item.name}</td>
                 <td style={{ textAlign: "center" }}>{item.price}</td>
                 <td style={{ textAlign: "center" }}>{item.discountPercent}%</td>
-                <td style={{ textAlign: "center" }}>{item.variants?.[0].quantity}</td>
+                <td style={{ textAlign: "center" }}>
+                  {item.variants?.[0].quantity}
+                </td>
                 <td style={{ textAlign: "center" }}>
                   <img style={{ width: 40 }} src={item.productPictures?.[0]} />
                 </td>
                 <td>
-                  <a style={{ textAlign: "center" }}
+                  <a
+                    style={{ textAlign: "center" }}
                     className="badge badge-danger"
                     onClick={() => handleDeleteProduct(item._id)}
                   >
@@ -98,7 +102,12 @@ function ProductList() {
                 </td>
                 <td style={{ textAlign: "center" }}>
                   <Link to={`/editproduct/${item.slug}`}>
-                    <a className="badge badge-info" style={{ backgroundColor: "black" }}>Xem Chi Tiết</a>
+                    <a
+                      className="badge badge-info"
+                      style={{ backgroundColor: "black" }}
+                    >
+                      Xem Chi Tiết
+                    </a>
                   </Link>
                 </td>
               </tr>

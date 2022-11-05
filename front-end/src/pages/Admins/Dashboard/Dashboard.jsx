@@ -60,7 +60,7 @@ export default function Dashboard() {
   ];
   return (
     <Container>
-      <Header />
+      <Header name="Trang chủ" />
       <LeftNavbar />
       <div className="home">
         <FeaturedInfo />

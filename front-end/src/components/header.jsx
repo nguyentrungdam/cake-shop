@@ -1,7 +1,10 @@
 import React from "react";
+import { useSelector } from "react-redux";
 
 import { HeaderWrapper } from "../styles/headerStyle";
 const Header = () => {
+  const { isAuthenticated } = useSelector((state) => state.account);
+
   return (
     <HeaderWrapper>
       <div className="announcement">
@@ -25,8 +28,11 @@ const Header = () => {
               <div className="header-item--navigation">
                 <ul className="site-navigation">
                   <li className="site-nav__expanded-item">
-                    <a href="/" className="site-nav__link--has-dropdown">
-                      Cakes
+                    <a
+                      href="/list-product"
+                      className="site-nav__link--has-dropdown"
+                    >
+                      All Cakes
                       <svg
                         aria-hidden="true"
                         focusable="false"
@@ -255,7 +261,10 @@ const Header = () => {
               <div className="header-item--icons">
                 <div className="site-nav--icons">
                   <div className="site-nav__icons">
-                    <a href="/account" className="item-navigate">
+                    <a
+                      href={isAuthenticated ? "/account" : "/signin"}
+                      className="item-navigate"
+                    >
                       <svg
                         aria-hidden="true"
                         focusable="false"

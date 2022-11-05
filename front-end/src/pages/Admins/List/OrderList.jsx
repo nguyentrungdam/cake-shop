@@ -32,7 +32,7 @@ function OrderList() {
 
   return (
     <Container>
-      <Header />
+      <Header name="Đơn hàng" />
       <LeftNavbar />
       <div
         className="container"

@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import { useDispatch } from "react-redux";
-import { signin } from "../../../slices/authSlice";
+import { signin } from "../../../slices/accountSlice";
 import { useEffect } from "react";
 import { SignInWrapper } from "../../../styles/signInStyle";
 import Header from "../../../components/Header";
 import Footer from "../../../components/Footer";
-
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 export default function Signin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -29,16 +30,20 @@ export default function Signin() {
       setErrIcon("error");
     } else {
       try {
-        const res = await dispatch(signin({ email, password })).unwrap();
-        if (res.status === 200 && res.data.user.role === "user") {
+        const res = await dispatch(
+          signin({ Email: email, Password: password })
+        ).unwrap();
+        if (res.status === 200 && res.data.account.Role === "user") {
           setErr("Người dùng đăng nhập thành công");
           setErrIcon("success");
+          notify(1);
           setTimeout(function () {
             navigate("/");
           }, 1000);
         } else {
           setErr("Admin đăng nhập thành công");
           setErrIcon("success");
+          notify(0);
           setTimeout(function () {
             navigate("/admin");
           }, 1000);
@@ -47,6 +52,19 @@ export default function Signin() {
         setErr(error.error);
         setErrIcon("error");
       }
+    }
+  };
+  const notify = (prop) => {
+    if (prop) {
+      toast.success("🎂 User Login Success !", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 1000,
+      });
+    } else {
+      toast.error("🎂 Admin Login Success !", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 1000,
+      });
     }
   };
   useEffect(() => {
@@ -88,13 +106,7 @@ export default function Signin() {
                   id="CustomerLoginForm"
                   className={`form-vertical ${hideResetPassword} `}
                 >
-                  <form
-                    method="post"
-                    action="/account/login"
-                    id="customer_login"
-                    acceptCharset="UTF-8"
-                    onSubmit={handleLogin}
-                  >
+                  <form method="post" id="customer_login" acceptCharset="UTF-8">
                     <input
                       type="hidden"
                       name="form_type"
@@ -151,6 +163,7 @@ export default function Signin() {
                         type="submit"
                         className="btn btn--full btn--animate"
                         value="Sign In"
+                        onClick={handleLogin}
                       />
                     </p>
                     <p>
@@ -249,6 +262,7 @@ export default function Signin() {
           </div>
         </main>
       </SignInWrapper>
+      <ToastContainer />
       <Footer></Footer>
     </>
   );

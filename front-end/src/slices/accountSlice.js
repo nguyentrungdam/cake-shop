@@ -1,13 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import authApi from "../apis/authApi";
-import { getCartItems } from "./cartSlice";
+import accountApi from "../apis/accountApi";
 
 export const signin = createAsyncThunk(
-  "auth/signin",
+  "accounts/loginAccount",
   async (user, { rejectWithValue }) => {
     try {
-      const response = await authApi.signin(user);
-
+      const response = await accountApi.signin(user);
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -16,10 +14,22 @@ export const signin = createAsyncThunk(
 );
 
 export const signup = createAsyncThunk(
-  "auth/signup",
+  "accounts/registerAccount",
   async (user, { rejectWithValue }) => {
     try {
-      const response = await authApi.signup(user);
+      const response = await accountApi.signup(user);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+export const getAccountProfile = createAsyncThunk(
+  "accounts/getAccountProfile",
+  async (user, { rejectWithValue, dispatch }) => {
+    try {
+      const response = await accountApi.getAccountProfile();
+      await dispatch(signin(user));
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -28,10 +38,10 @@ export const signup = createAsyncThunk(
 );
 
 export const isUserLoggedIn = createAsyncThunk(
-  "auth/isUserLoggedIn",
+  "accounts/isUserLoggedIn",
   async (user, { rejectWithValue }) => {
     try {
-      const response = await authApi.isUserLoggedIn(user);
+      const response = await accountApi.isUserLoggedIn(user);
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -43,7 +53,7 @@ export const updateUserInfo = createAsyncThunk(
   "user/updateUserInfo",
   async (user, { rejectWithValue, dispatch }) => {
     try {
-      const response = await authApi.updateUserInfo(user);
+      const response = await accountApi.updateUserInfo(user);
       await dispatch(isUserLoggedIn());
       return response;
     } catch (error) {
@@ -53,10 +63,10 @@ export const updateUserInfo = createAsyncThunk(
 );
 
 export const sendOtpToEmail = createAsyncThunk(
-  "auth/sendOtpToEmail",
+  "accounts/sendOtpToEmail",
   async (user, { rejectWithValue }) => {
     try {
-      const response = await authApi.sendOtpToEmail(user);
+      const response = await accountApi.sendOtpToEmail(user);
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -65,10 +75,10 @@ export const sendOtpToEmail = createAsyncThunk(
 );
 
 export const verifyOtp = createAsyncThunk(
-  "auth/verifyOtp",
+  "accounts/verifyOtp",
   async (user, { rejectWithValue }) => {
     try {
-      const response = await authApi.verifyOtp(user);
+      const response = await accountApi.verifyOtp(user);
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -76,19 +86,19 @@ export const verifyOtp = createAsyncThunk(
   }
 );
 
-export const authSlice = createSlice({
-  name: "auth",
+export const accountSlice = createSlice({
+  name: "account",
   initialState: {
-    user: {},
-    token: "",
+    account: {},
     loading: false,
     isAuthenticated: false,
     error: null,
   },
   reducers: {
     signout: (state, action) => {
-      state.token = null;
       state.isAuthenticated = false;
+      state.account = {};
+      console.log(state.account);
       localStorage.removeItem("token");
     },
   },
@@ -102,7 +112,8 @@ export const authSlice = createSlice({
     },
     [signin.fulfilled]: (state, action) => {
       state.loading = false;
-      state.user = action.payload.data.user;
+      state.account = action.payload.data.account;
+      console.log(state.account);
       state.isAuthenticated = true;
       localStorage.setItem("token", action.payload.data.token);
     },
@@ -115,6 +126,21 @@ export const authSlice = createSlice({
     },
     [signup.fulfilled]: (state, action) => {
       state.loading = false;
+      state.account = action.payload.data.account;
+      state.isAuthenticated = true;
+      localStorage.setItem("token", action.payload.data.token);
+    },
+    [getAccountProfile.pending]: (state) => {
+      state.loading = true;
+    },
+    [getAccountProfile.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = action.error;
+    },
+    [getAccountProfile.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.isAuthenticated = true;
+      state.account = action.payload.data.Account;
     },
     [isUserLoggedIn.pending]: (state) => {
       state.loading = true;
@@ -130,5 +156,5 @@ export const authSlice = createSlice({
     },
   },
 });
-export const { signout } = authSlice.actions;
-export default authSlice.reducer;
+export const { signout } = accountSlice.actions;
+export default accountSlice.reducer;
