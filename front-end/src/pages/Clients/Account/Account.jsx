@@ -32,7 +32,7 @@ const Account = () => {
     notify(1);
     setTimeout(function () {
       navigate("/signin");
-    }, 1000);
+    }, 1500);
   };
   return (
     <>

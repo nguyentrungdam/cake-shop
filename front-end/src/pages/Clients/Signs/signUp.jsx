@@ -44,7 +44,7 @@ export default function Signup() {
         const res = await dispatch(
           signup({ FullName: name, Email: email, Password: password })
         ).unwrap();
-        if (res.status === 200) {
+        if (res.data.success) {
           console.log(res);
           notify(1);
           setTimeout(function () {

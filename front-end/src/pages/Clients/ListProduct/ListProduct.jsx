@@ -94,6 +94,8 @@ const ListProduct = () => {
                         <option value="all">All Cakes</option>
                         <option value="Weddings">Weddings</option>
                         <option value="Cupcakes">Cupcakes</option>
+                        <option value="Cakes For Kids">Cakes For Kids</option>
+                        <option value="Tray Bakes">Tray Bakes</option>
                       </select>
                     </div>
                     <div className="grid__item small--one-half medium-up--one-quarter ">

@@ -33,7 +33,7 @@ export default function Signin() {
         const res = await dispatch(
           signin({ Email: email, Password: password })
         ).unwrap();
-        if (res.status === 200 && res.data.account.Role === "user") {
+        if (res.data.success && res.data.account.Role === "user") {
           setErr("Người dùng đăng nhập thành công");
           setErrIcon("success");
           notify(1);
