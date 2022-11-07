@@ -38,6 +38,17 @@ export const searchProducts = createAsyncThunk(
     }
   }
 );
+export const getProductById = createAsyncThunk(
+  "products/getProductById",
+  async (productId, rejectWithValue) => {
+    try {
+      const response = await productApi.getProductById(productId);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
 // TODO chưa có
 export const getProductBySlug = createAsyncThunk(
   "product/getProductBySlug",
@@ -173,6 +184,19 @@ export const productSlice = createSlice({
       state.products = action.payload.data.Product;
       state.data = action.payload.data;
     },
+    [getProductById.pending]: (state) => {
+      state.loading = true;
+    },
+    [getProductById.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = action.error;
+    },
+    [getProductById.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.productDetail = action.payload.data.Product;
+    },
+
+    // TODO bên dưới chưa dùng
     [getProductBySlug.pending]: (state) => {
       state.loading = true;
     },

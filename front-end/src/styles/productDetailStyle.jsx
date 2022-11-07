@@ -139,7 +139,7 @@ export const ProductDetailWrapper = styled.div`
   }
   .product__photos img {
     margin: 0 auto;
-    width: 100%;
+    width: 74%;
   }
   @keyframes h {
     0% {
@@ -406,6 +406,9 @@ export const ProductDetailWrapper = styled.div`
   }
   .variant-input-wrap label.active {
     box-shadow: 0 0 0 2px #000;
+  }
+  .noneactive {
+    box-shadow: 0;
   }
 
   .product__quantity {

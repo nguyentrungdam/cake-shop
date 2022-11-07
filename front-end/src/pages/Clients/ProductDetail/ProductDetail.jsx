@@ -1,10 +1,60 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
 import Footer from "../../../components/Footer";
 import Header from "../../../components/Header";
+import { getProductById } from "../../../slices/productSlice";
 import { ProductDetailWrapper } from "../../../styles/productDetailStyle";
 
 const ProductDetail = () => {
+  const { productDetail } = useSelector((state) => state.product);
+  // const { isAuthenticated } = useSelector((state) => state.auth);
+  const [isActive, setIsActive] = useState(false);
+  const [isSelected, setIsSelected] = useState("");
   const [openIframe, setOpenIframe] = useState("");
+  const [compareQuantity, setCompareQuantity] = useState(0);
+  const [cartItem, setCartItem] = useState({
+    product: "",
+    variant: "",
+    quantity: 1,
+  });
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  let idProduct = useParams();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await dispatch(getProductById(idProduct.id)).unwrap();
+      // console.log(response);
+      setCartItem({ ...cartItem, product: response.data.Product._id });
+    };
+    fetchData();
+  }, []);
+
+  const handleChangeSize = (value) => {
+    console.log(value);
+    setIsSelected(value);
+    setIsActive(true);
+    setCartItem({ ...cartItem, variant: value, quantity: 1 });
+    console.log(cartItem);
+  };
+
+  const handleIncrement = () => {
+    if (cartItem.quantity === productDetail.Quantity) {
+      alert("Số lượng tối đa!");
+    } else if (cartItem.quantity < productDetail.Quantity) {
+      setCartItem({
+        ...cartItem,
+        quantity: cartItem.quantity + 1,
+      });
+    }
+  };
+
+  const handleDecrement = () => {
+    if (cartItem.quantity > 0) {
+      setCartItem({ ...cartItem, quantity: cartItem.quantity - 1 });
+    }
+  };
   return (
     <>
       <Header></Header>
@@ -59,8 +109,8 @@ const ProductDetail = () => {
                                       <div className="image-wrap">
                                         <img
                                           className="photoswipe__image lazyautosizes lazyloaded"
-                                          alt="White Chocolate Strawberry Cake"
-                                          src="https://cdn.shopify.com/s/files/1/0261/0108/8359/products/dippedstrawberry_900x.png?v=1644939275"
+                                          alt={productDetail.Name}
+                                          src={productDetail.Image?.Url}
                                         />
                                       </div>
                                     </div>
@@ -99,8 +149,8 @@ const ProductDetail = () => {
                                     >
                                       <img
                                         className="animation-delay-3 lazyautosizes lazyloaded"
-                                        alt="White Chocolate Strawberry Cake"
-                                        src="//cdn.shopify.com/s/files/1/0261/0108/8359/products/dippedstrawberry_360x.png?v=1644939275 360w, //cdn.shopify.com/s/files/1/0261/0108/8359/products/dippedstrawberry_540x.png?v=1644939275 540w, //cdn.shopify.com/s/files/1/0261/0108/8359/products/dippedstrawberry_720x.png?v=1644939275 720w, //cdn.shopify.com/s/files/1/0261/0108/8359/products/dippedstrawberry_900x.png?v=1644939275 900w, //cdn.shopify.com/s/files/1/0261/0108/8359/products/dippedstrawberry_1080x.png?v=1644939275 1080w"
+                                        alt={productDetail.Name}
+                                        src={productDetail.Image?.Url}
                                       />
                                     </div>
                                   </div>
@@ -154,29 +204,28 @@ const ProductDetail = () => {
                     <div className="grid__item medium-up--two-fifths">
                       <div className="product-single__meta">
                         <h1 className="h2 product-single__title">
-                          White Chocolate Strawberry Cake
+                          {productDetail.Name}
                         </h1>
 
                         <span
                           id="ProductPrice-7593662546171"
                           className="product__price"
                         >
-                          <span className="money">£81.00</span>
+                          <span className="money">
+                            £
+                            {Number(productDetail.Price).toLocaleString(
+                              "en-US",
+                              {
+                                minimumFractionDigits: 2,
+                              }
+                            )}
+                          </span>
                           <p className="free-delivery">Free Delivery</p>
                         </span>
                         <hr className="hr--medium" />
                         <div className="product-single__description-full rte">
-                          <p>
-                            White Chocolate and strawberries is the ultimate
-                            dessert combo... that's why we decided to
-                            incorporate it into a cake!
-                          </p>
-                          <p>
-                            Filled with layers of tasty rich chocolate sponge,
-                            vanilla buttercream and zingy strawberry jam,
-                            our&nbsp; White Chocolate Strawberry cake is perfect
-                            for all sorts of events.&nbsp;
-                          </p>
+                          <p>{productDetail.Description}</p>
+
                           <p>
                             <span>
                               Order now with{" "}
@@ -226,69 +275,40 @@ const ProductDetail = () => {
                               data-index="option1"
                               id="ProductSelect-7593662546171-option-0"
                             >
-                              <div
-                                className="variant-input"
-                                data-index="option1"
-                                data-value="Tall"
-                              >
-                                <input
-                                  type="radio"
-                                  // checked="checked"
-                                  // value="Tall"
+                              {productDetail.Size?.map(({ name, _id }) => (
+                                <div
+                                  className="variant-input"
                                   data-index="option1"
-                                  name="Size"
-                                  className="variant__input-7593662546171 "
-                                  id="ProductSelect-7593662546171-option-size-Tall"
-                                />
-
-                                <label
-                                  className="active"
-                                  htmlFor="ProductSelect-7593662546171-option-size-Tall"
+                                  data-value="Tall"
+                                  key={_id}
                                 >
-                                  Rainbow Sponge{" "}
-                                  <span className="money">£81.00</span>
-                                </label>
-                              </div>
-                              <div
-                                className="variant-input"
-                                data-index="option1"
-                                data-value="Tall"
-                              >
-                                <input
-                                  type="radio"
-                                  // checked="checked"
-                                  // value="Tall"
-                                  data-index="option1"
-                                  name="Size"
-                                  className="variant__input-7593662546171"
-                                  id="ProductSelect-7593662546171-option-size-Tall"
-                                />
+                                  <input
+                                    type="radio"
+                                    value={name}
+                                    name="Size"
+                                    required
+                                    disabled={
+                                      productDetail.quantity === 0
+                                        ? true
+                                        : false
+                                    }
+                                    className="variant__input-7593662546171 "
+                                    id="ProductSelect-7593662546171-option-size-Tall"
+                                  />
 
-                                <label htmlFor="ProductSelect-7593662546171-option-size-Tall">
-                                  Vanilla & Jam{" "}
-                                  <span className="money">£81.00</span>
-                                </label>
-                              </div>
-                              <div
-                                className="variant-input"
-                                data-index="option1"
-                                data-value="Tall"
-                              >
-                                <input
-                                  type="radio"
-                                  // checked="checked"
-                                  // value="Tall"
-                                  data-index="option1"
-                                  name="Size"
-                                  className="variant__input-7593662546171"
-                                  id="ProductSelect-7593662546171-option-size-Tall"
-                                />
-
-                                <label htmlFor="ProductSelect-7593662546171-option-size-Tall">
-                                  Chocolate{" "}
-                                  <span className="money">£81.00</span>
-                                </label>
-                              </div>
+                                  <label
+                                    className={
+                                      isSelected === _id
+                                        ? "active"
+                                        : "noneactive"
+                                    }
+                                    htmlFor="ProductSelect-7593662546171-option-size-Tall"
+                                    onClick={() => handleChangeSize(_id)}
+                                  >
+                                    {name}
+                                  </label>
+                                </div>
+                              ))}
                             </fieldset>
                           </div>
 
@@ -302,16 +322,15 @@ const ProductDetail = () => {
                                 type="text"
                                 id="Quantity-7593662546171"
                                 className="js-qty__num"
-                                defaultValue="1"
-                                min="1"
-                                aria-label="quantity"
-                                pattern="[0-9]*"
-                                name="quantity"
+                                placeholder={cartItem.quantity}
+                                // defaultValue={cartItem.quantity}
+                                message={cartItem.quantity}
                               />
                               <button
                                 type="button"
                                 className="js-qty__adjust js-qty__adjust--minus"
                                 aria-label="Reduce item quantity by one"
+                                onClick={handleDecrement}
                               >
                                 <svg
                                   aria-hidden="true"
@@ -336,6 +355,7 @@ const ProductDetail = () => {
                                 type="button"
                                 className="js-qty__adjust js-qty__adjust--plus"
                                 aria-label="Increase item quantity by one"
+                                onClick={handleIncrement}
                               >
                                 <svg
                                   aria-hidden="true"

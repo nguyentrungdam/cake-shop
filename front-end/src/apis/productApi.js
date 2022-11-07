@@ -13,7 +13,10 @@ const productApi = {
     const url = `/products/searchProduct?Keyword=${keyword}&page=${page}`;
     return axios.get(url);
   },
-
+  getProductById: (productId) => {
+    const url = `/products/getProductById?Id=${productId}`;
+    return axios.get(url, productId);
+  },
   //TODO từ đây xuống là chưa làm
   getProductBySlug: (slug) => {
     const url = `/product/${slug}`;

@@ -1,7 +1,10 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { ListProductWrapper } from "../styles/listProductStyle";
 
 const ListProductLayout = ({ products }) => {
+  const navigate = useNavigate();
+
   return (
     <ListProductWrapper>
       <div className="CollectionAjaxContent" id="CollectionAjaxContent">
@@ -14,7 +17,10 @@ const ListProductLayout = ({ products }) => {
                 data-aos="row-of-4"
               >
                 <div className="grid-product__content">
-                  <a href="/product-detail" className="grid-product__link ">
+                  <a
+                    href={`/product/${item._id}`}
+                    className="grid-product__link "
+                  >
                     <div className="grid-product__image-mask">
                       <div className="image-wrap image-wrap-size">
                         <img
