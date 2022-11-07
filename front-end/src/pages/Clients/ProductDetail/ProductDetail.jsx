@@ -33,10 +33,10 @@ const ProductDetail = () => {
     fetchData();
   }, []);
 
-  const handleChangeSize = (value) => {
-    setIsSelected(value);
+  const handleChangeSize = (id, name) => {
+    setIsSelected(id);
     setIsActive(true);
-    setCartItem({ ...cartItem, variant: value, quantity: 1 });
+    setCartItem({ ...cartItem, variant: name, quantity: 1 });
   };
 
   const handleIncrement = () => {
@@ -71,7 +71,7 @@ const ProductDetail = () => {
         cartObject = cartItems.find(
           (item) =>
             item.Product?._id === cartItem.product &&
-            item.Size?._id === cartItem.variant
+            item.Size?.name === cartItem.variant
         );
       }
 
@@ -79,21 +79,21 @@ const ProductDetail = () => {
       if (cartObject) {
         newCartItem = {
           product: cartObject.Product?._id,
-          variant: cartObject.Size?._id,
-          quantity: cartItem.quantity + cartObject.Quantity,
+          variant: cartObject.Size?.name,
+          quantity: cartItem.quantity,
         };
       } else {
         // setOpenModal(true);
         newCartItem = {
           Product: cartItem.product,
-          Variant: cartItem.variant,
+          Product_Size: cartItem.variant,
           Quantity: cartItem.quantity,
         };
       }
       const res = await dispatch(addToCart({ ...newCartItem }));
       console.log(res);
       if (res.error) {
-        alert(res.error);
+        alert("Đã xảy ra lỗi! Vui lòng thử lại.");
         return;
       }
     }
@@ -344,7 +344,7 @@ const ProductDetail = () => {
                                         : "noneactive"
                                     }
                                     htmlFor="ProductSelect-7593662546171-option-size-Tall"
-                                    onClick={() => handleChangeSize(_id)}
+                                    onClick={() => handleChangeSize(_id, name)}
                                   >
                                     {name}
                                   </label>
