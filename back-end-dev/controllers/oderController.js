@@ -179,6 +179,45 @@ exports.addToCart = catchAsyncErrors(async (req, res, next) => {
     })
 })
 
+exports.getOrderList = catchAsyncErrors(async (req, res, next) => {
+    const orderStatus = ['order', 'delivering', 'done']
+    const Order = await order.find({ Order_Status: orderStatus});
+    const total = Order.length;
+
+    res.status(201).json({
+        success: true,
+        total: total,
+        Order
+    })
+})
+
+exports.getOrderById = catchAsyncErrors(async (req, res, next) => {
+    // GET data
+    const Id = req.query.Id;
+    const ObjectId = mongoose.Types.ObjectId;
+    if (!Id || !ObjectId.isValid(Id)) {
+        const err = new Error('Id id not valid');
+        return next(err);
+    }
+
+    const Order = await order.findById(Id);
+    if (!Order) {
+        const err = new Error('Order not found');
+        return next(err);
+    }
+
+    const OrderDetail = await orderDetail.find({ Order: Id});
+
+    const total = OrderDetail.length || 0;
+
+    res.status(201).json({
+        success: true,
+        Order,
+        total: total,
+        OrderDetail
+    })
+})
+
 exports.totalSales = catchAsyncErrors(async (req, res, next) => {
     const totalSales = await Order.aggregate([
         {

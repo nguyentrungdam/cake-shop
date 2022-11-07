@@ -194,7 +194,7 @@ router.get("/getAccountList", isAuthenticatedAccount, authorizeRoles('admin'), g
  *                 $ref: '#/components/schemas/Account'
  */
 
-  router.get("/logoutAccount", logoutAccount);
+  router.get("/logoutAccount", isAuthenticatedAccount, logoutAccount);
 
 /**
  * @swagger

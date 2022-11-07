@@ -4,7 +4,9 @@ const router = express.Router();
 const {
     addToCart,
     getProductInCart,
-    addOrder
+    addOrder,
+    getOrderList,
+    getOrderById
 } = require('../controllers/oderController')
 
 const { 
@@ -179,5 +181,47 @@ const upload = multer()
  *                 $ref: '#/components/schemas/Order'
  */
   router.get("/addOrder", isAuthenticatedAccount, addOrder);
+
+ /**
+ * @swagger
+ * /orders/getOrderList:
+ *   get:
+ *     summary: Returns the list of all the orders
+ *     tags: [Orders]
+ *     responses:
+ *       200:
+ *         description: The list of the orders
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Order'
+ */
+  router.get("/getOrderList", isAuthenticatedAccount, authorizeRoles('admin'), getOrderList);
+
+ /**
+ * @swagger
+ * /orders/getOrderById:
+ *   get:
+ *     summary: Returns the list of all the orders
+ *     tags: [Orders]
+ *     parameters:
+ *     - in: query
+ *       name: Id
+ *       description: Id
+ *       schema:
+ *         type: string
+ *     responses:
+ *       200:
+ *         description: The list of the orders
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Order'
+ */
+  router.get("/getOrderById", isAuthenticatedAccount, authorizeRoles('admin'), getOrderById);
 
   module.exports = router;

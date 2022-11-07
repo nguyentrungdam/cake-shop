@@ -30,16 +30,24 @@ const productSchema = new schema({
             default: null
         }
     },
-    Size: {
-        type: Array,
-        default: ["small", "normal", "large"]
-    },
+    Size: [
+        { name: {
+            type: String,
+            default: 'Small'
+        }},
+        { name: {
+            type: String,
+            default: 'Normal'
+        }},
+        { name: {
+            type: String,
+            default: 'Large'
+        }},
+    ],
     Category: {
         type: schema.ObjectId,
         ref: 'Category',
         required: true,
-        
-        
     },
     Created_At: {
         type: Date,
