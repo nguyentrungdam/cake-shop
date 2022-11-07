@@ -2,11 +2,11 @@ import axios from "./axios";
 
 const cartApi = {
   addToCart: (cartItems) => {
-    const url = "/cart/addToCart";
+    const url = "/orders/addToCart";
     return axios.post(url, cartItems);
   },
-  getCartItems: () => {
-    const url = "/cart/getCartItems";
+  getProductInCart: () => {
+    const url = "/orders/getProductInCart";
     return axios.get(url);
   },
   removeCartItem: (cartItem) => {

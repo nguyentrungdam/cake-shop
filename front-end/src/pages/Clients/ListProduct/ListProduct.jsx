@@ -18,9 +18,11 @@ const ListProduct = () => {
   const [pageCount, setPageCount] = useState(0);
   const [itemOffset, setItemOffset] = useState(0);
   const [nextPage, setNextPage] = useState(1);
+
   useEffect(() => {
-    dispatch(getProducts());
+    dispatch(filterProducts());
   }, []);
+
   const obj = {
     category,
     sortName,

@@ -39,14 +39,14 @@ export default function Signin() {
           notify(1);
           setTimeout(function () {
             navigate("/");
-          }, 1000);
+          }, 1500);
         } else {
           setErr("Admin đăng nhập thành công");
           setErrIcon("success");
           notify(0);
           setTimeout(function () {
             navigate("/admin");
-          }, 1000);
+          }, 1500);
         }
       } catch (error) {
         setErr(error.error);
@@ -61,7 +61,7 @@ export default function Signin() {
         autoClose: 1000,
       });
     } else {
-      toast.error("🎂 Admin Login Success !", {
+      toast.success("🎂 Admin Login Success !", {
         position: toast.POSITION.TOP_RIGHT,
         autoClose: 1000,
       });

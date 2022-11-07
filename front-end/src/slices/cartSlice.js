@@ -1,25 +1,29 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import cartApi from "../apis/cartApi";
 
-export const getCartItems = createAsyncThunk("cart/getCartItems", async () => {
-  const response = await cartApi.getCartItems();
-  return response;
-});
+export const getProductInCart = createAsyncThunk(
+  "orders/getProductInCart",
+  async () => {
+    const response = await cartApi.getProductInCart();
+    return response;
+  }
+);
 
 export const addToCart = createAsyncThunk(
-  "cart/addToCart",
+  "orders/addToCart",
   async (cartItems, thunkAPI) => {
+    console.log(cartItems);
     const response = await cartApi.addToCart(cartItems);
-    await thunkAPI.dispatch(getCartItems());
+    await thunkAPI.dispatch(getProductInCart());
     return response;
   }
 );
 
 export const removeCartItem = createAsyncThunk(
-  "cart/removeCartItem",
+  "orders/removeCartItem",
   async (cartItem, thunkAPI) => {
     const response = await cartApi.removeCartItem(cartItem);
-    await thunkAPI.dispatch(getCartItems());
+    await thunkAPI.dispatch(getProductInCart());
     return response;
   }
 );
@@ -38,22 +42,23 @@ export const cartSlice = createSlice({
     },
     [addToCart.rejected]: (state, action) => {
       state.loading = false;
+      console.log(action.error);
       state.error = action.error;
     },
     [addToCart.fulfilled]: (state, action) => {
       state.loading = false;
-      state.cartItems = action.payload.data.cart.cartItems;
+      state.cartItems = action.payload.LogOrderDetail;
     },
-    [getCartItems.pending]: (state) => {
+    [getProductInCart.pending]: (state) => {
       state.loading = true;
     },
-    [getCartItems.rejected]: (state, action) => {
+    [getProductInCart.rejected]: (state, action) => {
       state.loading = false;
       state.error = action.error;
     },
-    [getCartItems.fulfilled]: (state, action) => {
+    [getProductInCart.fulfilled]: (state, action) => {
       state.loading = false;
-      state.cartItems = action.payload.data.cart.cartItems;
+      state.cartItems = action.payload.LogOrderDetailedOrder;
     },
     [removeCartItem.pending]: (state) => {
       state.loading = true;

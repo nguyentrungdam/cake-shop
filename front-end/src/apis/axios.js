@@ -4,7 +4,11 @@ const api = "http://localhost:5000";
 
 const axiosInstance = axios.create({
   baseURL: api,
-  headers: { "content-type": "application/json" },
+  headers: {
+    "content-type": "application/json",
+    "Access-Control-Allow-Credentials": true,
+  },
+  credentials: "include",
 });
 
 axiosInstance.interceptors.request.use(

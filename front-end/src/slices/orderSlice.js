@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import orderApi from "../apis/orderApi";
-import { getCartItems } from "./cartSlice";
+import { getProductInCart } from "./cartSlice";
 
 export const getAllOrders = createAsyncThunk(
   "order/getAllOrders",
@@ -31,7 +31,7 @@ export const addOrder = createAsyncThunk(
   async (order, thunkAPI, rejectWithValue) => {
     try {
       const response = await orderApi.addOrder(order);
-      await thunkAPI.dispatch(getCartItems());
+      await thunkAPI.dispatch(getProductInCart());
       await thunkAPI.dispatch(getOrdersByUser());
       return response;
     } catch (error) {

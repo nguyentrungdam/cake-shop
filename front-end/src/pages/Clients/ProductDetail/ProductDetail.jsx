@@ -5,14 +5,16 @@ import Footer from "../../../components/Footer";
 import Header from "../../../components/Header";
 import { getProductById } from "../../../slices/productSlice";
 import { ProductDetailWrapper } from "../../../styles/productDetailStyle";
+import { addToCart } from "../../../slices/cartSlice";
 
 const ProductDetail = () => {
   const { productDetail } = useSelector((state) => state.product);
-  // const { isAuthenticated } = useSelector((state) => state.auth);
+  const { isAuthenticated } = useSelector((state) => state.account);
+  const { cartItems } = useSelector((state) => state.cart);
   const [isActive, setIsActive] = useState(false);
   const [isSelected, setIsSelected] = useState("");
   const [openIframe, setOpenIframe] = useState("");
-  const [compareQuantity, setCompareQuantity] = useState(0);
+
   const [cartItem, setCartItem] = useState({
     product: "",
     variant: "",
@@ -32,11 +34,9 @@ const ProductDetail = () => {
   }, []);
 
   const handleChangeSize = (value) => {
-    console.log(value);
     setIsSelected(value);
     setIsActive(true);
     setCartItem({ ...cartItem, variant: value, quantity: 1 });
-    console.log(cartItem);
   };
 
   const handleIncrement = () => {
@@ -51,8 +51,51 @@ const ProductDetail = () => {
   };
 
   const handleDecrement = () => {
-    if (cartItem.quantity > 0) {
+    if (cartItem.quantity === 1) {
+      alert("Số lượng tối thiểu là 1!");
+    } else if (cartItem.quantity > 0) {
       setCartItem({ ...cartItem, quantity: cartItem.quantity - 1 });
+    }
+  };
+
+  // Handle add cart
+  const handleAddCart = async (e) => {
+    e.preventDefault();
+    if (!cartItem.variant) {
+      alert("Vui lòng chọn size");
+    } else if (!isAuthenticated) {
+      navigate("/signin");
+    } else {
+      let cartObject;
+      if (cartItems) {
+        cartObject = cartItems.find(
+          (item) =>
+            item.Product?._id === cartItem.product &&
+            item.Size?._id === cartItem.variant
+        );
+      }
+
+      let newCartItem = {};
+      if (cartObject) {
+        newCartItem = {
+          product: cartObject.Product?._id,
+          variant: cartObject.Size?._id,
+          quantity: cartItem.quantity + cartObject.Quantity,
+        };
+      } else {
+        // setOpenModal(true);
+        newCartItem = {
+          Product: cartItem.product,
+          Variant: cartItem.variant,
+          Quantity: cartItem.quantity,
+        };
+      }
+      const res = await dispatch(addToCart({ ...newCartItem }));
+      console.log(res);
+      if (res.error) {
+        alert(res.error);
+        return;
+      }
     }
   };
   return (
@@ -254,8 +297,6 @@ const ProductDetail = () => {
                         </div>
 
                         <form
-                          method="post"
-                          action="/cart/add"
                           id="AddToCartForm-7593662546171"
                           acceptCharset="UTF-8"
                           className="product-single__form"
@@ -380,10 +421,9 @@ const ProductDetail = () => {
                           </div>
 
                           <button
-                            type="submit"
-                            name="add"
                             id="AddToCart-7593662546171"
                             className="btn btn--full btn--no-animate add-to-cart"
+                            onClick={(e) => handleAddCart(e)}
                           >
                             <span
                               id="AddToCartText-7593662546171"

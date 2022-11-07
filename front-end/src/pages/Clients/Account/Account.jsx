@@ -20,7 +20,7 @@ const Account = () => {
         autoClose: 1000,
       });
     } else {
-      toast.error("🎂 Admin Login Success !", {
+      toast.success("🎂 Admin Logout Success !", {
         autoClose: 1000,
         position: toast.POSITION.TOP_RIGHT,
       });

@@ -32,14 +32,10 @@ export default function Signin() {
       try {
         const res = await dispatch(signin({ email, password })).unwrap();
         if (res.status === 200 && res.data.user.role === "user") {
-          setErr("Người dùng đăng nhập thành công");
-          setErrIcon("success");
           setTimeout(function () {
             navigate("/");
           }, 1000);
         } else {
-          setErr("Admin đăng nhập thành công");
-          setErrIcon("success");
           setTimeout(function () {
             navigate("/admin");
           }, 1000);
