@@ -228,6 +228,32 @@ exports.getOrderById = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
+exports.removeItemCart = catchAsyncErrors(async (req, res, next) => {
+  const session = await mongoose.startSession();
+  session.startTransaction();
+  const pointTransaction = { session };
+
+  const itemCartId = req.query.itemCartId
+  console.log('itemCartId: ', itemCartId)
+  const item = await logOrderDetail.findById(itemCartId)
+  if (!item) {
+    await session.abortTransaction();
+    session.endSession();
+
+    const err = new Error("Item in card not found");
+    return next(err);
+  }
+  item.isDelete = true;
+  item.save(pointTransaction)
+
+  await session.commitTransaction();
+  session.endSession();
+
+  res.status(201).json({
+    success: true
+  });
+});
+
 exports.totalSales = catchAsyncErrors(async (req, res, next) => {
   const totalSales = await Order.aggregate([
     {
