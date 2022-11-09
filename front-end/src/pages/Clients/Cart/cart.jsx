@@ -77,21 +77,10 @@ function Cart() {
     }
   };
 
-  // const isSelectedAll = cartItems.length === selected.length;
+  const isSelectedAll = cartItems.length === selected.length;
 
   const totalPrice = selected.reduce((total, priceItem) => {
-    total +=
-      (priceItem.product?.price -
-        (priceItem.product?.discountPercent / 100) * priceItem.product?.price) *
-      priceItem.quantity;
-    return total;
-  }, 0);
-
-  const totalDiscount = selected.reduce((total, priceItem) => {
-    total +=
-      (priceItem.product?.discountPercent / 100) *
-      priceItem.product?.price *
-      priceItem.quantity;
+    total += priceItem.Product?.Price * priceItem.Quantity;
     return total;
   }, 0);
 
@@ -102,8 +91,8 @@ function Cart() {
     } else {
       const updateSeleted = selected.filter((newItem) => {
         return (
-          newItem.product._id !== item.product._id ||
-          newItem.variant !== item.variant
+          newItem.Product._id !== item.Product._id ||
+          newItem.Product_Size !== item.Product_Size
         );
       });
       setSelected(updateSeleted);
@@ -111,24 +100,27 @@ function Cart() {
   };
 
   const itemSelected = (item) => {
+    console.log(selected);
     return selected.find(
-      ({ product, variant }) =>
-        product._id === item.product._id && variant === item.variant
+      ({ Product, Product_Size }) =>
+        Product._id === item.Product._id && Product_Size === item.Product_Size
     );
   };
+
   //add to order
   const hanldeAddToOrder = (e) => {
     e.preventDefault();
     if (selected.length > 0) {
-      navigate("/pay", { state: { selected: selected } });
+      navigate("/payment", { state: { selected: selected } });
     } else {
       alert("Vui lòng chọn sản phẩm để thanh toán!");
     }
   };
+
   console.log(cartItems);
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <Container>
         {isAuthenticated ? (
           <div className="container-cart">
@@ -183,7 +175,22 @@ function Cart() {
                                 <div className="grid grid--full cart__row--table-large">
                                   <div className="grid__item medium-up--three-fifths">
                                     <div className="grid">
-                                      <div className="grid__item one-quarter">
+                                      <div className="grid__item one-quarter flex">
+                                        <label className="container-checkbox">
+                                          <input
+                                            className="Checkbox"
+                                            type="checkbox"
+                                            checked={
+                                              itemSelected(item)
+                                                ? "checked"
+                                                : ""
+                                            }
+                                            onChange={(e) =>
+                                              handleSelected(e, item)
+                                            }
+                                          />
+                                          <span className="checkmark"></span>
+                                        </label>
                                         <a
                                           href={`/product/${item.Product._id}`}
                                           className="cart__image"
@@ -256,8 +263,31 @@ function Cart() {
                               </div>
                             ))}
                           <div className="cart__row__checkout">
-                            <div className="grid">
-                              <div className="grid__item medium-up--five-twelfths text-center medium-up--text-right medium-up--push-seven-twelfths ">
+                            <div
+                              className="grid"
+                              style={{ borderTop: "1px solid #ccc" }}
+                            >
+                              <div className="grid__item  text-center ">
+                                <div className="choseAll">
+                                  <label
+                                    className="container-checkbox"
+                                    style={{ marginTop: "0px" }}
+                                  >
+                                    Chose All
+                                    <input
+                                      className="Checkbox"
+                                      type="checkbox"
+                                      checked={isSelectedAll ? "checked" : ""}
+                                      onChange={handleSelectedAll}
+                                    />
+                                    <span
+                                      className="checkmark"
+                                      style={{ top: "2px" }}
+                                    ></span>
+                                  </label>
+                                </div>
+                              </div>
+                              <div className="grid__item medium-up--five-twelfths text-center medium-up--text-right medium-up--push-seven-twelfths margin-top-20">
                                 <div className="grid grid--full cart__row--table">
                                   <div className="grid__item one-half medium-up--text-right">
                                     <p className="h4 cart__subtotal">
@@ -270,7 +300,15 @@ function Cart() {
                                   </div>
                                   <div className="grid__item one-half">
                                     <p className="h4 cart__subtotal">
-                                      <span className="money">£93.00</span>
+                                      <span className="money">
+                                        £
+                                        {Number(totalPrice).toLocaleString(
+                                          "en-US",
+                                          {
+                                            minimumFractionDigits: 2,
+                                          }
+                                        )}
+                                      </span>
                                     </p>
                                   </div>
                                 </div>
@@ -286,7 +324,7 @@ function Cart() {
                                     type="submit"
                                     name="update"
                                     className="cart__update btn btn--no-animate "
-                                    onClick={() => navigate("/payment")}
+                                    onClick={(e) => hanldeAddToOrder(e)}
                                   >
                                     Check Out
                                   </button>

@@ -104,6 +104,7 @@ export const CartWrapper = styled.div`
   }
   .cart__image {
     display: block;
+    margin-left: 30px;
     color: #000;
     text-decoration: none;
     background: 0;
@@ -216,7 +217,7 @@ export const CartWrapper = styled.div`
     text-align: right !important;
   }
   .medium-up--five-twelfths {
-    width: 41.66667%;
+    width: 33.22%;
   }
   .one-half {
     width: 50%;
@@ -256,12 +257,7 @@ export const CartWrapper = styled.div`
   .rte p {
     margin-bottom: 25px;
   }
-  input[type="checkbox"] {
-    margin: 0 10px 0 0;
-    padding: 0;
-    width: 13px;
-    height: 13px;
-  }
+
   .ajaxcart__note--terms input {
     vertical-align: middle;
   }
@@ -295,6 +291,79 @@ export const CartWrapper = styled.div`
   }
   .btn:hover {
     opacity: 0.8;
+  }
+
+  .flex {
+    display: flex;
+    flex-direction: row;
+  }
+  .container-checkbox {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  .container-checkbox input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  /* Create a custom checkbox */
+  .checkmark {
+    position: absolute;
+    top: 100px;
+    left: 0;
+    border-radius: 4px;
+    height: 20px;
+    width: 20px;
+    background-color: #eee;
+  }
+
+  /* On mouse-over, add a grey background color */
+  .container-checkbox:hover input ~ .checkmark {
+    background-color: #ccc;
+  }
+
+  /* When the checkbox is checked, add a blue background */
+  .container-checkbox input:checked ~ .checkmark {
+    background-color: #ff01bd;
+  }
+
+  /* Create the checkmark/indicator (hidden when not checked) */
+  .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+
+  /* Show the checkmark when checked */
+  .container-checkbox input:checked ~ .checkmark:after {
+    display: block;
+  }
+
+  /* Style the checkmark/indicator */
+  .container-checkbox .checkmark:after {
+    left: 8px;
+    top: 3px;
+    width: 5px;
+    height: 12px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+  .choseAll {
+    margin-top: 20px;
+  }
+  .margin-top-20 {
+    margin-top: 20px;
   }
 `;
 // * null cart
