@@ -1,9 +1,12 @@
 import styled from "styled-components";
 export const CartWrapper = styled.div`
-  padding-top: 100px;
+  padding-top: 60px;
   .main-content {
-    min-height: 825px;
+    min-height: 100%;
     display: block;
+  }
+  a {
+    cursor: pointer;
   }
   .page-content {
     padding-top: 60px;
@@ -47,6 +50,10 @@ export const CartWrapper = styled.div`
   .cart__row {
     position: relative;
     margin-bottom: 40px;
+  }
+  .cart__row__checkout {
+    position: relative;
+    margin-bottom: 160px;
   }
   .cart__header-labels {
     font-family: Poppins, sans-serif;
@@ -288,5 +295,73 @@ export const CartWrapper = styled.div`
   }
   .btn:hover {
     opacity: 0.8;
+  }
+`;
+// * null cart
+export const Container = styled.div`
+  padding: 60px;
+  .container-cart {
+  }
+  .NullCart {
+    margin-right: auto;
+    margin-left: auto;
+    width: 1500px;
+    height: 21rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+  .NullCartLogo {
+    width: 6.75rem;
+    height: 6.125rem;
+    background-position: 50%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-image: url(https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg/cart/9bdd8040b334d31946f49e36beaf32db.png);
+  }
+  .NullCartTitle {
+    color: rgba(0, 0, 0, 0.4);
+    font-size: 1.075rem;
+    line-height: 1rem;
+    margin: 1.125rem 0;
+    font-weight: 700;
+  }
+  .NullCartBuyNow {
+    font-size: 1.2rem;
+    text-transform: capitalize;
+    cursor: pointer;
+    font-weight: 450;
+    line-height: 1;
+    user-select: none;
+    letter-spacing: 0;
+  }
+  .NullCartButton {
+    padding: 0.625rem 2.625rem;
+    position: relative;
+    overflow: visible;
+    outline: 0;
+    background: #ff01bd;
+    cursor: pointer;
+    border: 0;
+    font-size: 0.875rem;
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    transition: opacity 0.2s ease;
+    border-radius: 2px;
+    user-select: none;
+    box-shadow: 0 1px 1px 0 rgb(0 0 0 / 9%);
+  }
+  .NullCartButton:hover {
+    opacity: 0.8;
+  }
+  .LinkBuy {
+    text-decoration: none;
+    color: #ff01bd;
   }
 `;

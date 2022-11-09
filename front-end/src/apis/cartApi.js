@@ -9,9 +9,9 @@ const cartApi = {
     const url = "/orders/getProductInCart";
     return axios.get(url);
   },
-  removeCartItem: (cartItem) => {
-    const url = "/cart/removeItem";
-    return axios.post(url, cartItem);
+  removeItemCart: (cartItemId) => {
+    const url = `/orders/removeItemCart?itemCartId=${cartItemId}`;
+    return axios.get(url, cartItemId);
   },
 };
 

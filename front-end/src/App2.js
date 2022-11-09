@@ -20,23 +20,22 @@ import Search from "./pages/Clients/Search/Search";
 import Signin from "./pages/Clients/Signs/signIn";
 import Signup from "./pages/Clients/Signs/signUp";
 import Protected from "./Protected";
-import { getAccountProfile, signin } from "./slices/accountSlice";
+import { getProductInCart } from "./slices/cartSlice";
 
 //---------------------
 function App() {
   const { isAuthenticated } = useSelector((state) => state.account);
-  // const dispatch = useDispatch();
-  // useEffect(() => {
-  //   if (isAuthenticated) {
-  //     const fetchData = () => {
-  //       dispatch(getAccountProfile());
-  //       // dispatch(getUserAddress());
-  //       // dispatch(getOrdersByUser());
-  //     };
-  //     fetchData();
-  //   } else {
-  //   }
-  // }, [isAuthenticated]);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (isAuthenticated) {
+      const fetchData = () => {
+        dispatch(getProductInCart());
+        // dispatch(getUserAddress());
+        // dispatch(getOrdersByUser());
+      };
+      fetchData();
+    }
+  }, [isAuthenticated]);
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />

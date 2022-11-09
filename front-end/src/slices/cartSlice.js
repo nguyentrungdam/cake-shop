@@ -12,17 +12,16 @@ export const getProductInCart = createAsyncThunk(
 export const addToCart = createAsyncThunk(
   "orders/addToCart",
   async (cartItems, thunkAPI) => {
-    console.log(cartItems);
     const response = await cartApi.addToCart(cartItems);
     await thunkAPI.dispatch(getProductInCart());
     return response;
   }
 );
 
-export const removeCartItem = createAsyncThunk(
-  "orders/removeCartItem",
-  async (cartItem, thunkAPI) => {
-    const response = await cartApi.removeCartItem(cartItem);
+export const removeItemCart = createAsyncThunk(
+  "orders/removeItemCart",
+  async (cartItemId, thunkAPI) => {
+    const response = await cartApi.removeItemCart(cartItemId);
     await thunkAPI.dispatch(getProductInCart());
     return response;
   }
@@ -46,7 +45,7 @@ export const cartSlice = createSlice({
     },
     [addToCart.fulfilled]: (state, action) => {
       state.loading = false;
-      state.cartItems = action.payload.LogOrderDetail;
+      state.cartItems = action.payload.data.LogOrderDetail;
     },
     [getProductInCart.pending]: (state) => {
       state.loading = true;
@@ -57,16 +56,16 @@ export const cartSlice = createSlice({
     },
     [getProductInCart.fulfilled]: (state, action) => {
       state.loading = false;
-      state.cartItems = action.payload.LogOrderDetailedOrder;
+      state.cartItems = action.payload.data.LogOrderDetail;
     },
-    [removeCartItem.pending]: (state) => {
+    [removeItemCart.pending]: (state) => {
       state.loading = true;
     },
-    [removeCartItem.rejected]: (state, action) => {
+    [removeItemCart.rejected]: (state, action) => {
       state.loading = false;
       state.error = action.error;
     },
-    [removeCartItem.fulfilled]: (state) => {
+    [removeItemCart.fulfilled]: (state) => {
       state.loading = false;
     },
   },

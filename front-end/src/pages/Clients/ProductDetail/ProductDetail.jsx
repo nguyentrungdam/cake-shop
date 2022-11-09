@@ -11,23 +11,21 @@ const ProductDetail = () => {
   const { productDetail } = useSelector((state) => state.product);
   const { isAuthenticated } = useSelector((state) => state.account);
   const { cartItems } = useSelector((state) => state.cart);
-  const [isActive, setIsActive] = useState(false);
   const [isSelected, setIsSelected] = useState("");
   const [openIframe, setOpenIframe] = useState("");
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  let idProduct = useParams();
 
   const [cartItem, setCartItem] = useState({
     product: "",
     variant: "",
     quantity: 1,
   });
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  let idProduct = useParams();
 
   useEffect(() => {
     const fetchData = async () => {
       const response = await dispatch(getProductById(idProduct.id)).unwrap();
-      // console.log(response);
       setCartItem({ ...cartItem, product: response.data.Product._id });
     };
     fetchData();
@@ -35,7 +33,6 @@ const ProductDetail = () => {
 
   const handleChangeSize = (id, name) => {
     setIsSelected(id);
-    setIsActive(true);
     setCartItem({ ...cartItem, variant: name, quantity: 1 });
   };
 
@@ -83,7 +80,7 @@ const ProductDetail = () => {
           quantity: cartItem.quantity,
         };
       } else {
-        // setOpenModal(true);
+        alert("Thêm sản phẩm thành công");
         newCartItem = {
           Product: cartItem.product,
           Product_Size: cartItem.variant,
@@ -152,7 +149,7 @@ const ProductDetail = () => {
                                       <div className="image-wrap">
                                         <img
                                           className="photoswipe__image lazyautosizes lazyloaded"
-                                          alt={productDetail.Name}
+                                          alt={productDetail?.Name}
                                           src={productDetail.Image?.Url}
                                         />
                                       </div>
