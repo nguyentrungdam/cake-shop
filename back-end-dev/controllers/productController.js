@@ -248,3 +248,29 @@ exports.filterProduct = catchAsyncErrors(async (req, res, next) => {
     })
 })
 
+
+
+
+exports.getProductById_Test = catchAsyncErrors(async (req, res, next) => {
+    const { _id } = req.body;
+
+    if (_id) {
+        product.findOne({ _id, isDelete: { $ne: true } })
+            .populate({ path: "Category", select: "_id Name Description"})
+            .exec((error, Product) => {
+                if (error) {
+                    return res.status(400).json({ error});
+                }
+                if (Product) {
+                    res.status(200).json({ Product });
+                }
+                else {
+                    res.status(400).json({ error: "something went wrong"})
+                }
+            })
+    }
+    else {
+        res.status(400).json({ error: "Params required"});
+    }
+})
+

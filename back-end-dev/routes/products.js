@@ -7,7 +7,8 @@ const {
     updateProduct,
     deleteProduct,
     searchProduct,
-    filterProduct
+    filterProduct,
+    getProductById_Test
 } = require('../controllers/productController')
 
 const { 
@@ -280,5 +281,31 @@ const upload = multer()
  *                 $ref: '#/components/schemas/Product'
  */
   router.get("/filterProduct", filterProduct);
+
+ /**
+ * @swagger
+ * /products/getProductById_Test:
+ *   post:
+ *     summary: Returns product
+ *     tags: [Products]
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               _id:
+ *                 type: string   
+ *     responses:
+ *       200:
+ *         description: Get single product
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Product'
+ */
+  router.post("/getProductById_Test", getProductById_Test);
 
 module.exports = router;
