@@ -6,6 +6,7 @@ import DeleteItem from "./deleteItem";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, removeItemCart } from "../../../slices/cartSlice";
 import { CartWrapper, Container } from "../../../styles/cartStyle";
+import Loading from "../../../components/loading";
 
 function Cart() {
   const dispatch = useDispatch();
@@ -120,13 +121,15 @@ function Cart() {
   console.log(cartItems);
   return (
     <>
-      {/* <Header /> */}
+      <Header />
       <Container>
         {isAuthenticated ? (
           <div className="container-cart">
             {loading ? (
               <div className="NullCart">
-                <h5 style={{ fontWeight: "500" }}>Loading...</h5>
+                <h5 style={{ fontWeight: "500" }}>
+                  <Loading />
+                </h5>
               </div>
             ) : cartItems.length === 0 ? (
               <>
