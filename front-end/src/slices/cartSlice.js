@@ -33,6 +33,7 @@ export const cartSlice = createSlice({
     cartItems: [],
     loading: false,
     error: null,
+    data: [],
   },
   reducers: {},
   extraReducers: {
@@ -46,6 +47,7 @@ export const cartSlice = createSlice({
     [addToCart.fulfilled]: (state, action) => {
       state.loading = false;
       state.cartItems = action.payload.data.LogOrderDetail;
+      state.data = action.payload.data.total;
     },
     [getProductInCart.pending]: (state) => {
       state.loading = true;

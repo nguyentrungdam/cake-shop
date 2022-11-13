@@ -142,18 +142,19 @@ export const accountSlice = createSlice({
       state.isAuthenticated = true;
       state.account = action.payload.data.Account;
     },
-    [isUserLoggedIn.pending]: (state) => {
-      state.loading = true;
-    },
-    [isUserLoggedIn.rejected]: (state, action) => {
-      state.loading = false;
-      state.error = action.error;
-    },
-    [isUserLoggedIn.fulfilled]: (state, action) => {
-      state.loading = false;
-      state.user = action.payload.data.user;
-      state.isAuthenticated = true;
-    },
+    // ,
+    // [isUserLoggedIn.pending]: (state) => {
+    //   state.loading = true;
+    // },
+    // [isUserLoggedIn.rejected]: (state, action) => {
+    //   state.loading = false;
+    //   state.error = action.error;
+    // },
+    // [isUserLoggedIn.fulfilled]: (state, action) => {
+    //   state.loading = false;
+    //   state.user = action.payload.data.user;
+    //   state.isAuthenticated = true;
+    // },
   },
 });
 export const { signout } = accountSlice.actions;

@@ -17,6 +17,10 @@ const productApi = {
     const url = `/products/getProductById?Id=${productId}`;
     return axios.get(url, productId);
   },
+  deleteProductById: (productId) => {
+    const url = `/products/deleteProduct?Id=${productId}`;
+    return axios.delete(url, productId);
+  },
   //TODO từ đây xuống là chưa làm
   getProductBySlug: (slug) => {
     const url = `/product/${slug}`;
@@ -30,10 +34,7 @@ const productApi = {
     const url = "/product/addProductReview";
     return axios.post(url, review);
   },
-  deleteProductById: (productId) => {
-    const url = "/product/deleteProductById";
-    return axios.post(url, productId);
-  },
+
   updateProduct: (product) => {
     const url = "/product/update";
     return axios.post(url, product);

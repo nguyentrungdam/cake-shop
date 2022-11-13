@@ -10,26 +10,27 @@ import { useDispatch, useSelector } from "react-redux";
 import { getProducts, deleteProductById } from "../../../slices/productSlice";
 
 const Container = styled.div``;
+
 function ProductList() {
   const dispatch = useDispatch();
   const { products } = useSelector((state) => state.product);
-  const productId = products._id;
 
   useEffect(() => {
-    const fetchData = () => {
-      dispatch(getProducts()).unwrap();
+    const fetchData = async () => {
+      await dispatch(getProducts()).unwrap();
     };
     fetchData();
-  }, [dispatch]);
+  }, [products]);
 
   const handleDeleteProduct = async (id) => {
-    // e.preventDefault();
-    const response = await dispatch(
-      deleteProductById({ productId: id })
-    ).unwrap();
-    // console.log(response);
-    if (response.status === 202) {
-      alert("Xóa Thành Công");
+    console.log(id);
+    try {
+      const response = await dispatch(deleteProductById(id)).unwrap();
+      if (response.status === 201) {
+        alert("Xóa Thành Công");
+      }
+    } catch (err) {
+      alert("Vui lòng kiểm tra lại các thông tin cho chính xác !");
     }
   };
 
@@ -48,15 +49,14 @@ function ProductList() {
         }}
       >
         <span>
-          <Link to="/addproduct">
-            <a
-              style={{
-                color: "red",
-                fontsize: "40px",
-              }}
-            >
-              +Thêm sản phẩm
-            </a>
+          <Link
+            to="/addproduct"
+            style={{
+              color: "red",
+              fontsize: "40px",
+            }}
+          >
+            +Thêm sản phẩm
           </Link>
         </span>
         <h1>Danh sách sản phẩm </h1>
@@ -71,7 +71,6 @@ function ProductList() {
               <th style={{ textAlign: "center" }}>Id</th>
               <th style={{ textAlign: "center" }}>Title</th>
               <th style={{ textAlign: "center" }}>Price</th>
-              <th style={{ textAlign: "center" }}>Sale</th>
               <th style={{ textAlign: "center" }}>Quantity</th>
               <th style={{ textAlign: "center" }}>Images</th>
               <th style={{ textAlign: "center" }}>Delete</th>
@@ -82,32 +81,39 @@ function ProductList() {
             <tbody key={item._id}>
               <tr>
                 <td style={{ textAlign: "center" }}>{index}</td>
-                <td style={{ textAlign: "center" }}>{item.name}</td>
-                <td style={{ textAlign: "center" }}>{item.price}</td>
-                <td style={{ textAlign: "center" }}>{item.discountPercent}%</td>
+                <td style={{ textAlign: "center" }}>{item.Name}</td>
+                <td style={{ textAlign: "center" }}>{item.Price}</td>
+                <td style={{ textAlign: "center" }}>{item.Quantity}</td>
                 <td style={{ textAlign: "center" }}>
-                  {item.variants?.[0].quantity}
+                  <img
+                    style={{ width: "60px" }}
+                    src={item.Image.Url}
+                    alt={item.Name}
+                  />
                 </td>
-                <td style={{ textAlign: "center" }}>
-                  <img style={{ width: 40 }} src={item.productPictures?.[0]} />
+                <td
+                  style={{
+                    textAlign: "center",
+                    margin: " 22px 0 0 22px",
+                    cursor: "pointer",
+                  }}
+                  className="badge badge-danger"
+                  onClick={() => handleDeleteProduct(item._id)}
+                >
+                  Delete
                 </td>
                 <td>
-                  <a
-                    style={{ textAlign: "center" }}
-                    className="badge badge-danger"
-                    onClick={() => handleDeleteProduct(item._id)}
+                  <Link
+                    to={`/product/${item._id}`}
+                    className="badge badge-info"
+                    style={{
+                      backgroundColor: "black",
+                      textAlign: "center",
+                      padding: "10px",
+                      margin: "12px 0 0 20px",
+                    }}
                   >
-                    Delete
-                  </a>
-                </td>
-                <td style={{ textAlign: "center" }}>
-                  <Link to={`/editproduct/${item.slug}`}>
-                    <a
-                      className="badge badge-info"
-                      style={{ backgroundColor: "black" }}
-                    >
-                      Xem Chi Tiết
-                    </a>
+                    Xem Chi Tiết
                   </Link>
                 </td>
               </tr>

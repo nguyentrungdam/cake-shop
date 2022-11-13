@@ -65,7 +65,7 @@ function OrderList() {
           {orders.map((item, index) => (
             <tbody key={item._id}>
               <tr>
-                <td>{index}</td>
+                <td style={{ textAlign: "center" }}>{index}</td>
                 <td>{item.user.name}</td>
                 <td>{item.user.email}</td>
                 <td>{item.user.phoneNumber}</td>

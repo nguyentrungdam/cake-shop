@@ -8,6 +8,38 @@ export const CartWrapper = styled.div`
   a {
     cursor: pointer;
   }
+  .Input {
+    width: 40px;
+    height: 30px;
+    padding-top: 1px;
+    font-size: 18px;
+    font-weight: 400;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-left: none;
+    border-right: none;
+    background-color: #fff;
+    box-sizing: border-box;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: text;
+    border-radius: 0;
+    -webkit-appearance: none;
+  }
+  .margin-left-30 {
+    margin-left: 35px;
+  }
+  .InputBtn {
+    width: 30px;
+    height: 30px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   .page-content {
     padding-top: 60px;
     padding-bottom: 60px;

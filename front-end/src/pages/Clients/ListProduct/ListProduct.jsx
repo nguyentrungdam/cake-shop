@@ -5,12 +5,13 @@ import { useDispatch, useSelector } from "react-redux";
 import Footer from "../../../components/Footer";
 import Header from "../../../components/Header";
 import ListProductLayout from "../../../components/ListProductLayout";
-import { filterProducts, getProducts } from "../../../slices/productSlice";
+import { filterProducts } from "../../../slices/productSlice";
 import { ListProductWrapper } from "../../../styles/listProductStyle";
 
 const ListProduct = () => {
   const dispatch = useDispatch();
   const { products, data } = useSelector((state) => state.product);
+  // console.log(products);
   const [category, setCategory] = useState("");
   const [sortName, setSortName] = useState("");
 

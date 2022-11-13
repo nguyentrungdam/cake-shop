@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 const Container = styled.div`
+  .active {
+    color: #ff01bd !important;
+  }
   position: fixed;
   transform: translateZ(0);
   z-index: 100;
@@ -66,8 +69,12 @@ const ItemImg = styled.img`
     cursor: pointer;
   }
 `;
-
 const LeftNavbar = () => {
+  const [active, setActive] = useState(" ");
+  const handleActive = (e) => {
+    e.preventDefault();
+    setActive("active");
+  };
   return (
     <Container>
       <NavbarWrapper>
@@ -93,7 +100,12 @@ const LeftNavbar = () => {
                 <ItemTitle>Quản lý người dùng</ItemTitle>
               </Link>
             </NavbarItem>
-
+            <NavbarItem>
+              <Link to="/listcategory">
+                <ItemImg src="https://img.icons8.com/ios/2x/diversity.png" />
+                <ItemTitle>Quản lý phân loại</ItemTitle>
+              </Link>
+            </NavbarItem>
             <NavbarItem>
               <Link to="/listorder">
                 <ItemImg src="https://img.icons8.com/material-rounded/512/favorite-cart.png" />

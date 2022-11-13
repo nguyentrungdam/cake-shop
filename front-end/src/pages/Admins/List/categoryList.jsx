@@ -1,36 +1,27 @@
-import React from "react";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import Table from "react-bootstrap/Table";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Header from "../../../components/NavbarAdmin/Header";
 import LeftNavbar from "../../../components/NavbarAdmin/LeftNavbar";
-import { useDispatch, useSelector } from "react-redux";
-import { getUsers, deleteUserById } from "../../../slices/userSlice";
+import { getCategories } from "../../../slices/categorySlice";
 
 const Container = styled.div``;
-function UserList() {
+function CategoryList() {
   const dispatch = useDispatch();
-  const { users } = useSelector((state) => state.user);
+  const { categories } = useSelector((state) => state.category);
 
   useEffect(() => {
     const fetchData = () => {
-      dispatch(getUsers()).unwrap();
+      dispatch(getCategories()).unwrap();
     };
     fetchData();
   }, [dispatch]);
 
-  const handleDeleteUser = async (id) => {
-    // e.preventDefault();
-    const response = await dispatch(deleteUserById({ _id: id })).unwrap();
-    // console.log(response);
-    if (response.status === 204) {
-      alert("Xóa Thành Công");
-    }
-  };
-
   return (
     <Container>
-      <Header name="Người dùng" />
+      <Header name="Phân loại" />
       <LeftNavbar />
       <div
         className="container"
@@ -42,10 +33,21 @@ function UserList() {
           flexDirection: "column",
         }}
       >
+        <span>
+          <Link
+            to="/addcategory"
+            style={{
+              color: "red",
+              fontsize: "40px",
+            }}
+          >
+            +Thêm phân loại
+          </Link>
+        </span>
         <h1>Thông tin người dùng </h1>
         <Table
           style={{
-            width: "90%",
+            width: "50%",
           }}
           className="table table-bordered"
         >
@@ -53,18 +55,14 @@ function UserList() {
             <tr>
               <th style={{ textAlign: "center" }}>Id</th>
               <th style={{ textAlign: "center" }}>Name</th>
-              <th style={{ textAlign: "center" }}>Email</th>
-              <th style={{ textAlign: "center" }}>Role</th>
               <th style={{ textAlign: "center", width: "100px" }}>Delete</th>
             </tr>
           </tbody>
-          {users.map((item, index) => (
+          {categories.map((item, index) => (
             <tbody key={item._id}>
               <tr>
                 <td style={{ textAlign: "center" }}>{index}</td>
-                <td>{item.FullName}</td>
-                <td>{item.Email}</td>
-                <td>{item.Role}</td>
+                <td>{item.Name}</td>
                 <td>
                   <a
                     style={{
@@ -74,7 +72,6 @@ function UserList() {
                       marginLeft: "7px",
                     }}
                     className="badge badge-danger"
-                    onClick={() => handleDeleteUser(item._id)}
                   >
                     Delete
                   </a>
@@ -88,4 +85,4 @@ function UserList() {
   );
 }
 
-export default UserList;
+export default CategoryList;

@@ -88,7 +88,6 @@ const ProductDetail = () => {
         };
       }
       const res = await dispatch(addToCart({ ...newCartItem }));
-      console.log(res);
       if (res.error) {
         alert("Đã xảy ra lỗi! Vui lòng thử lại.");
         return;

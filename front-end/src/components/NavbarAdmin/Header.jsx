@@ -1,23 +1,19 @@
 import React from "react";
 import styled from "styled-components";
 import { KeyboardArrowRight } from "@material-ui/icons";
-import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { isUserLoggedIn, signout } from "../../slices/accountSlice";
+import { signout } from "../../slices/accountSlice";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
 const Header = (props) => {
   const { account, isAuthenticated } = useSelector((state) => state.account);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   useEffect(() => {
     window.scrollTo(0, 0);
-    const fetchUser = () => {
-      dispatch(isUserLoggedIn());
-    };
-    fetchUser();
-  }, [isAuthenticated]);
+  }, []);
 
   return (
     <Container>
@@ -36,10 +32,10 @@ const Header = (props) => {
           </LeftNav>
           <CenterSpace></CenterSpace>
           <RightNav>
-            {!isAuthenticated ? (
+            {isAuthenticated ? (
               <UserWrapper>
                 <UserImg src="https://www.kindpng.com/picc/m/10-109847_admin-icon-hd-png-download.png" />
-                <UserName>{props.name}</UserName>
+                <UserName>{account.FullName}</UserName>
                 <DropDownContent>
                   <SubA
                     onClick={() => dispatch(signout(), navigate("/signin"))}

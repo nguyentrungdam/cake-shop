@@ -21,6 +21,8 @@ import Signin from "./pages/Clients/Signs/signIn";
 import Signup from "./pages/Clients/Signs/signUp";
 import Protected from "./Protected";
 import { getProductInCart } from "./slices/cartSlice";
+import CategoryList from "./pages/Admins/List/categoryList";
+import AddCategory from "./pages/Admins/Add/addCategory";
 
 //---------------------
 function App() {
@@ -59,9 +61,11 @@ function App() {
       <Route path="/listproduct/*" element={<ProductList />} />
       <Route path="/listUser/*" element={<UserList />} />
       <Route path="/addproduct/*" element={<AddProduct />} />
+      <Route path="/addcategory/*" element={<AddCategory />} />
       <Route path="/editproduct/:id" element={<EditProduct />} />
       <Route path="/addtrademark/*" element={<AddTrademark />} />
       <Route path="/listorder/*" element={<OrderList />} />
+      <Route path="/listcategory/*" element={<CategoryList />} />
     </Routes>
   );
 }

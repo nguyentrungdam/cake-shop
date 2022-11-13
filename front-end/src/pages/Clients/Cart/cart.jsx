@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addToCart, removeItemCart } from "../../../slices/cartSlice";
 import { CartWrapper, Container } from "../../../styles/cartStyle";
 import Loading from "../../../components/loading";
+import { Add, Remove } from "@material-ui/icons";
 
 function Cart() {
   const dispatch = useDispatch();
@@ -14,7 +15,7 @@ function Cart() {
   const [selected, setSelected] = useState([]);
   const { isAuthenticated } = useSelector((state) => state.account);
   const [showDeleteItem, setShowDeleteItem] = useState(false);
-  const { cartItems, loading } = useSelector((state) => state.cart);
+  const { cartItems, loading, data } = useSelector((state) => state.cart);
   const [item, setItem] = useState({
     name: "",
     productId: "",
@@ -22,29 +23,38 @@ function Cart() {
   });
 
   const handleDeleteItem = async (_idProduct) => {
-    console.log(_idProduct);
     await dispatch(removeItemCart(_idProduct)).unwrap();
   };
 
-  const handleIncrement = async (cartItem, index, variantIndex) => {
-    const a = cartItems?.[index].product.variants?.[variantIndex].quantity;
-    if (cartItem.quantity > a) {
+  const handleIncrement = async (cartItem, index) => {
+    // const a = cartItems?.[index].product.variants?.[variantIndex].quantity;
+    console.log(1);
+    const a = cartItems?.[index].Product.Quantity;
+    console.log(2);
+    if (cartItem.Quantity > a) {
       alert("Số lượng tối đa!");
-    } else if (cartItem.quantity <= a) {
-      const updateSelect = selected.map((item) => {
-        if (
-          item.variant === cartItem.variant &&
-          item.product._id === cartItem.product
-        ) {
-          return { ...item, quantity: cartItem.quantity };
-        }
-        return item;
-      });
-      setSelected(updateSelect);
+      console.log(3);
+    } else {
+      console.log(4);
+      // const updateSelect = selected.map((item) => {
+      //   // console.log(`${item.Product._id} - ${cartItem.product}`);
+      //   console.log(5);
+      //   if (item.Product._id === cartItem.product) {
+      //     console.log(6);
+      //     return { ...item, Quantity: cartItem.Quantity };
+      //   }
+      //   console.log(7);
+      //   return item;
+      // });
+
+      // console.log(8);
+      // setSelected(updateSelect);
+      // console.log(9);
       await dispatch(addToCart({ cartItem }));
+      console.log(10);
     }
   };
-
+  console.log(cartItems);
   const handleDecrement = async (cartItem, nameItem) => {
     if (cartItem.quantity === 0) {
       setItem({
@@ -78,7 +88,7 @@ function Cart() {
     }
   };
 
-  const isSelectedAll = cartItems.length === selected.length;
+  const isSelectedAll = cartItems?.length === selected?.length;
 
   const totalPrice = selected.reduce((total, priceItem) => {
     total += priceItem.Product?.Price * priceItem.Quantity;
@@ -101,7 +111,7 @@ function Cart() {
   };
 
   const itemSelected = (item) => {
-    console.log(selected);
+    // console.log(selected);
     return selected.find(
       ({ Product, Product_Size }) =>
         Product._id === item.Product._id && Product_Size === item.Product_Size
@@ -117,8 +127,6 @@ function Cart() {
       alert("Vui lòng chọn sản phẩm để thanh toán!");
     }
   };
-
-  console.log(cartItems);
   return (
     <>
       <Header />
@@ -131,7 +139,7 @@ function Cart() {
                   <Loading />
                 </h5>
               </div>
-            ) : cartItems.length === 0 ? (
+            ) : data === 0 ? (
               <>
                 <div className="NullCart">
                   <div className="NullCartLogo"></div>
@@ -173,7 +181,7 @@ function Cart() {
                           </div>
                           {/* items */}
                           {cartItems.length > 0 &&
-                            cartItems.map((item) => (
+                            cartItems.map((item, index) => (
                               <div className="cart__row" key={item._id}>
                                 <div className="grid grid--full cart__row--table-large">
                                   <div className="grid__item medium-up--three-fifths">
@@ -232,15 +240,42 @@ function Cart() {
 
                                   <div className="grid__item medium-up--two-fifths">
                                     <div className="grid grid--full cart__row--table">
-                                      <div className="grid__item one-third medium-up--one-third medium-up--text-center">
-                                        <input
-                                          type="number"
-                                          name="updates[]"
-                                          className="cart__product-qty"
-                                          defaultValue={item.Quantity}
-                                          min="0"
-                                          max={item.Product.Quantity}
-                                        />
+                                      <div className=" grid__item one-third medium-up--one-third medium-up--text-center">
+                                        <div className="flex">
+                                          <div
+                                            className="InputBtn margin-left-30"
+                                            onClick={() =>
+                                              handleDecrement({
+                                                product: item.Product._id,
+                                                Product_Size: item.Product_Size,
+                                                Quantity: item.Quantity - 1,
+                                              })
+                                            }
+                                          >
+                                            <Remove />
+                                          </div>
+                                          <input
+                                            className="Input"
+                                            defaultValue={item.Quantity}
+                                            type="button"
+                                          ></input>
+                                          <div
+                                            className="InputBtn"
+                                            onClick={() =>
+                                              handleIncrement(
+                                                {
+                                                  product: item.Product._id,
+                                                  Product_Size:
+                                                    item.Product_Size,
+                                                  Quantity: item.Quantity + 1,
+                                                },
+                                                index
+                                              )
+                                            }
+                                          >
+                                            <Add />
+                                          </div>
+                                        </div>
                                       </div>
 
                                       <div className="grid__item one-third medium-up--two-thirds text-right">
