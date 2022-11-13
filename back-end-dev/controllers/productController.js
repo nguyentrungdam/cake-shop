@@ -23,40 +23,40 @@ exports.createProduct = catchAsyncErrors(async (req, res, next) => {
 })
 
 exports.getProductList = catchAsyncErrors(async (req, res, next) => {
-    const session = await mongoose.startSession()
-    session.startTransaction()
-    const pointTransaction = { session };
+    // const session = await mongoose.startSession()
+    // session.startTransaction()
+    // const pointTransaction = { session };
 
-    let tempProduct;
-    const Product = await product.find();
-    for (var i = 0; i < Product.length; i++) {
-        Product[i].Size = [
-            { name: 'Small'},
-            { name: 'Normal'},
-            { name: 'Large'},
-        ]
-        tempProduct = await Product[i].save(pointTransaction);
-        if (!tempProduct) {
-            await session.abortTransaction()
-            session.endSession();
+    // let tempProduct;
+    // const Product = await product.find();
+    // for (var i = 0; i < Product.length; i++) {
+    //     Product[i].Size = [
+    //         { name: 'Small'},
+    //         { name: 'Normal'},
+    //         { name: 'Large'},
+    //     ]
+    //     tempProduct = await Product[i].save(pointTransaction);
+    //     if (!tempProduct) {
+    //         await session.abortTransaction()
+    //         session.endSession();
 
-            const err = new Error('Error update field Size Product');
-            return next(err);
-        }
-    }
+    //         const err = new Error('Error update field Size Product');
+    //         return next(err);
+    //     }
+    // }
 
-    await session.commitTransaction()
-    session.endSession();
-    const total = Product.length;
+    // await session.commitTransaction()
+    // session.endSession();
+    // const total = Product.length;
     
 
-    // const page = req.query.page;
-    // const total = await product.where({isDelete: false}).countDocuments();
-    // const Product = await pagination(
-    //     product.find({isDelete: false}).populate("Category"),
-    //     page,
-    //     8
-    // )
+    const page = req.query.page;
+    const total = await product.where({isDelete: false}).countDocuments();
+    const Product = await pagination(
+        product.find({isDelete: false}).populate("Category"),
+        page,
+        8
+    )
 
     res.status(201).json({
         success: true,
