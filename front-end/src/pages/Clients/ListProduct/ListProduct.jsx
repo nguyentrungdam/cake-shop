@@ -5,13 +5,13 @@ import { useDispatch, useSelector } from "react-redux";
 import Footer from "../../../components/Footer";
 import Header from "../../../components/Header";
 import ListProductLayout from "../../../components/ListProductLayout";
-import { filterProducts } from "../../../slices/productSlice";
+import { filterProducts, getProducts } from "../../../slices/productSlice";
 import { ListProductWrapper } from "../../../styles/listProductStyle";
 
 const ListProduct = () => {
   const dispatch = useDispatch();
   const { products, data } = useSelector((state) => state.product);
-  // console.log(products);
+  console.log(data.total);
   const [category, setCategory] = useState("");
   const [sortName, setSortName] = useState("");
 
@@ -19,27 +19,29 @@ const ListProduct = () => {
   const [pageCount, setPageCount] = useState(0);
   const [itemOffset, setItemOffset] = useState(0);
   const [nextPage, setNextPage] = useState(1);
-
-  useEffect(() => {
-    dispatch(filterProducts());
-  }, []);
-
   const obj = {
     category,
     sortName,
     page: nextPage,
   };
+
+  useEffect(() => {
+    dispatch(filterProducts("all"));
+  }, []);
+
   useEffect(() => {
     const fetchData = async () => {
       await dispatch(filterProducts(obj));
     };
     if (category || sortName) {
       fetchData();
+      console.log(fetchData());
     }
   }, [category, sortName]);
 
   useEffect(() => {
     dispatch(filterProducts(obj));
+    console.log(data.total);
     return () => {
       setNextPage(1);
       setPageCount();

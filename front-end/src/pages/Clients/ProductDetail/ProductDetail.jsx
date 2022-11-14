@@ -86,6 +86,8 @@ const ProductDetail = () => {
           Product_Size: cartItem.variant,
           Quantity: cartItem.quantity,
         };
+        console.log(newCartItem);
+        console.log(cartItem);
       }
       const res = await dispatch(addToCart({ ...newCartItem }));
       if (res.error) {

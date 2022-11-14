@@ -1,10 +1,8 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import { ListProductWrapper } from "../styles/listProductStyle";
 
 const ListProductLayout = ({ products }) => {
-  const navigate = useNavigate();
-
+  console.log(products);
   return (
     <ListProductWrapper>
       <div className="CollectionAjaxContent" id="CollectionAjaxContent">

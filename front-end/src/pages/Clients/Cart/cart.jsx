@@ -17,9 +17,9 @@ function Cart() {
   const [showDeleteItem, setShowDeleteItem] = useState(false);
   const { cartItems, loading, data } = useSelector((state) => state.cart);
   const [item, setItem] = useState({
-    name: "",
-    productId: "",
-    variantId: "",
+    Product: "",
+    Product_Size: "",
+    Quantity: "",
   });
 
   const handleDeleteItem = async (_idProduct) => {
@@ -28,49 +28,31 @@ function Cart() {
 
   const handleIncrement = async (cartItem, index) => {
     // const a = cartItems?.[index].product.variants?.[variantIndex].quantity;
-    console.log(1);
+    console.log(cartItem);
     const a = cartItems?.[index].Product.Quantity;
-    console.log(2);
+
     if (cartItem.Quantity > a) {
       alert("Số lượng tối đa!");
-      console.log(3);
     } else {
-      console.log(4);
-      // const updateSelect = selected.map((item) => {
-      //   // console.log(`${item.Product._id} - ${cartItem.product}`);
-      //   console.log(5);
-      //   if (item.Product._id === cartItem.product) {
-      //     console.log(6);
-      //     return { ...item, Quantity: cartItem.Quantity };
-      //   }
-      //   console.log(7);
-      //   return item;
-      // });
-
-      // console.log(8);
-      // setSelected(updateSelect);
-      // console.log(9);
-      await dispatch(addToCart({ cartItem }));
-      console.log(10);
+      await dispatch(addToCart({ ...cartItem }));
     }
   };
+
   console.log(cartItems);
+
   const handleDecrement = async (cartItem, nameItem) => {
     if (cartItem.quantity === 0) {
       setItem({
         ...item,
         name: nameItem,
         productId: cartItem.product,
-        variantId: cartItem.variant,
+        variantId: cartItem.Product_Size,
       });
       setShowDeleteItem((prev) => !prev);
     } else {
       const updateSelect = selected.map((item) => {
-        if (
-          item.variant === cartItem.variant &&
-          item.product._id === cartItem.product
-        ) {
-          return { ...item, quantity: cartItem.quantity };
+        if (item.Product._id === cartItem.product) {
+          return { ...item, uantity: cartItem.Quantity };
         }
         return item;
       });
@@ -139,7 +121,7 @@ function Cart() {
                   <Loading />
                 </h5>
               </div>
-            ) : data === 0 ? (
+            ) : cartItems.length === 0 ? (
               <>
                 <div className="NullCart">
                   <div className="NullCartLogo"></div>
@@ -242,7 +224,7 @@ function Cart() {
                                     <div className="grid grid--full cart__row--table">
                                       <div className=" grid__item one-third medium-up--one-third medium-up--text-center">
                                         <div className="flex">
-                                          <div
+                                          {/* <div
                                             className="InputBtn margin-left-30"
                                             onClick={() =>
                                               handleDecrement({
@@ -253,18 +235,19 @@ function Cart() {
                                             }
                                           >
                                             <Remove />
-                                          </div>
+                                          </div> */}
                                           <input
                                             className="Input"
                                             defaultValue={item.Quantity}
                                             type="button"
+                                            style={{ marginLeft: "60px" }}
                                           ></input>
-                                          <div
+                                          {/* <div
                                             className="InputBtn"
                                             onClick={() =>
                                               handleIncrement(
                                                 {
-                                                  product: item.Product._id,
+                                                  Product: item.Product._id,
                                                   Product_Size:
                                                     item.Product_Size,
                                                   Quantity: item.Quantity + 1,
@@ -274,7 +257,7 @@ function Cart() {
                                             }
                                           >
                                             <Add />
-                                          </div>
+                                          </div> */}
                                         </div>
                                       </div>
 

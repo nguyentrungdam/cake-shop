@@ -406,7 +406,7 @@ export const Container = styled.div`
   .NullCart {
     margin-right: auto;
     margin-left: auto;
-    width: 1500px;
+    width: 1400px;
     height: 21rem;
     display: flex;
     align-items: center;

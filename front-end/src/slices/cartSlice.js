@@ -14,6 +14,7 @@ export const addToCart = createAsyncThunk(
   async (cartItems, thunkAPI) => {
     const response = await cartApi.addToCart(cartItems);
     await thunkAPI.dispatch(getProductInCart());
+    console.log(response);
     return response;
   }
 );
