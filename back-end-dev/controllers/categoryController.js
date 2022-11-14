@@ -1,5 +1,6 @@
 const category = require('../models/category');
 const catchAsyncErrors = require('../utils/catchAsyncErrors');
+const mongoose = require('mongoose')
 
 // Create new product   =>   /api/v1/admin/product/new
 exports.createCategory = catchAsyncErrors(async (req, res, next) => {
@@ -14,11 +15,39 @@ exports.createCategory = catchAsyncErrors(async (req, res, next) => {
 })
 
 exports.getCategoryList = catchAsyncErrors(async (req, res, next) => {
-    const Category = await category.find();
+    const Category = await category.find({ isDelete: false });
     const total = Category.length;
     res.status(201).json({
         success: true,
         total: total,
         Category
+    })
+})
+
+exports.deleteCategory = catchAsyncErrors(async (req, res, next) => {
+    const categoryId = req.query.categoryId;
+    const ObjectId = mongoose.Types.ObjectId;
+    if (!categoryId || !ObjectId.isValid(categoryId)) {
+        const err = new Error('Id id not valid');
+        return next(err);
+    }
+
+    let tempCategory = await category.findById(categoryId);
+    if (!tempCategory || tempCategory.isDelete == true) {
+        const err = new Error('Category not found');
+        return next(err);
+    }
+
+    tempCategory.isDelete = true;
+    
+    const newCategory = await category.findByIdAndUpdate(categoryId, tempCategory, {
+        new: true,
+        runValidators: true,
+        useFindAndModified: false
+    });
+
+    res.status(201).json({
+        success: true,
+        message: 'Category deleted'
     })
 })

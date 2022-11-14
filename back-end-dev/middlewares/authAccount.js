@@ -21,6 +21,11 @@ exports.isAuthenticatedAccount = catchAsyncErrors(async (req, res, next) => {
   }
 
   const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  const tempAccount = await account.findById(decoded.id);
+  if (tempAccount.isDelete == true) {
+    const err = new Error("Login first to access this resource");
+    return next(err);
+  }
   req.Account = await account.findById(decoded.id);
 
   next();

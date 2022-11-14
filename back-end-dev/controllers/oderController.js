@@ -191,7 +191,7 @@ exports.addToCart = catchAsyncErrors(async (req, res, next) => {
 
 exports.getOrderList = catchAsyncErrors(async (req, res, next) => {
   const orderStatus = ["order", "delivering", "done"];
-  const Order = await order.find({ Order_Status: orderStatus });
+  const Order = await order.find({ Order_Status: orderStatus, isDelete: false });
   const total = Order.length;
 
   res.status(201).json({
@@ -211,12 +211,12 @@ exports.getOrderById = catchAsyncErrors(async (req, res, next) => {
   }
 
   const Order = await order.findById(Id);
-  if (!Order) {
+  if (!Order || Order.isDelete == true) {
     const err = new Error("Order not found");
     return next(err);
   }
 
-  const OrderDetail = await orderDetail.find({ Order: Id });
+  const OrderDetail = await orderDetail.find({ Order: Id, isDelete: false });
 
   const total = OrderDetail.length || 0;
 

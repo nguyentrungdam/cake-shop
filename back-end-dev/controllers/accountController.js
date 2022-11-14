@@ -7,6 +7,8 @@ const sendToken = require('../utils/jwtToken');
 const sendEmail = require('../utils/sendEmail');
 const pagination = require('../utils/pagination');
 
+const mongoose = require('mongoose')
+
 // Create new product   =>   /api/v1/admin/product/new
 exports.registerAccount = catchAsyncErrors(async (req, res, next) => {
     const { FullName, Email, Password } = req.body;
@@ -167,7 +169,7 @@ exports.filterAccount = catchAsyncErrors(async (req, res, next) => {
     const nameRole = req.query.Role;
     const page = req.query.page;
 
-    // find category id
+    // find Account id
     const tempAccount = await account.findOne({ Role: nameRole });
 
     const nameSort = req.query.Sort || '';
@@ -189,17 +191,17 @@ exports.filterAccount = catchAsyncErrors(async (req, res, next) => {
     let total;
 
     if (!tempAccount) {
-        total = await account.find().sort([[ field, sort ]]).countDocuments();
+        total = await account.find({ isDelete: false }).sort([[ field, sort ]]).countDocuments();
         Account = await pagination(
-            account.find().sort([[ field, sort ]]),
+            account.find({ isDelete: false }).sort([[ field, sort ]]),
             page,
             10
         )
     }
     else {
-        total = await account.find({ Role: nameRole }).sort([[ field, sort ]]).countDocuments();
+        total = await account.find({ Role: nameRole, isDelete: false }).sort([[ field, sort ]]).countDocuments();
         Account = await pagination(
-            account.find({ Role: nameRole }).sort([[ field, sort ]]),
+            account.find({ Role: nameRole, isDelete: false }).sort([[ field, sort ]]),
             page,
             10
         )
@@ -213,3 +215,31 @@ exports.filterAccount = catchAsyncErrors(async (req, res, next) => {
     })
 })
 
+exports.deleteAccount = catchAsyncErrors(async (req, res, next) => {
+    console.log('Delete Account');
+    const accountId = req.query.accountId;
+    const ObjectId = mongoose.Types.ObjectId;
+    if (!accountId || !ObjectId.isValid(accountId)) {
+        const err = new Error('Id id not valid');
+        return next(err);
+    }
+
+    let tempAccount = await account.findById(accountId);
+    if (!tempAccount || tempAccount.isDelete == true) {
+        const err = new Error('Account not found');
+        return next(err);
+    }
+
+    tempAccount.isDelete = true;
+    
+    const newAccount = await account.findByIdAndUpdate(accountId, tempAccount, {
+        new: true,
+        runValidators: true,
+        useFindAndModified: false
+    });
+
+    res.status(201).json({
+        success: true,
+        message: 'Account deleted'
+    })
+})

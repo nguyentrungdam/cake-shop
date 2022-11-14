@@ -10,7 +10,8 @@ const {
     logoutAccount,
     forgotPassword,
     resetPassword,
-    filterAccount
+    filterAccount,
+    deleteAccount
 } = require('../controllers/AccountController');
 
 const { 
@@ -289,5 +290,30 @@ router.get("/getAccountList", isAuthenticatedAccount, authorizeRoles('admin'), g
  *                 $ref: '#/components/schemas/Account'
  */
   router.get("/filterAccount", filterAccount);
+
+ /**
+ * @swagger
+ * /accounts/deleteAccount:
+ *   delete:
+ *     summary: Returns message
+ *     tags: [Accounts]
+ *     parameters:
+ *     - in: query
+ *       name: accountId
+ *       description: Id account
+ *       schema:
+ *         type: string
+ *     responses:
+ *       200:
+ *         description: return message
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Account'
+ */
+
+  router.delete("/deleteAccount", isAuthenticatedAccount, authorizeRoles('admin'), deleteAccount);
 
 module.exports = router;

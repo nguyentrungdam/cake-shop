@@ -2,7 +2,8 @@ const express = require("express");
 const router = express.Router();
 const {
     createCategory,
-    getCategoryList
+    getCategoryList,
+    deleteCategory
 } = require('../controllers/categoryController');
 
 const multer = require("multer");
@@ -92,5 +93,30 @@ router.get("/getCategoryList", getCategoryList);
  *                 $ref: '#/components/schemas/Category'
  */
  router.post("/createCategory", upload.none(), createCategory);
+
+ /**
+ * @swagger
+ * /categories/deleteCategory:
+ *   delete:
+ *     summary: Returns message
+ *     tags: [Categories]
+ *     parameters:
+ *     - in: query
+ *       name: categoryId
+ *       description: Id category
+ *       schema:
+ *         type: string
+ *     responses:
+ *       200:
+ *         description: return message
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Category'
+ */
+
+  router.delete("/deleteCategory", deleteCategory);
 
 module.exports = router;
