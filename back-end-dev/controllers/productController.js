@@ -224,17 +224,17 @@ exports.filterProduct = catchAsyncErrors(async (req, res, next) => {
 
     //const tempSort = ['nameasc', 'namedesc', 'priceasc', 'pricedesc']
     if (!tempCategory) {
-        total = await product.find().sort([[ field, sort]]).countDocuments();
+        total = await product.find({ isDelete: false }).sort([[ field, sort]]).countDocuments();
         Product = await pagination(
-            product.find().sort([[ field, sort]]).populate("Category"),
+            product.find({ isDelete: false }).sort([[ field, sort]]).populate("Category"),
             page,
             8
         )
     }
     else {
-        total = await product.find({ Category: tempCategory}).sort([[ field, sort]]).countDocuments();
+        total = await product.find({ Category: tempCategory, isDelete: false}).sort([[ field, sort]]).countDocuments();
         Product = await pagination(
-            product.find({ Category: tempCategory}).sort([[ field, sort]]).populate("Category"),
+            product.find({ Category: tempCategory, isDelete: false}).sort([[ field, sort]]).populate("Category"),
             page,
             8
         )
