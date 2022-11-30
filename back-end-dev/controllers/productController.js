@@ -274,3 +274,103 @@ exports.getProductById_Test = catchAsyncErrors(async (req, res, next) => {
     }
 })
 
+exports.disableProduct = catchAsyncErrors(async (req, res, next) => {
+    // Validate Id
+    const idProduct = req.query.idProduct;
+    const ObjectId = mongoose.Types.ObjectId;
+    if (!idProduct || !ObjectId.isValid(idProduct)) {
+        const err = new Error('Id not valid');
+        return next(err);
+    }
+
+    // Check product exists in database
+    const oldProduct = await product.findById(idProduct);
+    if (!oldProduct || oldProduct.isDelete == true) {
+        const err = new Error('Product not found');
+        return next(err);
+    }
+
+    // Update isDelete is false
+    const tempProduct = {
+        Name: oldProduct.Name,
+        Description: oldProduct.Description,
+        Price: oldProduct.Price,
+        Quantity: oldProduct.Quantity,
+        Category: oldProduct.Category,
+        Size: oldProduct.Size,
+        Modified_At: Date.now(),
+        isDelete: true,
+    }
+
+    // Update product
+    const Product = await product.findByIdAndUpdate(idProduct, tempProduct, {
+        new: true,
+        runValidators: true,
+        useFindAndModified: false
+    }).populate("Category");
+    
+    res.json({
+        success: true,
+        message: 'Disable product',
+        Product
+    })
+})
+
+exports.enableProduct = catchAsyncErrors(async (req, res, next) => {
+    // Validate Id
+    const idProduct = req.query.idProduct;
+    const ObjectId = mongoose.Types.ObjectId;
+    if (!idProduct || !ObjectId.isValid(idProduct)) {
+        const err = new Error('Id not valid');
+        return next(err);
+    }
+
+    // Check product exists in database
+    const oldProduct = await product.findById(idProduct);
+    if (!oldProduct) {
+        const err = new Error('Product not found');
+        return next(err);
+    }
+
+    // Update isDelete is false
+    const tempProduct = {
+        Name: oldProduct.Name,
+        Description: oldProduct.Description,
+        Price: oldProduct.Price,
+        Quantity: oldProduct.Quantity,
+        Category: oldProduct.Category,
+        Size: oldProduct.Size,
+        Modified_At: Date.now(),
+        isDelete: false,
+    }
+
+    // Update product
+    const Product = await product.findByIdAndUpdate(idProduct, tempProduct, {
+        new: true,
+        runValidators: true,
+        useFindAndModified: false
+    }).populate("Category");
+    
+    res.json({
+        success: true,
+        message: 'Enable product',
+        Product
+    })
+})
+
+exports.getProductDisableList = catchAsyncErrors(async (req, res, next) => {
+    const page = req.query.page;
+    const total = await product.where({isDelete: true}).countDocuments();
+    const Product = await pagination(
+        product.find({isDelete: true}).populate("Category"),
+        page,
+        8
+    )
+
+    res.status(201).json({
+        success: true,
+        total: total,
+        totalCurrentPage: Product.length,
+        Product
+    })
+})

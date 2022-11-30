@@ -8,7 +8,10 @@ const {
     deleteProduct,
     searchProduct,
     filterProduct,
-    getProductById_Test
+    getProductById_Test,
+    disableProduct,
+    enableProduct,
+    getProductDisableList
 } = require('../controllers/productController')
 
 const { 
@@ -307,5 +310,81 @@ const upload = multer()
  *                 $ref: '#/components/schemas/Product'
  */
   router.post("/getProductById_Test", getProductById_Test);
+
+ /**
+ * @swagger
+ * /products/disableProduct:
+ *   put:
+ *     summary: Disable product
+ *     consumes:
+ *       - application/json
+ *     tags: [Products]
+ *     parameters:
+ *     - in: query
+ *       name: idProduct
+ *       description: Id product
+ *       schema:
+ *         type: string  
+ *     responses:
+ *       200:
+ *         description: Disable product
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Product'
+ */
+  router.put("/disableProduct", isAuthenticatedAccount, authorizeRoles('admin'), disableProduct);
+
+ /**
+ * @swagger
+ * /products/enableProduct:
+ *   put:
+ *     summary: Enable product
+ *     consumes:
+ *       - application/json
+ *     tags: [Products]
+ *     parameters:
+ *     - in: query
+ *       name: idProduct
+ *       description: Id product
+ *       schema:
+ *         type: string  
+ *     responses:
+ *       200:
+ *         description: Enable product
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Product'
+ */
+  router.put("/enableProduct", isAuthenticatedAccount, authorizeRoles('admin'), enableProduct);
+
+ /**
+ * @swagger
+ * /products/getProductDisableList:
+ *   get:
+ *     summary: Returns the list of all the products is disable
+ *     tags: [Products]
+ *     parameters:
+ *     - in: query
+ *       name: page
+ *       description: Current page
+ *       schema:
+ *         type: number
+ *     responses:
+ *       200:
+ *         description: The list of the disable products
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Product'
+ */
+  router.get("/getProductDisableList", isAuthenticatedAccount, authorizeRoles('admin'), getProductDisableList);
 
 module.exports = router;

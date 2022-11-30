@@ -183,8 +183,17 @@ exports.addToCart = catchAsyncErrors(async (req, res, next) => {
     LogOrderDetail = await tempLogOrderDetail.save();
   }
 
+  LogOrderDetail = await logOrderDetail.find({
+    Order: tempOrder._id,
+    Account: tempAccount._id,
+    isDelete: 0,
+  }).populate("Product");
+
+  const total = LogOrderDetail.length;
+
   res.status(201).json({
     success: true,
+    total: total,
     LogOrderDetail,
   });
 });
