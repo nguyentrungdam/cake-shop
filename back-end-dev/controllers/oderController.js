@@ -14,7 +14,7 @@ exports.getProductInCart = catchAsyncErrors(async (req, res, next) => {
   const tempAccount = req.Account;
 
   const LogOrderDetail = await logOrderDetail
-    .find({ Account: tempAccount._id, isDelete: 0 })
+    .find({ Account: tempAccount._id })
     .populate("Product");
   const total = LogOrderDetail.length;
 
@@ -130,7 +130,7 @@ exports.addToCart = catchAsyncErrors(async (req, res, next) => {
   const { Product, Quantity, Product_Size } = req.body;
 
   //validate product id
-  console.log(req.body);
+
   const ObjectId = mongoose.Types.ObjectId;
   if (!Product || !ObjectId.isValid(Product)) {
     const err = new Error("Product id not valid");
@@ -141,6 +141,12 @@ exports.addToCart = catchAsyncErrors(async (req, res, next) => {
   const tempProduct = await product.findById(Product);
   if (!tempProduct || tempProduct.isDelete == true) {
     const err = new Error("Product not found");
+    return next(err);
+  }
+
+  //CHECK product quantity
+  if (tempProduct.Quantity < Quantity) {
+    const err = new Error("The number of products in stock is not enough");
     return next(err);
   }
 
@@ -243,7 +249,7 @@ exports.removeItemCart = catchAsyncErrors(async (req, res, next) => {
   const pointTransaction = { session };
 
   const itemCartId = req.query.itemCartId
-  console.log('itemCartId: ', itemCartId)
+
   const item = await logOrderDetail.findById(itemCartId)
   if (!item) {
     await session.abortTransaction();

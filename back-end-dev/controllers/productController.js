@@ -1,6 +1,7 @@
 //const { response } = require('express');
 const product = require('../models/product')
 const category = require('../models/category');
+const orderDetail = require("../models/orderDetail");
 const mongoose = require('mongoose')
 
 const catchAsyncErrors = require('../utils/catchAsyncErrors');
@@ -248,9 +249,6 @@ exports.filterProduct = catchAsyncErrors(async (req, res, next) => {
     })
 })
 
-
-
-
 exports.getProductById_Test = catchAsyncErrors(async (req, res, next) => {
     const { _id } = req.body;
 
@@ -285,12 +283,19 @@ exports.disableProduct = catchAsyncErrors(async (req, res, next) => {
 
     // Check product exists in database
     const oldProduct = await product.findById(idProduct);
-    if (!oldProduct || oldProduct.isDelete == true) {
+    if (!oldProduct) {
         const err = new Error('Product not found');
         return next(err);
     }
 
-    // Update isDelete is false
+    // CHECK product in order ==> not disable
+    const checkOrderDetail = await orderDetail.find({ Product: idProduct, isDelete: false })
+    if (checkOrderDetail) {
+        const err = new Error('The product being ordered cannot be disabled');
+        return next(err);
+    }
+
+    // Update isDelete is true
     const tempProduct = {
         Name: oldProduct.Name,
         Description: oldProduct.Description,
