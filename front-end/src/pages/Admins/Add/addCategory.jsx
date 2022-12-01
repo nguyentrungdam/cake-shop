@@ -1,20 +1,117 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-// import { GrUploadOption } from "react-icons/gr";
 import Header from "../../../components/NavbarAdmin/Header";
 import LeftNavbar from "../../../components/NavbarAdmin/LeftNavbar";
-import { useDispatch, useSelector } from "react-redux";
-import { addProduct } from "../../../slices/productSlice";
-import { createCategory, getCategories } from "../../../slices/categorySlice";
+import { useDispatch } from "react-redux";
+import { createCategory } from "../../../slices/categorySlice";
+import { Link } from "react-router-dom";
 
+const AddCategory = () => {
+  const dispatch = useDispatch();
+  const [CategoryInfo, setCategoryInfo] = useState({
+    name: "",
+    description: "",
+  });
+
+  const handleNameProduct = async (e) => {
+    e.preventDefault();
+    setCategoryInfo({ ...CategoryInfo, name: e.target.value });
+  };
+
+  const handleDescProduct = async (e) => {
+    e.preventDefault();
+    setCategoryInfo({ ...CategoryInfo, description: e.target.value });
+  };
+
+  const handleAddCategory = async () => {
+    const form = new FormData();
+    form.append("Name", CategoryInfo.name);
+    form.append("Description", CategoryInfo.description);
+    try {
+      const res = await dispatch(createCategory(form)).unwrap();
+      console.log(res);
+
+      if (res.status === 201) {
+        alert("Add Thành Công !");
+      }
+    } catch (err) {
+      alert("Vui lòng kiểm tra lại các thông tin cho chính xác !");
+    }
+  };
+
+  return (
+    <React.Fragment>
+      <Header name="Thêm sản phẩm" />
+      <LeftNavbar />
+      <Container>
+        <a href="/listcategory" className="btn-shopnow">
+          Back
+        </a>
+        <Title>THÔNG TIN PHÂN LOẠI</Title>
+        <Wrapper1>
+          <Wrapper2>
+            <Label>Tên phân loại</Label>
+            <Input onChange={handleNameProduct} />
+            <Label>Mô tả</Label>
+            <TexrAreaInput onChange={handleDescProduct} />
+          </Wrapper2>
+        </Wrapper1>
+        <Wrapper1
+          style={{
+            justifyContent: "center",
+            alignContent: "center",
+            marginTop: "40px",
+          }}
+        >
+          <ButtonPrimary onClick={() => handleAddCategory()}>
+            THÊM PHÂN LOẠI
+          </ButtonPrimary>
+        </Wrapper1>
+      </Container>
+    </React.Fragment>
+  );
+};
 const Container = styled.div`
   height: 90vh;
   width: 81rem;
-  margin-left: 15rem;
+  margin-left: 20rem;
   display: flex;
   flex-direction: column;
   background: #fff;
   padding-top: 20px;
+  .btn-shopnow {
+    font-family: Poppins, sans-serif;
+    font-weight: 700;
+    display: inline-block;
+    user-select: none;
+    -webkit-appearance: none;
+    border-radius: 0;
+    color: #fff;
+    padding: 9px 20px;
+    transition: padding-right 0.3s, background 0.3s;
+    width: 100px;
+    min-width: 90px;
+    line-height: 1.42;
+    font-size: 0.94118em;
+    text-decoration: none;
+    text-align: center;
+    vertical-align: middle;
+    white-space: normal;
+    cursor: pointer;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    letter-spacing: 0;
+    margin: 20px;
+    background: #111
+      url(//cdn.shopify.com/s/files/1/0261/0108/8359/t/2/assets/button-arrow.png)
+      no-repeat 150% 35%;
+    background-size: 29px;
+    background-image: url(//cdn.shopify.com/s/files/1/0261/0108/8359/t/2/assets/button-arrow-2x.png);
+  }
+  .btn-shopnow:hover {
+    padding-right: 55px;
+    background-position: 91% 35%;
+  }
 `;
 const Wrapper2 = styled.section`
   display: flex;
@@ -96,68 +193,4 @@ const ButtonPrimary = styled(ButtonShort)`
   height: 40px;
   width: 200px;
 `;
-
-const AddCategory = () => {
-  const dispatch = useDispatch();
-  const [CategoryInfo, setCategoryInfo] = useState({
-    name: "",
-    description: "",
-  });
-
-  const handleNameProduct = async (e) => {
-    e.preventDefault();
-    setCategoryInfo({ ...CategoryInfo, name: e.target.value });
-  };
-
-  const handleDescProduct = async (e) => {
-    e.preventDefault();
-    setCategoryInfo({ ...CategoryInfo, description: e.target.value });
-  };
-
-  const handleAddCategory = async () => {
-    const form = new FormData();
-    form.append("Name", CategoryInfo.name);
-    form.append("Description", CategoryInfo.description);
-    try {
-      const res = await dispatch(createCategory(form)).unwrap();
-      console.log(res);
-
-      if (res.status === 201) {
-        alert("Add Thành Công !");
-      }
-    } catch (err) {
-      alert("Vui lòng kiểm tra lại các thông tin cho chính xác !");
-    }
-  };
-
-  return (
-    <React.Fragment>
-      <Header name="Thêm sản phẩm" />
-      <LeftNavbar />
-      <Container>
-        <Title>THÔNG TIN PHÂN LOẠI</Title>
-        <Wrapper1>
-          <Wrapper2>
-            <Label>Tên phân loại</Label>
-            <Input onChange={handleNameProduct} />
-            <Label>Mô tả</Label>
-            <TexrAreaInput onChange={handleDescProduct} />
-          </Wrapper2>
-        </Wrapper1>
-        <Wrapper1
-          style={{
-            justifyContent: "center",
-            alignContent: "center",
-            marginTop: "40px",
-          }}
-        >
-          <ButtonPrimary onClick={() => handleAddCategory()}>
-            THÊM PHÂN LOẠI
-          </ButtonPrimary>
-        </Wrapper1>
-      </Container>
-    </React.Fragment>
-  );
-};
-
 export default AddCategory;

@@ -5,7 +5,10 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Header from "../../../components/NavbarAdmin/Header";
 import LeftNavbar from "../../../components/NavbarAdmin/LeftNavbar";
-import { getCategories } from "../../../slices/categorySlice";
+import {
+  getCategories,
+  deleteCategoryById,
+} from "../../../slices/categorySlice";
 
 const Container = styled.div``;
 function CategoryList() {
@@ -19,15 +22,21 @@ function CategoryList() {
     fetchData();
   }, [dispatch]);
 
+  const handleDeleteCategory = async (id) => {
+    const response = await dispatch(deleteCategoryById(id)).unwrap();
+    await dispatch(getCategories()).unwrap();
+    if (response.status === 201) {
+      alert("Xóa Thành Công");
+    }
+  };
   return (
     <Container>
-      <Header name="Phân loại" />
+      <Header name="Categories Management" />
       <LeftNavbar />
       <div
         className="container"
         style={{
-          marginLeft: "280px",
-          marginRight: "0",
+          margin: "20px 0 0 400px",
           display: "flex",
           flex: "flex-end",
           flexDirection: "column",
@@ -41,10 +50,10 @@ function CategoryList() {
               fontsize: "40px",
             }}
           >
-            +Thêm phân loại
+            +Add Categorie
           </Link>
         </span>
-        <h1>Thông tin người dùng </h1>
+        <h1>Categories List </h1>
         <Table
           style={{
             width: "50%",
@@ -64,7 +73,7 @@ function CategoryList() {
                 <td style={{ textAlign: "center" }}>{index}</td>
                 <td>{item.Name}</td>
                 <td>
-                  <a
+                  <span
                     style={{
                       textAlign: "center",
                       cursor: "pointer",
@@ -72,9 +81,10 @@ function CategoryList() {
                       marginLeft: "7px",
                     }}
                     className="badge badge-danger"
+                    onClick={() => handleDeleteCategory(item._id)}
                   >
                     Delete
-                  </a>
+                  </span>
                 </td>
               </tr>
             </tbody>

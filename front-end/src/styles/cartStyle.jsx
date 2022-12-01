@@ -465,4 +465,79 @@ export const Container = styled.div`
     text-decoration: none;
     color: #ff01bd;
   }
+  .product__quantity {
+    margin: 0 0 0 38px;
+  }
+  .product__quantity label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  .js-qty__wrapper {
+    position: relative;
+    max-width: 100px;
+    min-width: 75px;
+    overflow: visible;
+    background-color: #fff;
+    color: #000;
+  }
+  .js-qty__num {
+    display: block;
+    background: 0;
+    text-align: center;
+    width: 100%;
+    padding: 8px 25px;
+    margin: 0;
+    font-weight: 500;
+    z-index: 1;
+  }
+
+  .js-qty__adjust {
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    border: 0 none;
+    overflow: hidden;
+    padding: 0 5px;
+    line-height: 1;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    transition: background-color 0.1s ease-out;
+    z-index: 2;
+    fill: #000;
+    display: block;
+    background: 0;
+    text-align: center;
+  }
+  .js-qty__adjust--minus {
+    left: 0;
+    border-right: 1px solid #f2f2f2;
+  }
+
+  .js-qty__adjust .icon {
+    display: block;
+    font-size: 8px;
+    width: 10px;
+    height: 10px;
+    fill: inherit;
+  }
+  .icon__fallback-text {
+    clip: rect(0, 0, 0, 0);
+    overflow: hidden;
+    position: absolute;
+    height: 1px;
+    width: 1px;
+  }
+  .js-qty__adjust--plus {
+    right: 0;
+    border-left: 1px solid #f2f2f2;
+  }
+  .js-qty__adjust:active {
+    background-color: #d2d2c4;
+    border: 0 none;
+  }
 `;

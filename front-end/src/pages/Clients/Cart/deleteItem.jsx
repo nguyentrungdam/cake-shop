@@ -27,8 +27,9 @@ const DialogWrapper = styled.div`
 `;
 const Title = styled.div`
   font-size: 1.5rem;
-  color: #ee4d2d;
+  color: #ff01bd;
   margin-top: 1.875rem;
+  font-weight: 500;
 `;
 
 const Item = styled.div`
@@ -45,7 +46,7 @@ const ButtonWhite = styled.button`
   text-overflow: ellipsis;
   -webkit-line-clamp: 1;
   flex-direction: column;
-  font-size: 14px;
+  font-size: 1rem;
   box-sizing: border-box;
   display: flex;
   border-radius: 2px;
@@ -79,35 +80,38 @@ const ButtonPrimary = styled(ButtonWhite)`
   position: relative;
   overflow: visible;
   outline: 0;
-  background: #ee4d2d;
+  background: #ff01bd;
+  font-size: 1rem;
 
   :hover {
-    background: #f05d40;
+    background: #ff01bd;
+    opacity: 0.8;
   }
 `;
 
 const DeleteItem = ({
   item,
-  handleDeleteBtn,
+  handleDeleteItem,
   showDeleteItem,
   setShowDeleteItem,
 }) => {
-  const handleDelete = () => {
-    handleDeleteBtn(item.productId, item.variantId);
-    setShowDeleteItem((prev) => !prev);
+  const handleDelete = async () => {
+    await handleDeleteItem(item.Product);
+    await setShowDeleteItem(false);
   };
+
   return (
     <React.Fragment>
       {showDeleteItem ? (
         <Background>
           <DialogWrapper style={{ display: "inline-table" }}>
-            <Title>Bạn chắc chắn muốn bỏ sản phẩm này?</Title>
+            <Title>Do you definitely want to delete this product?</Title>
             <ShopeeAlertPopupMessage>{item.name}</ShopeeAlertPopupMessage>
             <Item>
-              <ButtonPrimary onClick={handleDelete}>Có</ButtonPrimary>
+              <ButtonPrimary onClick={handleDelete}>Yes</ButtonPrimary>
               <SpaceBetweenButton> </SpaceBetweenButton>
-              <ButtonWhite onClick={() => setShowDeleteItem((prev) => !prev)}>
-                Không
+              <ButtonWhite onClick={() => setShowDeleteItem(false)}>
+                No
               </ButtonWhite>
             </Item>
           </DialogWrapper>

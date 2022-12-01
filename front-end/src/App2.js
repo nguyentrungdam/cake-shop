@@ -23,6 +23,7 @@ import Protected from "./Protected";
 import { getProductInCart } from "./slices/cartSlice";
 import CategoryList from "./pages/Admins/List/categoryList";
 import AddCategory from "./pages/Admins/Add/addCategory";
+import DisableProductList from "./pages/Admins/List/disableProductList";
 
 //---------------------
 function App() {
@@ -54,11 +55,12 @@ function App() {
         path="/admin/*"
         element={
           <Protected isLoggedIn={isAuthenticated}>
-            <Dashboard />
+            <ProductList />
           </Protected>
         }
       />
       <Route path="/listproduct/*" element={<ProductList />} />
+      <Route path="/disablelistproduct/*" element={<DisableProductList />} />
       <Route path="/listUser/*" element={<UserList />} />
       <Route path="/addproduct/*" element={<AddProduct />} />
       <Route path="/addcategory/*" element={<AddCategory />} />

@@ -3,9 +3,9 @@ import productApi from "../apis/productApi";
 // TODO Đã có
 export const getProducts = createAsyncThunk(
   "products/getProductList",
-  async (rejectWithValue) => {
+  async (obj, rejectWithValue) => {
     try {
-      const response = await productApi.getProducts();
+      const response = await productApi.getProducts(obj.page);
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data);

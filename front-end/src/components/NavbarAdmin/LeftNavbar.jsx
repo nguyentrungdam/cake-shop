@@ -13,7 +13,7 @@ const Container = styled.div`
   transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   border-right: 2px solid #ccc;
   height: 100vh;
-  width: 15rem;
+  width: 20rem;
   a {
     text-decoration: none;
   }
@@ -81,35 +81,28 @@ const LeftNavbar = () => {
         <ContainerNavbar>
           <NavbarItems>
             <NavbarItem>
-              <Link to="/admin">
-                <ItemImg src="https://img.icons8.com/material-outlined/512/dashboard-layout.png" />
-                <ItemTitle>Dashboard</ItemTitle>
-              </Link>
-            </NavbarItem>
-
-            <NavbarItem>
               <Link to="/listproduct">
                 <ItemImg src="https://img.icons8.com/ios/2x/grocery-shelf.png" />
-                <ItemTitle>Quản lý sản phẩm</ItemTitle>
+                <ItemTitle>Products Management</ItemTitle>
               </Link>
             </NavbarItem>
 
             <NavbarItem>
               <Link to="/listUser">
                 <ItemImg src="https://img.icons8.com/ios/2x/conference-call.png" />
-                <ItemTitle>Quản lý người dùng</ItemTitle>
+                <ItemTitle>Users Management</ItemTitle>
               </Link>
             </NavbarItem>
             <NavbarItem>
               <Link to="/listcategory">
                 <ItemImg src="https://img.icons8.com/ios/2x/diversity.png" />
-                <ItemTitle>Quản lý phân loại</ItemTitle>
+                <ItemTitle>Categories Management</ItemTitle>
               </Link>
             </NavbarItem>
             <NavbarItem>
               <Link to="/listorder">
                 <ItemImg src="https://img.icons8.com/material-rounded/512/favorite-cart.png" />
-                <ItemTitle>Quản lý đơn hàng</ItemTitle>
+                <ItemTitle>Orders Management</ItemTitle>
               </Link>
             </NavbarItem>
 

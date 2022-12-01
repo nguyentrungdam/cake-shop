@@ -32,19 +32,18 @@ function OrderList() {
 
   return (
     <Container>
-      <Header name="Đơn hàng" />
+      <Header name="Orders Management" />
       <LeftNavbar />
       <div
         className="container"
         style={{
-          marginLeft: "280px",
-          marginRight: "0",
+          margin: "20px 0 0 400px",
           display: "flex",
           flex: "flex-end",
           flexDirection: "column",
         }}
       >
-        <h1>Danh sách đơn hàng </h1>
+        <h1>Orders List </h1>
         <Table
           style={{
             width: "90%",

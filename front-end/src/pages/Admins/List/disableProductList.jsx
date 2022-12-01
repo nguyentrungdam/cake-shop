@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getProducts, deleteProductById } from "../../../slices/productSlice";
 import ReactPaginate from "react-paginate";
 
-function ProductList() {
+function DisableProductList() {
   const [pageCount, setPageCount] = useState(0);
   const limit = 8;
   const [nextPage, setNextPage] = useState(1);
@@ -58,22 +58,10 @@ function ProductList() {
           flexDirection: "column",
         }}
       >
-        <span>
-          <Link
-            // to="/addproduct"
-            to="#"
-            style={{
-              color: "red",
-              fontsize: "40px",
-            }}
-          >
-            +Add product
-          </Link>
-        </span>
-        <a href="/disablelistproduct" className="btn-shopnow">
-          Disable Products List
+        <a href="/listproduct" className="btn-shopnow">
+          Back
         </a>
-        <h1>Products List </h1>
+        <h1>Disable Products List </h1>
         <Table
           style={{
             width: "90%",
@@ -203,7 +191,7 @@ const Container = styled.div`
     color: #fff;
     padding: 9px 20px;
     transition: padding-right 0.3s, background 0.3s;
-    width: 300px;
+    width: 100px;
     min-width: 90px;
     line-height: 1.42;
     font-size: 0.94118em;
@@ -228,4 +216,4 @@ const Container = styled.div`
   }
 `;
 
-export default ProductList;
+export default DisableProductList;

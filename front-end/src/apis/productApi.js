@@ -1,8 +1,8 @@
 import axios from "./axios";
 
 const productApi = {
-  getProducts: () => {
-    const url = "/products/getProductList";
+  getProducts: (page) => {
+    const url = `/products/getProductList?page=${page}`;
     return axios.get(url);
   },
   filterProducts: (category, sort, page) => {

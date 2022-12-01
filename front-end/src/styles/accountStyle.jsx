@@ -98,4 +98,37 @@ export const AccountWrapper = styled.div`
     letter-spacing: 0;
     line-height: 1.2;
   }
+  .btn-shopnow {
+    font-family: Poppins, sans-serif;
+    font-weight: 700;
+    display: inline-block;
+    user-select: none;
+    -webkit-appearance: none;
+    border-radius: 0;
+    color: #fff;
+    padding: 9px 20px;
+    transition: padding-right 0.3s, background 0.3s;
+    width: 250px;
+    min-width: 90px;
+    line-height: 1.42;
+    font-size: 0.94118em;
+    text-decoration: none;
+    text-align: center;
+    vertical-align: middle;
+    white-space: normal;
+    cursor: pointer;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    letter-spacing: 0;
+    margin: 0 0 20px 0;
+    background: #111
+      url(//cdn.shopify.com/s/files/1/0261/0108/8359/t/2/assets/button-arrow.png)
+      no-repeat 150% 35%;
+    background-size: 29px;
+    background-image: url(//cdn.shopify.com/s/files/1/0261/0108/8359/t/2/assets/button-arrow-2x.png);
+  }
+  .btn-shopnow:hover {
+    padding-right: 55px;
+    background-position: 91% 35%;
+  }
 `;

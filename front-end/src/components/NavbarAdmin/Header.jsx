@@ -40,7 +40,7 @@ const Header = (props) => {
                   <SubA
                     onClick={() => dispatch(signout(), navigate("/signin"))}
                   >
-                    Đăng Xuất
+                    Log out
                   </SubA>
                 </DropDownContent>
               </UserWrapper>
@@ -199,7 +199,7 @@ const DropDownContent = styled.div`
 `;
 
 const SubA = styled.a`
-  padding: 7px 12px;
+  padding: 7px 15px;
   text-decoration: none;
   display: block;
   text-align: right;

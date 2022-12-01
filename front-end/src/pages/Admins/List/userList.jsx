@@ -20,29 +20,27 @@ function UserList() {
   }, [dispatch]);
 
   const handleDeleteUser = async (id) => {
-    // e.preventDefault();
-    const response = await dispatch(deleteUserById({ _id: id })).unwrap();
-    // console.log(response);
-    if (response.status === 204) {
+    const response = await dispatch(deleteUserById(id)).unwrap();
+    await dispatch(getUsers()).unwrap();
+    if (response.status === 201) {
       alert("Xóa Thành Công");
     }
   };
 
   return (
     <Container>
-      <Header name="Người dùng" />
+      <Header name="Users Management" />
       <LeftNavbar />
       <div
         className="container"
         style={{
-          marginLeft: "280px",
-          marginRight: "0",
+          margin: "20px 0 0 400px",
           display: "flex",
           flex: "flex-end",
           flexDirection: "column",
         }}
       >
-        <h1>Thông tin người dùng </h1>
+        <h1>Users List </h1>
         <Table
           style={{
             width: "90%",
@@ -58,7 +56,7 @@ function UserList() {
               <th style={{ textAlign: "center", width: "100px" }}>Delete</th>
             </tr>
           </tbody>
-          {users.map((item, index) => (
+          {users?.map((item, index) => (
             <tbody key={item._id}>
               <tr>
                 <td style={{ textAlign: "center" }}>{index}</td>
@@ -66,7 +64,7 @@ function UserList() {
                 <td>{item.Email}</td>
                 <td>{item.Role}</td>
                 <td>
-                  <a
+                  <span
                     style={{
                       textAlign: "center",
                       cursor: "pointer",
@@ -77,7 +75,7 @@ function UserList() {
                     onClick={() => handleDeleteUser(item._id)}
                   >
                     Delete
-                  </a>
+                  </span>
                 </td>
               </tr>
             </tbody>

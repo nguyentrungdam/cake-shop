@@ -28,21 +28,25 @@ const ListProductLayout = ({ products }) => {
                         />
                       </div>
                     </div>
-
-                    <div className="grid-product__meta">
-                      <div className="grid-product__title">{item.Name}</div>
-                      <div className="grid-product__price">
-                        from{" "}
-                        <span className="money">
-                          £
-                          {Number(item.Price).toLocaleString("en-US", {
-                            minimumFractionDigits: 2,
-                          })}
-                        </span>
-                      </div>
-                      <p className="free-delivery">Free Delivery</p>
-                    </div>
                   </a>
+                  <div className="grid-product__meta">
+                    <div className="grid-product__title">{item.Name}</div>
+                    <div className="flex" style={{ display: "flex" }}>
+                      <div>
+                        <div className="grid-product__price">
+                          from{" "}
+                          <span className="money">
+                            £
+                            {Number(item.Price).toLocaleString("en-US", {
+                              minimumFractionDigits: 2,
+                            })}
+                          </span>
+                        </div>
+                        <p className="free-delivery">Free Delivery</p>
+                      </div>
+                      {/* <div className="">123</div> */}
+                    </div>
+                  </div>
                 </div>
               </div>
             ))}

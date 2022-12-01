@@ -14,7 +14,6 @@ export const addToCart = createAsyncThunk(
   async (cartItems, thunkAPI) => {
     const response = await cartApi.addToCart(cartItems);
     await thunkAPI.dispatch(getProductInCart());
-    console.log(response);
     return response;
   }
 );
@@ -48,6 +47,7 @@ export const cartSlice = createSlice({
     [addToCart.fulfilled]: (state, action) => {
       state.loading = false;
       state.cartItems = action.payload.data.LogOrderDetail;
+      console.log(state.cartItems);
       state.data = action.payload.data.total;
     },
     [getProductInCart.pending]: (state) => {

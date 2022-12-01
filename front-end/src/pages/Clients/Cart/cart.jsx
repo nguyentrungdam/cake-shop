@@ -4,10 +4,13 @@ import Footer from "../../../components/Footer";
 import { Link, useNavigate } from "react-router-dom";
 import DeleteItem from "./deleteItem";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart, removeItemCart } from "../../../slices/cartSlice";
+import {
+  addToCart,
+  getProductInCart,
+  removeItemCart,
+} from "../../../slices/cartSlice";
 import { CartWrapper, Container } from "../../../styles/cartStyle";
 import Loading from "../../../components/loading";
-import { Add, Remove } from "@material-ui/icons";
 
 function Cart() {
   const dispatch = useDispatch();
@@ -15,49 +18,56 @@ function Cart() {
   const [selected, setSelected] = useState([]);
   const { isAuthenticated } = useSelector((state) => state.account);
   const [showDeleteItem, setShowDeleteItem] = useState(false);
-  const { cartItems, loading, data } = useSelector((state) => state.cart);
+  const { cartItems, loading } = useSelector((state) => state.cart);
   const [item, setItem] = useState({
+    name: "",
     Product: "",
     Product_Size: "",
-    Quantity: "",
   });
 
   const handleDeleteItem = async (_idProduct) => {
+    console.log(_idProduct);
     await dispatch(removeItemCart(_idProduct)).unwrap();
   };
 
   const handleIncrement = async (cartItem, index) => {
-    // const a = cartItems?.[index].product.variants?.[variantIndex].quantity;
-    console.log(cartItem);
     const a = cartItems?.[index].Product.Quantity;
-
-    if (cartItem.Quantity > a) {
-      alert("Số lượng tối đa!");
-    } else {
-      await dispatch(addToCart({ ...cartItem }));
-    }
+    console.log(a);
+    // if (cartItem.Quantity > a) {
+    //   alert("Số lượng tối đa!");
+    // } else if (cartItem.Quantity <= a) {
+    //   const updateSelect = selected.map((item) => {
+    //     if (item.Product._id === cartItem.Product) {
+    //       return { ...item, Quantity: cartItem.Quantity };
+    //     }
+    //     return item;
+    //   });
+    //   setSelected(updateSelect);
+    // }
+    await dispatch(addToCart({ ...cartItem }));
+    window.scrollTo(0, 0);
   };
 
-  console.log(cartItems);
-
-  const handleDecrement = async (cartItem, nameItem) => {
-    if (cartItem.quantity === 0) {
+  const handleDecrement = async (cartItem, nameItem, currentQuantity) => {
+    let quantity = cartItem.Quantity + currentQuantity;
+    console.log(quantity);
+    if (quantity === 0) {
       setItem({
         ...item,
         name: nameItem,
-        productId: cartItem.product,
-        variantId: cartItem.Product_Size,
+        Product: cartItem.Product,
+        Product_Size: cartItem.Product_Size,
       });
-      setShowDeleteItem((prev) => !prev);
+      setShowDeleteItem(true);
     } else {
       const updateSelect = selected.map((item) => {
         if (item.Product._id === cartItem.product) {
-          return { ...item, uantity: cartItem.Quantity };
+          return { ...item, Quantity: cartItem.Quantity };
         }
         return item;
       });
       setSelected(updateSelect);
-      await dispatch(addToCart({ cartItem }));
+      await dispatch(addToCart({ ...cartItem }));
     }
   };
 
@@ -93,7 +103,6 @@ function Cart() {
   };
 
   const itemSelected = (item) => {
-    // console.log(selected);
     return selected.find(
       ({ Product, Product_Size }) =>
         Product._id === item.Product._id && Product_Size === item.Product_Size
@@ -139,6 +148,12 @@ function Cart() {
               </>
             ) : (
               <CartWrapper>
+                <DeleteItem
+                  item={item}
+                  handleDeleteItem={handleDeleteItem}
+                  showDeleteItem={showDeleteItem}
+                  setShowDeleteItem={setShowDeleteItem}
+                ></DeleteItem>
                 <main className="main-content">
                   <div className="page-width page-content">
                     <div className="grid">
@@ -223,8 +238,9 @@ function Cart() {
                                   <div className="grid__item medium-up--two-fifths">
                                     <div className="grid grid--full cart__row--table">
                                       <div className=" grid__item one-third medium-up--one-third medium-up--text-center">
+                                        {/* 
                                         <div className="flex">
-                                          {/* <div
+                                          <div
                                             className="InputBtn margin-left-30"
                                             onClick={() =>
                                               handleDecrement({
@@ -235,14 +251,14 @@ function Cart() {
                                             }
                                           >
                                             <Remove />
-                                          </div> */}
+                                          </div>
                                           <input
                                             className="Input"
                                             defaultValue={item.Quantity}
                                             type="button"
                                             style={{ marginLeft: "60px" }}
                                           ></input>
-                                          {/* <div
+                                          <div
                                             className="InputBtn"
                                             onClick={() =>
                                               handleIncrement(
@@ -257,7 +273,91 @@ function Cart() {
                                             }
                                           >
                                             <Add />
-                                          </div> */}
+                                          </div>
+                                        </div>
+                                         */}
+                                        <div className="product__quantity product__quantity--button">
+                                          <div className="js-qty__wrapper">
+                                            <input
+                                              type="text"
+                                              id="Quantity-7593662546171"
+                                              className="js-qty__num"
+                                              placeholder={item.Quantity}
+                                              // defaultValue={cartItem.quantity}
+                                              message={item.Quantity}
+                                            />
+                                            <button
+                                              type="button"
+                                              className="js-qty__adjust js-qty__adjust--minus"
+                                              aria-label="Reduce item quantity by one"
+                                              onClick={() =>
+                                                handleDecrement(
+                                                  {
+                                                    Product: item.Product._id,
+                                                    Product_Size:
+                                                      item.Product_Size,
+                                                    Quantity: -1,
+                                                  },
+                                                  item.Product.Name,
+                                                  item.Quantity
+                                                )
+                                              }
+                                            >
+                                              <svg
+                                                aria-hidden="true"
+                                                focusable="false"
+                                                role="presentation"
+                                                className="icon icon-minus"
+                                                viewBox="0 0 20 20"
+                                              >
+                                                <path
+                                                  fill="#000"
+                                                  d="M17.543 11.029H2.1A1.032 1.032 0 0 1 1.071 10c0-.566.463-1.029 1.029-1.029h15.443c.566 0 1.029.463 1.029 1.029 0 .566-.463 1.029-1.029 1.029z"
+                                                ></path>
+                                              </svg>
+                                              <span
+                                                className="icon__fallback-text"
+                                                aria-hidden="true"
+                                              >
+                                                −
+                                              </span>
+                                            </button>
+                                            <button
+                                              type="button"
+                                              className="js-qty__adjust js-qty__adjust--plus"
+                                              aria-label="Increase item quantity by one"
+                                              onClick={() =>
+                                                handleIncrement(
+                                                  {
+                                                    Product: item.Product._id,
+                                                    Product_Size:
+                                                      item.Product_Size,
+                                                    Quantity: 1,
+                                                  },
+                                                  index
+                                                )
+                                              }
+                                            >
+                                              <svg
+                                                aria-hidden="true"
+                                                focusable="false"
+                                                role="presentation"
+                                                className="icon icon-plus"
+                                                viewBox="0 0 20 20"
+                                              >
+                                                <path
+                                                  fill="#000"
+                                                  d="M17.409 8.929h-6.695V2.258c0-.566-.506-1.029-1.071-1.029s-1.071.463-1.071 1.029v6.671H1.967C1.401 8.929.938 9.435.938 10s.463 1.071 1.029 1.071h6.605V17.7c0 .566.506 1.029 1.071 1.029s1.071-.463 1.071-1.029v-6.629h6.695c.566 0 1.029-.506 1.029-1.071s-.463-1.071-1.029-1.071z"
+                                                ></path>
+                                              </svg>
+                                              <span
+                                                className="icon__fallback-text"
+                                                aria-hidden="true"
+                                              >
+                                                +
+                                              </span>
+                                            </button>
+                                          </div>
                                         </div>
                                       </div>
 

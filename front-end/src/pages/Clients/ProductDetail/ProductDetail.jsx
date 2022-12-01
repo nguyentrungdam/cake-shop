@@ -6,7 +6,8 @@ import Header from "../../../components/Header";
 import { getProductById } from "../../../slices/productSlice";
 import { ProductDetailWrapper } from "../../../styles/productDetailStyle";
 import { addToCart } from "../../../slices/cartSlice";
-
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 const ProductDetail = () => {
   const { productDetail } = useSelector((state) => state.product);
   const { isAuthenticated } = useSelector((state) => state.account);
@@ -31,6 +32,12 @@ const ProductDetail = () => {
     fetchData();
   }, []);
 
+  const notify = () => {
+    toast.success("🎂 Add to Basket Success!", {
+      position: toast.POSITION.TOP_RIGHT,
+      autoClose: 1000,
+    });
+  };
   const handleChangeSize = (id, name) => {
     setIsSelected(id);
     setCartItem({ ...cartItem, variant: name, quantity: 1 });
@@ -80,7 +87,7 @@ const ProductDetail = () => {
           quantity: cartItem.quantity,
         };
       } else {
-        alert("Thêm sản phẩm thành công");
+        notify();
         newCartItem = {
           Product: cartItem.product,
           Product_Size: cartItem.variant,
@@ -99,6 +106,7 @@ const ProductDetail = () => {
   return (
     <>
       <Header></Header>
+      <ToastContainer />
       <ProductDetailWrapper>
         <main className="main-content">
           {/* Thông tin sản phẩm */}

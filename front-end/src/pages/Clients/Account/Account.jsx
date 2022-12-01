@@ -12,7 +12,7 @@ const Account = () => {
   const navigate = useNavigate();
 
   const { account, isAuthenticated } = useSelector((state) => state.account);
-
+  console.log(account);
   const notify = (prop) => {
     if (prop) {
       toast.success("🎂 User Logout Success !", {
@@ -51,6 +51,11 @@ const Account = () => {
                 Log out
               </a>
             </header>
+            {account.Role === "admin" ? (
+              <a href="/admin" className="btn-shopnow">
+                Go to Admin page
+              </a>
+            ) : null}
             <div className="grid">
               <div className="grid__item medium-up--two-thirds">
                 <h2 className="h3">Order History</h2>
@@ -58,7 +63,9 @@ const Account = () => {
               </div>
               <div className="grid__item medium-up--one-third">
                 <h3>Account details</h3>
-                <p className="h5">{account?.FullName}</p>
+                <p className="h5">
+                  Welcome <h2>{account?.FullName}!</h2>
+                </p>
                 <p style={{ marginTop: "20px" }}>
                   Dam Zone <br /> United Kingdom
                 </p>

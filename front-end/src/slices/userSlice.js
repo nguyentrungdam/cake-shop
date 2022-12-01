@@ -12,14 +12,12 @@ export const getUsers = createAsyncThunk(
     }
   }
 );
-//TODO chưa làm bên dưới
 
 export const deleteUserById = createAsyncThunk(
-  "user/delete",
+  "accounts/deleteAccount",
   async (userId, { rejectWithValue, dispatch }) => {
     try {
       const response = await userApi.deleteUserById(userId);
-      // console.log(response);
       await dispatch(getUsers());
       return response;
     } catch (error) {
@@ -56,7 +54,7 @@ export const userSlice = createSlice({
     },
     [deleteUserById.fulfilled]: (state, action) => {
       state.loading = false;
-      state.users = action.payload.data.users;
+      state.users = action.payload.data.Account;
     },
   },
 });
