@@ -1,3 +1,14 @@
+// const paypal = require('paypal-rest-sdk');
+
+// paypal.configure({
+//     'mode': 'sandbox', //sandbox or live
+//     'client_id': process.env.PAYPAL_CLIENT_ID,
+//     'client_secret': process.env.PAYPAL_CLIENT_SECRET
+// });
+
+// exports.paypalSandbox = paypal;
+/////////////////////////////////////////////////////////////////////////////////
+
 const mongoose = require("mongoose");
 //const { startSession } = require('mongoose')
 
@@ -8,6 +19,7 @@ const account = require("../models/account");
 const order = require("../models/order");
 const product = require("../models/product");
 const orderDetail = require("../models/orderDetail");
+const paypal = require("../utils/paypalSandbox")
 
 exports.getProductInCart = catchAsyncErrors(async (req, res, next) => {
   //get data
@@ -258,8 +270,9 @@ exports.removeItemCart = catchAsyncErrors(async (req, res, next) => {
     const err = new Error("Item in card not found");
     return next(err);
   }
-  item.isDelete = true;
-  item.save(pointTransaction)
+  // item.isDelete = true;
+  // item.save(pointTransaction)
+  await logOrderDetail.deleteOne({ _id: itemCartId })
 
   await session.commitTransaction();
   session.endSession();
@@ -295,4 +308,74 @@ exports.totalSales = catchAsyncErrors(async (req, res, next) => {
     success: true,
     totalSales: totalSales,
   });
+});
+
+exports.payment = catchAsyncErrors(async (req, res, next) => {
+  //get data
+  const account = req.Account;
+
+  //GET product in cart
+  const productInCart = await logOrderDetail.find({ Account: account._id, isDelete: false })
+  if (!productInCart) {
+    const err = new Error("Cart empty");
+    return next(err);
+  }
+  const itemInCart = [];
+  let item = {};
+  let totalPrice = 0;
+  for (var i = 0; i < productInCart.length; i++) {
+    item = {
+      name: productInCart[i].Product,
+      sku: i,
+      price: 1,
+      currency: "USD",
+      quantity: productInCart[i].Quantity
+    }
+    itemInCart.push(item)
+    totalPrice += 1
+  }
+
+  const create_payment_json = {
+        "intent": "sale",
+        "payer": {
+            "payment_method": "paypal"
+        },
+        "redirect_urls": {
+            "return_url": "http://localhost:5000/orders/addOrder",
+            "cancel_url": "http://localhost:5000/cancel"
+        },
+        "transactions": [{
+            "item_list": {
+                // "items": [{
+                //     "name": "Iphone 4S",
+                //     "sku": "001",
+                //     "price": "25.00",
+                //     "currency": "USD",
+                //     "quantity": 1
+                // }]
+                "items": itemInCart
+            },
+            "amount": {
+                "currency": "USD",
+                "total": totalPrice
+            },
+            "description": "Iphone 4S cũ giá siêu rẻ"
+        }]
+    };
+
+    paypal.payment.create(create_payment_json, function (error, payment) {
+        if (error) {
+            throw error;
+        } else {
+            for (let i = 0; i < payment.links.length; i++) {
+                if (payment.links[i].rel === 'approval_url') {
+                    //res.redirect(payment.links[i].href);
+                    res.json({
+                      success: true,
+                      redirect: payment.links[i].href,
+                    })
+                }
+            }
+        }
+    });
 });

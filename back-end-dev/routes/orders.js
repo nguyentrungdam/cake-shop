@@ -7,7 +7,8 @@ const {
     addOrder,
     getOrderList,
     getOrderById,
-    removeItemCart
+    removeItemCart,
+    payment
 } = require('../controllers/oderController')
 
 const { 
@@ -248,5 +249,23 @@ const upload = multer()
  *                 $ref: '#/components/schemas/Order'
  */
   router.get("/removeItemCart", isAuthenticatedAccount, removeItemCart);
+
+ /**
+ * @swagger
+ * /orders/payment:
+ *   get:
+ *     summary: Not used!!! Updating...
+ *     tags: [Orders]
+ *     responses:
+ *       200:
+ *         description: The list of the orders
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Order'
+ */
+  router.get("/payment", isAuthenticatedAccount, payment);
 
   module.exports = router;
