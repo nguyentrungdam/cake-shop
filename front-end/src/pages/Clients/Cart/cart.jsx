@@ -11,6 +11,8 @@ import {
 } from "../../../slices/cartSlice";
 import { CartWrapper, Container } from "../../../styles/cartStyle";
 import Loading from "../../../components/loading";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 
 function Cart() {
   const dispatch = useDispatch();
@@ -19,6 +21,7 @@ function Cart() {
   const { isAuthenticated } = useSelector((state) => state.account);
   const [showDeleteItem, setShowDeleteItem] = useState(false);
   const { cartItems, loading } = useSelector((state) => state.cart);
+  const [orđerId, setOrđerId] = useState("");
   const [item, setItem] = useState({
     name: "",
     Product: "",
@@ -26,29 +29,39 @@ function Cart() {
   });
 
   const handleDeleteItem = async (_idProduct) => {
-    console.log(_idProduct);
-    await dispatch(removeItemCart(_idProduct)).unwrap();
+    await dispatch(removeItemCart(_idProduct));
+    await dispatch(getProductInCart());
   };
-
-  const handleIncrement = async (cartItem, index) => {
+  const notify = (message) => {
+    toast.warn(message, {
+      position: toast.POSITION.TOP_RIGHT,
+      autoClose: 1000,
+    });
+  };
+  const handleIncrement = async (cartItem, currentQuantity, index) => {
     const a = cartItems?.[index].Product.Quantity;
-    console.log(a);
-    // if (cartItem.Quantity > a) {
-    //   alert("Số lượng tối đa!");
-    // } else if (cartItem.Quantity <= a) {
-    //   const updateSelect = selected.map((item) => {
-    //     if (item.Product._id === cartItem.Product) {
-    //       return { ...item, Quantity: cartItem.Quantity };
-    //     }
-    //     return item;
-    //   });
-    //   setSelected(updateSelect);
-    // }
-    await dispatch(addToCart({ ...cartItem }));
-    window.scrollTo(0, 0);
+    let quantity = cartItem.Quantity + currentQuantity;
+    if (quantity > a) {
+      notify("🎂 The quantity is maximum!");
+    } else if (quantity <= a) {
+      const updateSelect = selected.map((item) => {
+        if (item.Product._id === cartItem.Product) {
+          return { ...item, Quantity: cartItem.Quantity };
+        }
+        return item;
+      });
+      setSelected(updateSelect);
+      await dispatch(addToCart({ ...cartItem }));
+      window.scrollTo(0, 0);
+    }
   };
 
-  const handleDecrement = async (cartItem, nameItem, currentQuantity) => {
+  const handleDecrement = async (
+    cartItem,
+    nameItem,
+    currentQuantity,
+    orderId
+  ) => {
     let quantity = cartItem.Quantity + currentQuantity;
     console.log(quantity);
     if (quantity === 0) {
@@ -58,6 +71,7 @@ function Cart() {
         Product: cartItem.Product,
         Product_Size: cartItem.Product_Size,
       });
+      setOrđerId(orderId);
       setShowDeleteItem(true);
     } else {
       const updateSelect = selected.map((item) => {
@@ -121,6 +135,7 @@ function Cart() {
   return (
     <>
       <Header />
+      <ToastContainer />
       <Container>
         {isAuthenticated ? (
           <div className="container-cart">
@@ -149,6 +164,7 @@ function Cart() {
             ) : (
               <CartWrapper>
                 <DeleteItem
+                  orderId={orđerId}
                   item={item}
                   handleDeleteItem={handleDeleteItem}
                   showDeleteItem={showDeleteItem}
@@ -238,54 +254,15 @@ function Cart() {
                                   <div className="grid__item medium-up--two-fifths">
                                     <div className="grid grid--full cart__row--table">
                                       <div className=" grid__item one-third medium-up--one-third medium-up--text-center">
-                                        {/* 
-                                        <div className="flex">
-                                          <div
-                                            className="InputBtn margin-left-30"
-                                            onClick={() =>
-                                              handleDecrement({
-                                                product: item.Product._id,
-                                                Product_Size: item.Product_Size,
-                                                Quantity: item.Quantity - 1,
-                                              })
-                                            }
-                                          >
-                                            <Remove />
-                                          </div>
-                                          <input
-                                            className="Input"
-                                            defaultValue={item.Quantity}
-                                            type="button"
-                                            style={{ marginLeft: "60px" }}
-                                          ></input>
-                                          <div
-                                            className="InputBtn"
-                                            onClick={() =>
-                                              handleIncrement(
-                                                {
-                                                  Product: item.Product._id,
-                                                  Product_Size:
-                                                    item.Product_Size,
-                                                  Quantity: item.Quantity + 1,
-                                                },
-                                                index
-                                              )
-                                            }
-                                          >
-                                            <Add />
-                                          </div>
-                                        </div>
-                                         */}
                                         <div className="product__quantity product__quantity--button">
                                           <div className="js-qty__wrapper">
-                                            <input
+                                            <span
                                               type="text"
                                               id="Quantity-7593662546171"
                                               className="js-qty__num"
-                                              placeholder={item.Quantity}
-                                              // defaultValue={cartItem.quantity}
-                                              message={item.Quantity}
-                                            />
+                                            >
+                                              {item.Quantity}
+                                            </span>
                                             <button
                                               type="button"
                                               className="js-qty__adjust js-qty__adjust--minus"
@@ -299,7 +276,8 @@ function Cart() {
                                                     Quantity: -1,
                                                   },
                                                   item.Product.Name,
-                                                  item.Quantity
+                                                  item.Quantity,
+                                                  item._id
                                                 )
                                               }
                                             >
@@ -334,6 +312,7 @@ function Cart() {
                                                       item.Product_Size,
                                                     Quantity: 1,
                                                   },
+                                                  item.Quantity,
                                                   index
                                                 )
                                               }
@@ -366,7 +345,8 @@ function Cart() {
                                           <span className="appikon-cart-item-line-price">
                                             <span className="discounted_price appkion_original_price">
                                               <span className="money">
-                                                £
+                                                £{item.Product.Price} x{" "}
+                                                {item.Quantity} = £
                                                 {Number(
                                                   item.Quantity *
                                                     item.Product.Price

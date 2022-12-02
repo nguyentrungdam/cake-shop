@@ -47,7 +47,6 @@ export const cartSlice = createSlice({
     [addToCart.fulfilled]: (state, action) => {
       state.loading = false;
       state.cartItems = action.payload.data.LogOrderDetail;
-      console.log(state.cartItems);
       state.data = action.payload.data.total;
     },
     [getProductInCart.pending]: (state) => {

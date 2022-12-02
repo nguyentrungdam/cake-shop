@@ -91,12 +91,13 @@ const ButtonPrimary = styled(ButtonWhite)`
 
 const DeleteItem = ({
   item,
+  orderId,
   handleDeleteItem,
   showDeleteItem,
   setShowDeleteItem,
 }) => {
   const handleDelete = async () => {
-    await handleDeleteItem(item.Product);
+    await handleDeleteItem(orderId);
     await setShowDeleteItem(false);
   };
 
@@ -108,7 +109,7 @@ const DeleteItem = ({
             <Title>Do you definitely want to delete this product?</Title>
             <ShopeeAlertPopupMessage>{item.name}</ShopeeAlertPopupMessage>
             <Item>
-              <ButtonPrimary onClick={handleDelete}>Yes</ButtonPrimary>
+              <ButtonPrimary onClick={() => handleDelete()}>Yes</ButtonPrimary>
               <SpaceBetweenButton> </SpaceBetweenButton>
               <ButtonWhite onClick={() => setShowDeleteItem(false)}>
                 No

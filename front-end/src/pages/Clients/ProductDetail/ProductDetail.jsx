@@ -8,6 +8,7 @@ import { ProductDetailWrapper } from "../../../styles/productDetailStyle";
 import { addToCart } from "../../../slices/cartSlice";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
+
 const ProductDetail = () => {
   const { productDetail } = useSelector((state) => state.product);
   const { isAuthenticated } = useSelector((state) => state.account);
@@ -365,14 +366,13 @@ const ProductDetail = () => {
                             </label>
 
                             <div className="js-qty__wrapper">
-                              <input
-                                type="text"
+                              <span
+                                type="number"
                                 id="Quantity-7593662546171"
                                 className="js-qty__num"
-                                placeholder={cartItem.quantity}
-                                // defaultValue={cartItem.quantity}
-                                message={cartItem.quantity}
-                              />
+                              >
+                                {cartItem.quantity}
+                              </span>
                               <button
                                 type="button"
                                 className="js-qty__adjust js-qty__adjust--minus"

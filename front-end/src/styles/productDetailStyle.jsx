@@ -386,6 +386,15 @@ export const ProductDetailWrapper = styled.div`
     max-width: 100%;
     border-radius: 0;
   }
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
 
   .variant-input-wrap label {
     box-shadow: 0 0 0 1px #e8e8e1;
@@ -435,6 +444,8 @@ export const ProductDetailWrapper = styled.div`
     margin: 0;
     font-weight: 500;
     z-index: 1;
+    border: 1px solid #ccc;
+    user-select: none;
   }
 
   .js-qty__adjust {
@@ -442,7 +453,7 @@ export const ProductDetailWrapper = styled.div`
     position: absolute;
     top: 0;
     bottom: 0;
-    border: 0 none;
+    border: 1px solid #ccc;
     overflow: hidden;
     padding: 0 5px;
     line-height: 1;

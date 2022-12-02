@@ -488,6 +488,7 @@ export const Container = styled.div`
     padding: 8px 25px;
     margin: 0;
     font-weight: 500;
+    border: 1px solid #ccc;
     z-index: 1;
   }
 
@@ -496,7 +497,7 @@ export const Container = styled.div`
     position: absolute;
     top: 0;
     bottom: 0;
-    border: 0 none;
+    border: 1px solid #ccc;
     overflow: hidden;
     padding: 0 5px;
     line-height: 1;
