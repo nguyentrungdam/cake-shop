@@ -4,10 +4,11 @@ const router = express.Router();
 const {
     addToCart,
     getProductInCart,
-    addOrder,
     getOrderList,
     getOrderById,
     removeItemCart,
+    createOrder,
+    paymentOrderByCash,
     payment
 } = require('../controllers/oderController')
 
@@ -168,26 +169,8 @@ const upload = multer()
 
  /**
  * @swagger
- * /orders/addOrder:
- *   get:
- *     summary: Returns the list of all the orders
- *     tags: [Orders]
- *     responses:
- *       200:
- *         description: The list of the orders
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/Order'
- */
-  router.get("/addOrder", isAuthenticatedAccount, addOrder);
-
- /**
- * @swagger
  * /orders/getOrderList:
- *   get:
+ *   post:
  *     summary: Returns the list of all the orders
  *     tags: [Orders]
  *     responses:
@@ -200,7 +183,7 @@ const upload = multer()
  *               items:
  *                 $ref: '#/components/schemas/Order'
  */
-  router.get("/getOrderList", isAuthenticatedAccount, authorizeRoles('admin'), getOrderList);
+  router.post("/getOrderList", isAuthenticatedAccount, authorizeRoles('admin'), getOrderList);
 
  /**
  * @swagger
@@ -252,6 +235,70 @@ const upload = multer()
 
  /**
  * @swagger
+ * /orders/createOrder:
+ *   post:
+ *     summary: Returns the list of all the orders
+ *     tags: [Orders]
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: array
+ *             items:
+ *               type: object
+ *               properties:
+ *                 productId:
+ *                   type: string   
+ *                 productQuantity:
+ *                   type: number 
+ *                 productSize:
+ *                   type: string  
+ *     responses:
+ *       200:
+ *         description: The list of the orders
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Order'
+ */
+  router.post("/createOrder", isAuthenticatedAccount, createOrder);
+
+/**
+ * @swagger
+ * /orders/paymentOrderByCash:
+ *   post:
+ *     summary: Return order detail
+ *     tags: [Orders]
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               orderEmail:
+ *                 type: string   
+ *               orderFullName:
+ *                 type: string 
+ *               orderAddress:
+ *                 type: string 
+ *               orderPhone:
+ *                 type: string 
+ *     responses:
+ *       200:
+ *         description: The list of the orders
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Order'
+ */
+ router.post("/paymentOrderByCash", isAuthenticatedAccount, paymentOrderByCash);
+
+ /**
+ * @swagger
  * /orders/payment:
  *   get:
  *     summary: Not used!!! Updating...
@@ -267,5 +314,7 @@ const upload = multer()
  *                 $ref: '#/components/schemas/Order'
  */
   router.get("/payment", isAuthenticatedAccount, payment);
+
+
 
   module.exports = router;

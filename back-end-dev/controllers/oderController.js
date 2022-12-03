@@ -39,102 +39,102 @@ exports.getProductInCart = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-exports.addOrder = catchAsyncErrors(async (req, res, next) => {
-  const session = await mongoose.startSession();
-  session.startTransaction();
-  const pointTransaction = { session };
+// exports.addOrder = catchAsyncErrors(async (req, res, next) => {
+//   const session = await mongoose.startSession();
+//   session.startTransaction();
+//   const pointTransaction = { session };
 
-  //get data
-  const tempAccount = req.Account;
+//   //get data
+//   const tempAccount = req.Account;
 
-  // check order with account and status
-  let tempOrder = await order.findOne({
-    Account: tempAccount._id,
-    Order_Status: "await",
-    isDelete: 0,
-  });
-  if (!tempOrder) {
-    const err = new Error("An error in process ordering");
-    err.name = "Cart Empty";
-    return next(err);
-  }
+//   // check order with account and status
+//   let tempOrder = await order.findOne({
+//     Account: tempAccount._id,
+//     Order_Status: "await",
+//     isDelete: 0,
+//   });
+//   if (!tempOrder) {
+//     const err = new Error("An error in process ordering");
+//     err.name = "Cart Empty";
+//     return next(err);
+//   }
 
-  // check product in cart
-  const tempLogOrderDetail = await logOrderDetail.find({
-    Order: tempOrder._id,
-    //Account: tempAccount._id, // Use for advanced ordering feature
-    isDelete: 0,
-  });
+//   // check product in cart
+//   const tempLogOrderDetail = await logOrderDetail.find({
+//     Order: tempOrder._id,
+//     //Account: tempAccount._id, // Use for advanced ordering feature
+//     isDelete: 0,
+//   });
 
-  if (!tempLogOrderDetail) {
-    const err = new Error("Cart empty");
-    return next(err);
-  }
+//   if (!tempLogOrderDetail) {
+//     const err = new Error("Cart empty");
+//     return next(err);
+//   }
 
-  // Insert product into model order detail
-  // Delete product in model log order detail
-  let tempProduct;
-  let tempOrderDetail;
-  let OrderDetail;
-  let Product;
-  let Order;
-  let totalPrice = 0;
-  for (var i = 0; i < tempLogOrderDetail.length; i++) {
-    tempProduct = await product.findOne({
-      _id: tempLogOrderDetail[i].Product,
-      isDelete: 0,
-    });
-    if (!tempProduct) {
-      await session.abortTransaction();
-      session.endSession();
+//   // Insert product into model order detail
+//   // Delete product in model log order detail
+//   let tempProduct;
+//   let tempOrderDetail;
+//   let OrderDetail;
+//   let Product;
+//   let Order;
+//   let totalPrice = 0;
+//   for (var i = 0; i < tempLogOrderDetail.length; i++) {
+//     tempProduct = await product.findOne({
+//       _id: tempLogOrderDetail[i].Product,
+//       isDelete: 0,
+//     });
+//     if (!tempProduct) {
+//       await session.abortTransaction();
+//       session.endSession();
 
-      const err = new Error("Product not found");
-      return next(err);
-    }
-    if (tempProduct.Quantity < tempLogOrderDetail[i].Quantity) {
-      await session.abortTransaction();
-      session.endSession();
+//       const err = new Error("Product not found");
+//       return next(err);
+//     }
+//     if (tempProduct.Quantity < tempLogOrderDetail[i].Quantity) {
+//       await session.abortTransaction();
+//       session.endSession();
 
-      const err = new Error("Not enough product quantity");
-      return next(err);
-    }
+//       const err = new Error("Not enough product quantity");
+//       return next(err);
+//     }
 
-    tempOrderDetail = new orderDetail();
-    tempOrderDetail.Order = tempLogOrderDetail[i].Order;
-    tempOrderDetail.Product = tempLogOrderDetail[i].Product;
-    tempOrderDetail.Price = tempProduct.Price;
-    tempOrderDetail.Quantity = tempLogOrderDetail[i].Quantity;
-    tempOrderDetail.Product_Size = tempLogOrderDetail[i].Product_Size;
+//     tempOrderDetail = new orderDetail();
+//     tempOrderDetail.Order = tempLogOrderDetail[i].Order;
+//     tempOrderDetail.Product = tempLogOrderDetail[i].Product;
+//     tempOrderDetail.Price = tempProduct.Price;
+//     tempOrderDetail.Quantity = tempLogOrderDetail[i].Quantity;
+//     tempOrderDetail.Product_Size = tempLogOrderDetail[i].Product_Size;
 
-    OrderDetail = await orderDetail.create([tempOrderDetail], pointTransaction);
+//     OrderDetail = await orderDetail.create([tempOrderDetail], pointTransaction);
 
-    // Delete product in model log detail order
-    tempLogOrderDetail[i].isDelete = 1;
-    Product = await tempLogOrderDetail[i].save(pointTransaction);
+//     // Delete product in model log detail order
+//     tempLogOrderDetail[i].isDelete = 1;
+//     Product = await tempLogOrderDetail[i].save(pointTransaction);
 
-    // TOTAL price order
-    totalPrice += tempProduct.Price;
+//     // TOTAL price order
+//     totalPrice += tempProduct.Price;
 
-    // UPDATE product quantity
-    tempProduct.Quantity -= tempLogOrderDetail[i].Quantity;
-    Order = await tempProduct.save(pointTransaction);
-  }
+//     // UPDATE product quantity
+//     tempProduct.Quantity -= tempLogOrderDetail[i].Quantity;
+//     Order = await tempProduct.save(pointTransaction);
+//   }
 
-  // Update order status in model order
-  tempOrder.Amount = totalPrice;
-  tempOrder.Order_Status = "order";
-  tempOrder.Order_Date = Date.now();
-  tempOrder.Modified_At = Date.now();
-  Order = await tempOrder.save(pointTransaction);
+//   // Update order status in model order
+//   tempOrder.Amount = totalPrice;
+//   tempOrder.Order_Status = "order";
+//   tempOrder.Order_Date = Date.now();
+//   tempOrder.Modified_At = Date.now();
+//   Order = await tempOrder.save(pointTransaction);
 
-  await session.commitTransaction();
-  session.endSession();
+//   await session.commitTransaction();
+//   session.endSession();
 
-  res.status(201).json({
-    success: true,
-    Order,
-  });
-});
+//   res.status(201).json({
+//     success: true,
+//     Order,
+//   });
+// });
 
 exports.addToCart = catchAsyncErrors(async (req, res, next) => {
   //get data
@@ -142,7 +142,6 @@ exports.addToCart = catchAsyncErrors(async (req, res, next) => {
   const { Product, Quantity, Product_Size } = req.body;
 
   //validate product id
-
   const ObjectId = mongoose.Types.ObjectId;
   if (!Product || !ObjectId.isValid(Product)) {
     const err = new Error("Product id not valid");
@@ -307,6 +306,175 @@ exports.totalSales = catchAsyncErrors(async (req, res, next) => {
   res.status(201).json({
     success: true,
     totalSales: totalSales,
+  });
+});
+
+exports.createOrder = catchAsyncErrors(async (req, res, next) => {
+  const session = await mongoose.startSession();
+  session.startTransaction();
+  const pointTransaction = { session };
+
+  //get data
+  const tempAccount = req.Account;
+  const productList = req.body || "null";
+
+  // CHECK order
+  const tempOrder = await order.findOne({ Account: tempAccount._id, Order_Status: "await", isDelete: false});
+  if (!tempOrder) {
+    const err = new Error("Shopping cart error");
+    return next(err);
+  }
+
+  // DELETE product in Order Detail
+  await orderDetail.deleteMany({ Order: tempOrder._id }, pointTransaction)
+
+  // CREATE Order Detail
+  let tempLogOrderDetail = new logOrderDetail();
+  let tempOrderDetail = new orderDetail();
+  let tempProduct = new product();
+  let newOrderDetail = new orderDetail();
+  const len = productList.length;
+  for (var i = 0; i < len; i ++) {
+    // CHECK product in stock
+    tempProduct = await product.findOne({ _id: productList[i].productId, isDelete: false });
+    if(!tempProduct) {
+      await session.abortTransaction();
+      session.endSession();
+
+      const err = new Error("Product not found in stock");
+      return next(err);
+    }
+
+    // CHECK product in cart
+    tempLogOrderDetail = await logOrderDetail.findOne({
+      Account: tempAccount._id,
+      Product: productList[i].productId,
+      Quantity: productList[i].productQuantity,
+      Product_Size: productList[i].productSize
+      })
+    if(!tempLogOrderDetail) {
+      await session.abortTransaction();
+      session.endSession();
+
+      const err = new Error("Product not found in cart");
+      return next(err);
+    }
+
+    // CHECK product quantity
+    if (tempProduct.Quantity < productList[i].productQuantity) {
+      await session.abortTransaction();
+      session.endSession();
+
+      const err = new Error("Not enough product quantity");
+      return next(err);
+    }
+
+    // SET value for Order Detail
+    tempOrderDetail.Order = tempOrder._id;
+    tempOrderDetail.Product = productList[i].productId;
+    tempOrderDetail.Price = tempProduct.Price;
+    tempOrderDetail.Quantity = productList[i].productQuantity;
+    tempOrderDetail.Product_Size = tempLogOrderDetail.Product_Size;
+
+    newOrderDetail = await orderDetail.create([tempOrderDetail], pointTransaction);
+    if(!newOrderDetail) {
+      await session.abortTransaction();
+      session.endSession();
+
+      const err = new Error("An error occurred during order creation");
+      return next(err);
+    }
+  }
+
+  await session.commitTransaction();
+  session.endSession();
+
+  newOrderDetail = await orderDetail.find({ Order: tempOrder._id, isDelete: false });
+  const total = newOrderDetail.length || 0;
+
+  res.json({
+    success: true,
+    total: total,
+    OrderDetail: newOrderDetail
+  });
+});
+
+exports.paymentOrderByCash = catchAsyncErrors(async (req, res, next) => {
+  const session = await mongoose.startSession();
+  session.startTransaction();
+  const pointTransaction = { session };
+
+  //get data
+  const tempAccount = req.Account;
+  const { orderEmail, orderFullName, orderAddress, orderPhone } = req.body;
+
+  if(!orderEmail || !orderFullName || !orderAddress || !orderPhone) {
+    await session.abortTransaction();
+    session.endSession();
+
+    const err = new Error("Data input is not invalid");
+    return next(err);
+  }
+
+  const tempOrder = await order.findOne({ Account: tempAccount._id, Order_Status: "await" });
+  if (!tempOrder) {
+    await session.abortTransaction();
+    session.endSession();
+
+    const err = new Error("An error occurred during order payment");
+    return next(err);
+  }
+
+  // UPDATE order
+  tempOrder.Order_Status = "order";
+  await tempOrder.save(pointTransaction);
+
+  // DELETE product in cart
+  let tempLogOrderDetail = new logOrderDetail();
+  const lenOrderDetail = await orderDetail.where({ Order: tempOrder._id }).countDocuments();
+  const tempOrderDetail = await orderDetail.find({ Order: tempOrder._id });
+  if(!tempOrderDetail) {
+    await session.abortTransaction();
+    session.endSession();
+
+    const err = new Error("Cart empty");
+    return next(err);
+  }
+  let deleteCheck;
+  for( var i = 0; i < lenOrderDetail; i++) {
+    tempLogOrderDetail = await logOrderDetail.findOne({ 
+      Order: tempOrder._id, 
+      Product: tempOrderDetail[i].Product, 
+      Product_Size: tempOrderDetail[i].Product_Size,
+      isDelete: false 
+    })
+    if (!tempLogOrderDetail) {
+      await session.abortTransaction();
+      session.endSession();
+  
+      const err = new Error("Product not found in cart");
+      return next(err);
+    }
+    deleteCheck = await logOrderDetail.deleteOne(tempLogOrderDetail, pointTransaction);
+    if(!deleteCheck) {
+      await session.abortTransaction();
+      session.endSession();
+  
+      const err = new Error("An error occurred during delete product in cart");
+      return next(err);
+    }
+  }
+
+  await session.commitTransaction();
+  session.endSession();
+
+  const newOrderDetail = await orderDetail.find({ Order: tempOrder._id, isDelete: false });
+  const total = newOrderDetail.length || 0;
+
+  res.json({
+    success: true,
+    total: total,
+    OrderDetail: newOrderDetail
   });
 });
 

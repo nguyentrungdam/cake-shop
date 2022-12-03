@@ -33,6 +33,14 @@ const orderSchema = new schema({
         type: String,
         default: 'await'
     },
+    Payment_Type: {
+        type: String,
+        default: 'cash'
+    },
+    Payment_Status: {
+        type: String,
+        default: 'unpaid'
+    },
     Created_At: {
         type: Date,
         default: Date.now()
