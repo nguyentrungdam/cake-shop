@@ -1,7 +1,19 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import orderApi from "../apis/orderApi";
-import { getProductInCart } from "./cartSlice";
 
+export const addOrder = createAsyncThunk(
+  "orders/createOrder",
+  async (order, rejectWithValue) => {
+    try {
+      const response = await orderApi.addOrder(order);
+      console.log(response);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+//! don't use
 export const getAllOrders = createAsyncThunk(
   "order/getAllOrders",
   async (rejectWithValue) => {
@@ -19,20 +31,6 @@ export const getOrdersByUser = createAsyncThunk(
   async (rejectWithValue) => {
     try {
       const response = await orderApi.getOrdersByUser();
-      return response;
-    } catch (error) {
-      return rejectWithValue(error.response.data);
-    }
-  }
-);
-
-export const addOrder = createAsyncThunk(
-  "order/add",
-  async (order, thunkAPI, rejectWithValue) => {
-    try {
-      const response = await orderApi.addOrder(order);
-      await thunkAPI.dispatch(getProductInCart());
-      await thunkAPI.dispatch(getOrdersByUser());
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -58,7 +56,8 @@ export const orderSlice = createSlice({
     },
     [addOrder.fulfilled]: (state, action) => {
       state.loading = false;
-      state.order = action.payload.data.order;
+      state.orders = action.payload.data.OrderDetail;
+      console.log(state.orders);
     },
     [getOrdersByUser.pending]: (state) => {
       state.loading = true;

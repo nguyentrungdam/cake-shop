@@ -60,8 +60,8 @@ const PaymentPage = () => {
   const handlePayment = async () => {
     const order = {
       address: address._id,
-      totalAmount,
-      paymentStatus: "pending",
+      // totalAmount,
+      // paymentStatus: "pending",
       paymentType: "cod",
       items: getItemsToPay(),
     };

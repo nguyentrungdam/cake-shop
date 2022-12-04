@@ -1,12 +1,27 @@
 import React from "react";
 import { PaymentWrapper } from "../../../styles/payStyle";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Footer from "../../../components/Footer";
 import Header from "../../../components/Header";
-import { cartItem } from "../Cart/data";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 const Pay = () => {
+  const location = useLocation();
   const navigate = useNavigate();
+
+  const orderItems = location.state.selected;
+  console.log(orderItems);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  const totalPrice = orderItems.reduce((total, priceItem) => {
+    total += priceItem.Product?.Price * priceItem.Quantity;
+    return total;
+  }, 0);
+
   return (
     <>
       <Header></Header>
@@ -21,13 +36,6 @@ const Pay = () => {
                 <div className="contact-infomation">
                   <div className="title">
                     <h2 className="h2">Contact information</h2>
-                    <span className="right">
-                      Already have an account?
-                      <a href="/login" className="log-in">
-                        {" "}
-                        Log in
-                      </a>
-                    </span>
                   </div>
                   <input
                     type="text"
@@ -56,7 +64,7 @@ const Pay = () => {
                       className="btn"
                       onClick={() => navigate("/list-product")}
                     >
-                      <span className="continue">Continue to shipping</span>
+                      <span className="continue">Create an order</span>
                     </button>
                   </div>
                   <div>
@@ -90,22 +98,28 @@ const Pay = () => {
           </div>
           <div className="cart-info-wrapper">
             <div className="cart-items">
-              {cartItem.length > 0 &&
-                cartItem.map((item) => (
-                  <div className="cart-item" key={item.id}>
+              {orderItems.length > 0 &&
+                orderItems.map((item) => (
+                  <div className="cart-item" key={item._id}>
                     <div className="item-img-wrapper">
-                      <img src={item.img} alt="1" className="item-img" />
+                      <img
+                        src={item.Product.Image.Url}
+                        alt="1"
+                        className="item-img"
+                      />
                     </div>
                     <div className="item-info">
-                      <p className="name">{item.itemName}</p>
+                      <p className="name">{item.Product.Name}</p>
                       <div className="kind-div">
-                        <p className="kind">{item.chosen}</p>
+                        <p className="kind">{item.Product_Size}</p>
                       </div>
                     </div>
                     <div className="item-price-wrapper">
                       <span className="price">
                         £
-                        {Number(item.price).toLocaleString("en-US", {
+                        {Number(
+                          item.Quantity * item.Product.Price
+                        ).toLocaleString("en-US", {
                           minimumFractionDigits: 2,
                         })}
                       </span>
@@ -118,7 +132,12 @@ const Pay = () => {
             <div className="sub-total-wrapper">
               <div className="sub-total">Subtotal</div>
               <div className="item-price-wrapper">
-                <span className="price">£ 93.00</span>
+                <span className="price">
+                  £{" "}
+                  {Number(totalPrice).toLocaleString("en-US", {
+                    minimumFractionDigits: 2,
+                  })}
+                </span>
               </div>
             </div>
             <div className="shipping-wrapper">
@@ -131,7 +150,13 @@ const Pay = () => {
               <div className="total">Total</div>
               <div className="item-price-wrapper">
                 <span className="gbp">GBP</span>
-                <span className="price-final"> £93.00</span>
+                <span className="price-final">
+                  {" "}
+                  £
+                  {Number(totalPrice).toLocaleString("en-US", {
+                    minimumFractionDigits: 2,
+                  })}
+                </span>
               </div>
             </div>
           </div>

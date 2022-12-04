@@ -4,11 +4,7 @@ import Footer from "../../../components/Footer";
 import { Link, useNavigate } from "react-router-dom";
 import DeleteItem from "./deleteItem";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  addToCart,
-  getProductInCart,
-  removeItemCart,
-} from "../../../slices/cartSlice";
+import { addToCart, removeItemCart } from "../../../slices/cartSlice";
 import { CartWrapper, Container } from "../../../styles/cartStyle";
 import Loading from "../../../components/loading";
 import "react-toastify/dist/ReactToastify.css";
@@ -30,8 +26,8 @@ function Cart() {
 
   const handleDeleteItem = async (_idProduct) => {
     await dispatch(removeItemCart(_idProduct));
-    await dispatch(getProductInCart());
   };
+
   const notify = (message) => {
     toast.warn(message, {
       position: toast.POSITION.TOP_RIGHT,
@@ -124,12 +120,13 @@ function Cart() {
   };
 
   //add to order
-  const hanldeAddToOrder = (e) => {
+  const hanldeAddToOrder = async (e) => {
     e.preventDefault();
     if (selected.length > 0) {
+      console.log(selected);
       navigate("/payment", { state: { selected: selected } });
     } else {
-      alert("Vui lòng chọn sản phẩm để thanh toán!");
+      notify("Please select the product to pay!");
     }
   };
   return (

@@ -33,11 +33,23 @@ const ProductDetail = () => {
     fetchData();
   }, []);
 
-  const notify = () => {
-    toast.success("🎂 Add to Basket Success!", {
-      position: toast.POSITION.TOP_RIGHT,
-      autoClose: 1000,
-    });
+  const notify = (prop, message) => {
+    if (prop === 1) {
+      toast.success("🎂 Add to Basket Success!", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 1000,
+      });
+    } else if (prop === 0) {
+      toast.warn(message, {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 1000,
+      });
+    } else {
+      toast.error(message, {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 1000,
+      });
+    }
   };
   const handleChangeSize = (id, name) => {
     setIsSelected(id);
@@ -46,7 +58,7 @@ const ProductDetail = () => {
 
   const handleIncrement = () => {
     if (cartItem.quantity === productDetail.Quantity) {
-      alert("Số lượng tối đa!");
+      notify(0, "🎂 The quantity is maximum!");
     } else if (cartItem.quantity < productDetail.Quantity) {
       setCartItem({
         ...cartItem,
@@ -57,7 +69,7 @@ const ProductDetail = () => {
 
   const handleDecrement = () => {
     if (cartItem.quantity === 1) {
-      alert("Số lượng tối thiểu là 1!");
+      notify(0, "🎂 The quantity is minimum!");
     } else if (cartItem.quantity > 0) {
       setCartItem({ ...cartItem, quantity: cartItem.quantity - 1 });
     }
@@ -67,7 +79,7 @@ const ProductDetail = () => {
   const handleAddCart = async (e) => {
     e.preventDefault();
     if (!cartItem.variant) {
-      alert("Vui lòng chọn size");
+      notify(0, "Please choose size!");
     } else if (!isAuthenticated) {
       navigate("/signin");
     } else {
@@ -88,7 +100,7 @@ const ProductDetail = () => {
           quantity: cartItem.quantity,
         };
       } else {
-        notify();
+        notify(1);
         newCartItem = {
           Product: cartItem.product,
           Product_Size: cartItem.variant,
@@ -100,6 +112,8 @@ const ProductDetail = () => {
       const res = await dispatch(addToCart({ ...newCartItem }));
       if (res.error) {
         alert("Đã xảy ra lỗi! Vui lòng thử lại.");
+        notify(-1, "Error! Please try again.");
+
         return;
       }
     }
