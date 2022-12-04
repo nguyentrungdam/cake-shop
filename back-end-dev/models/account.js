@@ -43,7 +43,7 @@ const accountSchema = new schema({
     },
     Modified_At: {
         type: Date,
-        default: null
+        default: Date.now()
     },
     isDelete: {
         type: Boolean,

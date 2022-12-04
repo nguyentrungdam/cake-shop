@@ -187,7 +187,7 @@ exports.addToCart = catchAsyncErrors(async (req, res, next) => {
     //if not exist product in cart -> create product in cart
     tempLogOrderDetail = new logOrderDetail();
     tempLogOrderDetail = {
-      Order: tempOrder._id,
+      Order: null, //tempOrder._id,
       Product: Product,
       Account: tempAccount._id,
       Quantity: Quantity,
@@ -201,7 +201,6 @@ exports.addToCart = catchAsyncErrors(async (req, res, next) => {
   }
 
   LogOrderDetail = await logOrderDetail.find({
-    Order: tempOrder._id,
     Account: tempAccount._id,
     isDelete: 0,
   }).populate("Product");
@@ -313,7 +312,7 @@ exports.createOrder = catchAsyncErrors(async (req, res, next) => {
   const session = await mongoose.startSession();
   session.startTransaction();
   const pointTransaction = { session };
-
+  
   //get data
   const tempAccount = req.Account;
   const productList = req.body || "null";
@@ -333,6 +332,7 @@ exports.createOrder = catchAsyncErrors(async (req, res, next) => {
   let tempOrderDetail = new orderDetail();
   let tempProduct = new product();
   let newOrderDetail = new orderDetail();
+  let amount = 0;
   const len = productList.length;
   for (var i = 0; i < len; i ++) {
     // CHECK product in stock
@@ -370,6 +370,7 @@ exports.createOrder = catchAsyncErrors(async (req, res, next) => {
     }
 
     // SET value for Order Detail
+    amount += (tempProduct.Price * productList[i].productQuantity);
     tempOrderDetail.Order = tempOrder._id;
     tempOrderDetail.Product = productList[i].productId;
     tempOrderDetail.Price = tempProduct.Price;
@@ -385,6 +386,10 @@ exports.createOrder = catchAsyncErrors(async (req, res, next) => {
       return next(err);
     }
   }
+
+  // UPDATE amount order
+  tempOrder.Amount = amount;
+  await tempOrder.save(pointTransaction);
 
   await session.commitTransaction();
   session.endSession();
@@ -406,7 +411,11 @@ exports.paymentOrderByCash = catchAsyncErrors(async (req, res, next) => {
 
   //get data
   const tempAccount = req.Account;
-  const { orderEmail, orderFullName, orderAddress, orderPhone } = req.body;
+  const { orderEmail, orderFullName, orderAddress, orderPhone, productList } = req.body;
+
+  // INIT value
+  let updateCheck;
+  let createCheck;
 
   if(!orderEmail || !orderFullName || !orderAddress || !orderPhone) {
     await session.abortTransaction();
@@ -416,45 +425,89 @@ exports.paymentOrderByCash = catchAsyncErrors(async (req, res, next) => {
     return next(err);
   }
 
-  const tempOrder = await order.findOne({ Account: tempAccount._id, Order_Status: "await" });
+  // CHECK order
+  const tempOrder = await order.findOne({ Account: tempAccount._id, Order_Status: "await", isDelete: false});
   if (!tempOrder) {
-    await session.abortTransaction();
-    session.endSession();
-
-    const err = new Error("An error occurred during order payment");
+    const err = new Error("Shopping cart error");
     return next(err);
   }
 
-  // UPDATE order
-  tempOrder.Order_Status = "order";
-  await tempOrder.save(pointTransaction);
+  // DELETE product in Order Detail
+  await orderDetail.deleteMany({ Order: tempOrder._id }, pointTransaction)
 
-  // DELETE product in cart
+  // CREATE Order Detail
   let tempLogOrderDetail = new logOrderDetail();
-  const lenOrderDetail = await orderDetail.where({ Order: tempOrder._id }).countDocuments();
-  const tempOrderDetail = await orderDetail.find({ Order: tempOrder._id });
-  if(!tempOrderDetail) {
-    await session.abortTransaction();
-    session.endSession();
+  let tempOrderDetail = new orderDetail();
+  let tempProduct = new product();
+  let newOrderDetail = new orderDetail();
+  let amount = 0;
+  const len = productList.length;
+  for (var i = 0; i < len; i ++) {
+    // CHECK product in stock
+    tempProduct = await product.findOne({ _id: productList[i].productId, isDelete: false });
+    if(!tempProduct) {
+      await session.abortTransaction();
+      session.endSession();
 
-    const err = new Error("Cart empty");
-    return next(err);
-  }
-  let deleteCheck;
-  for( var i = 0; i < lenOrderDetail; i++) {
-    tempLogOrderDetail = await logOrderDetail.findOne({ 
-      Order: tempOrder._id, 
-      Product: tempOrderDetail[i].Product, 
-      Product_Size: tempOrderDetail[i].Product_Size,
-      isDelete: false 
-    })
-    if (!tempLogOrderDetail) {
+      const err = new Error("Product not found in stock");
+      return next(err);
+    }
+
+    // CHECK product quantity
+    if (tempProduct.Quantity < productList[i].productQuantity) {
+      await session.abortTransaction();
+      session.endSession();
+
+      const err = new Error("Not enough product quantity");
+      return next(err);
+    }
+
+    //UPDATE product quantity in stock
+    tempProduct.Quantity -= productList[i].productQuantity;
+    updateCheck = await tempProduct.save(pointTransaction);
+    if(!updateCheck) {
       await session.abortTransaction();
       session.endSession();
   
+      const err = new Error("An error occurred during order payment");
+      return next(err);
+    }
+
+    // CHECK product in cart
+    tempLogOrderDetail = await logOrderDetail.findOne({
+      Account: tempAccount._id,
+      Product: productList[i].productId,
+      Quantity: productList[i].productQuantity,
+      Product_Size: productList[i].productSize
+      })
+    if(!tempLogOrderDetail) {
+      await session.abortTransaction();
+      session.endSession();
+
       const err = new Error("Product not found in cart");
       return next(err);
     }
+
+    // SET value for Order Detail
+    tempOrderDetail = new orderDetail();
+    amount += (tempProduct.Price * productList[i].productQuantity);
+    tempOrderDetail.Order = tempOrder._id;
+    tempOrderDetail.Product = productList[i].productId;
+    tempOrderDetail.Price = tempProduct.Price;
+    tempOrderDetail.Quantity = productList[i].productQuantity;
+    tempOrderDetail.Product_Size = tempLogOrderDetail.Product_Size;
+
+    // CREATE order detail
+    newOrderDetail = await orderDetail.create([tempOrderDetail], pointTransaction);
+    if(!newOrderDetail) {
+      await session.abortTransaction();
+      session.endSession();
+
+      const err = new Error("An error occurred during order creation");
+      return next(err);
+    }
+
+    // DELETE product in cart
     deleteCheck = await logOrderDetail.deleteOne(tempLogOrderDetail, pointTransaction);
     if(!deleteCheck) {
       await session.abortTransaction();
@@ -465,14 +518,47 @@ exports.paymentOrderByCash = catchAsyncErrors(async (req, res, next) => {
     }
   }
 
+  // UPDATE order
+  tempOrder.Order_Status = "order";
+  tempOrder.Order_FullName = orderFullName;
+  tempOrder.Order_Address = orderAddress;
+  tempOrder.Order_Phone = orderPhone;
+  tempOrder.Order_Date = Date.now();
+  tempOrder.Amount = amount;
+  updateCheck = await tempOrder.save(pointTransaction);
+  if(!updateCheck) {
+    await session.abortTransaction();
+    session.endSession();
+
+    const err = new Error("An error occurred during order payment");
+    return next(err);
+  }
+
+  // CREATE new order with orderStatus = await
+  let newOrder = new order();
+  newOrder.Account = tempAccount._id;
+  createCheck = await order.create([newOrder], pointTransaction);
+  if(!createCheck) {
+    await session.abortTransaction();
+    session.endSession();
+
+    const err = new Error("An error occurred during order payment");
+    return next(err);
+  }
+
   await session.commitTransaction();
   session.endSession();
 
-  const newOrderDetail = await orderDetail.find({ Order: tempOrder._id, isDelete: false });
+  newOrderDetail = await orderDetail.find({ Order: tempOrder._id, isDelete: false });
+  if(!newOrderDetail) {
+    const err = new Error("An error occurred during order payment");
+    return next(err);
+  }
   const total = newOrderDetail.length || 0;
 
   res.json({
     success: true,
+    Order: tempOrder,
     total: total,
     OrderDetail: newOrderDetail
   });

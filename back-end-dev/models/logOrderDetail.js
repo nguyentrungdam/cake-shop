@@ -8,7 +8,6 @@ const logOrderDetailSchema = new schema({
     Order: {
         type: schema.ObjectId,
         ref: 'Order',
-        required: true,  
     },
     Product: {
         type: schema.ObjectId,
@@ -34,7 +33,7 @@ const logOrderDetailSchema = new schema({
     },
     Modified_At: {
         type: Date,
-        default: null
+        default: Date.now()
     },
     isDelete: {
         type: Boolean,

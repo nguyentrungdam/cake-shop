@@ -233,38 +233,6 @@ const upload = multer()
  */
   router.get("/removeItemCart", isAuthenticatedAccount, removeItemCart);
 
- /**
- * @swagger
- * /orders/createOrder:
- *   post:
- *     summary: Returns the list of all the orders
- *     tags: [Orders]
- *     requestBody:
- *       content:
- *         application/json:
- *           schema:
- *             type: array
- *             items:
- *               type: object
- *               properties:
- *                 productId:
- *                   type: string   
- *                 productQuantity:
- *                   type: number 
- *                 productSize:
- *                   type: string  
- *     responses:
- *       200:
- *         description: The list of the orders
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/Order'
- */
-  router.post("/createOrder", isAuthenticatedAccount, createOrder);
-
 /**
  * @swagger
  * /orders/paymentOrderByCash:
@@ -285,6 +253,17 @@ const upload = multer()
  *                 type: string 
  *               orderPhone:
  *                 type: string 
+ *               productList:
+ *                 type: array
+ *                 items:
+ *                   type: object
+ *                   properties:
+ *                     productId:
+ *                       type: string   
+ *                     productQuantity:
+ *                       type: number 
+ *                     productSize:
+ *                       type: string 
  *     responses:
  *       200:
  *         description: The list of the orders
@@ -314,7 +293,5 @@ const upload = multer()
  *                 $ref: '#/components/schemas/Order'
  */
   router.get("/payment", isAuthenticatedAccount, payment);
-
-
 
   module.exports = router;
