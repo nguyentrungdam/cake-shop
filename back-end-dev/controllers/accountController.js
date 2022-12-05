@@ -243,3 +243,37 @@ exports.deleteAccount = catchAsyncErrors(async (req, res, next) => {
         message: 'Account deleted'
     })
 })
+
+exports.addAddress = catchAsyncErrors(async (req, res, next) => {
+    const session = await mongoose.startSession();
+    session.startTransaction();
+    const pointTransaction = { session };
+  
+    //get data
+    const tempAccount = req.Account;
+    const { accountAddress } = req.query;
+  
+    // INIT values
+    let createCheck;
+    let updateCheck;
+    let deleteCheck;
+  
+    // UPDATE 
+    tempAccount.Address = accountAddress;
+    updateCheck = tempAccount.save(pointTransaction);
+    if (!updateCheck) {
+        await session.abortTransaction();
+        session.endSession();
+    
+        const err = new Error("An error occurred during add account address");
+        return next(err);
+    }
+  
+    res.json({
+      success: true,
+      message: "Add account address success"
+    })
+  
+    await session.commitTransaction();
+    session.endSession();
+})

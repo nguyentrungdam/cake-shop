@@ -11,7 +11,8 @@ const {
     forgotPassword,
     resetPassword,
     filterAccount,
-    deleteAccount
+    deleteAccount,
+    addAddress
 } = require('../controllers/AccountController');
 
 const { 
@@ -315,5 +316,29 @@ router.get("/getAccountList", isAuthenticatedAccount, authorizeRoles('admin'), g
  */
 
   router.delete("/deleteAccount", isAuthenticatedAccount, authorizeRoles('admin'), deleteAccount);
+
+ /**
+ * @swagger
+ * /accounts/addAddress:
+ *   put:
+ *     summary: Returns Account
+ *     tags: [Accounts]
+ *     parameters:
+ *     - in: query
+ *       name: accountAddress
+ *       description: add account address
+ *       schema:
+ *         type: string
+ *     responses:
+ *       200:
+ *         description: resetPasswordToken
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Account'
+ */
+  router.put("/addAddress", isAuthenticatedAccount, addAddress);
 
 module.exports = router;

@@ -225,6 +225,38 @@ exports.getOrderList = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
+exports.getOrderByAccount = catchAsyncErrors(async (req, res, next) => {
+  const session = await mongoose.startSession();
+  session.startTransaction();
+  const pointTransaction = { session };
+
+  //get data
+  const tempAccount = req.Account;
+
+  // INIT values
+  let createCheck;
+  let updateCheck;
+  let deleteCheck;
+
+  // GET order by account with status != await
+  const orderStatus = ["order", "delivering", "done"];
+  const tempOrder = await order.find({ 
+    Account: tempAccount._id, 
+    Order_Status: orderStatus, 
+    isDelete: false 
+  })
+  const total = tempOrder.length || 0;
+
+  res.json({
+    success: true,
+    total: total,
+    Order: tempOrder
+  })
+
+  await session.commitTransaction();
+  session.endSession();
+});
+
 exports.getOrderById = catchAsyncErrors(async (req, res, next) => {
   // GET data
   const Id = req.query.Id;

@@ -5,6 +5,7 @@ const {
     addToCart,
     getProductInCart,
     getOrderList,
+    getOrderByAccount,
     getOrderById,
     removeItemCart,
     createOrder,
@@ -185,6 +186,24 @@ const upload = multer()
  *                 $ref: '#/components/schemas/Order'
  */
   router.post("/getOrderList", isAuthenticatedAccount, authorizeRoles('admin'), getOrderList);
+
+ /**
+ * @swagger
+ * /orders/getOrderByAccount:
+ *   get:
+ *     summary: Returns the list of all the orders by account
+ *     tags: [Orders]
+ *     responses:
+ *       200:
+ *         description: The list of the orders
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Order'
+ */
+  router.get("/getOrderByAccount", isAuthenticatedAccount, getOrderByAccount);
 
  /**
  * @swagger
