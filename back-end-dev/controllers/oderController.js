@@ -715,6 +715,7 @@ exports.paymentOrderByOnline = catchAsyncErrors(async (req, res, next) => {
   tempOrder.Order_Address = orderAddress;
   tempOrder.Order_Phone = orderPhone;
   tempOrder.Amount = amount;
+  tempOrder.Payment_Type = "online";
   updateCheck = await tempOrder.save(pointTransaction);
   if(!updateCheck) {
     await session.abortTransaction();
@@ -935,6 +936,7 @@ exports.paymentSuccess = catchAsyncErrors(async (req, res, next) => {
   tempOrder.Amount = totalPrice;
   tempOrder.Order_Status = "order";
   tempOrder.Order_Date = Date.now();
+  tempOrder.Payment_Status = "paid";
   updateCheck = tempOrder.save(pointTransaction);
   if (!updateCheck) {
     await session.abortTransaction();
