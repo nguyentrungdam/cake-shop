@@ -9,7 +9,8 @@ const {
     removeItemCart,
     createOrder,
     paymentOrderByCash,
-    payment
+    paymentOrderByOnline,
+    paymentSuccess
 } = require('../controllers/oderController')
 
 const { 
@@ -278,7 +279,50 @@ const upload = multer()
 
  /**
  * @swagger
- * /orders/payment:
+ * /orders/paymentOrderByOnline:
+ *   post:
+ *     summary: Not used!!! Updating...
+ *     tags: [Orders]
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               orderEmail:
+ *                 type: string   
+ *               orderFullName:
+ *                 type: string 
+ *               orderAddress:
+ *                 type: string 
+ *               orderPhone:
+ *                 type: string 
+ *               productList:
+ *                 type: array
+ *                 items:
+ *                   type: object
+ *                   properties:
+ *                     productId:
+ *                       type: string   
+ *                     productQuantity:
+ *                       type: number 
+ *                     productSize:
+ *                       type: string 
+ *     responses:
+ *       200:
+ *         description: The list of the orders
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Order'
+ */
+  router.post("/paymentOrderByOnline", isAuthenticatedAccount, paymentOrderByOnline);
+
+ /**
+ * @swagger
+ * /orders/paymentSuccess:
  *   get:
  *     summary: Not used!!! Updating...
  *     tags: [Orders]
@@ -292,6 +336,6 @@ const upload = multer()
  *               items:
  *                 $ref: '#/components/schemas/Order'
  */
-  router.get("/payment", isAuthenticatedAccount, payment);
+  router.get("/paymentSuccess", isAuthenticatedAccount, paymentSuccess);
 
   module.exports = router;
