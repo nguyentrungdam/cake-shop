@@ -1,11 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import orderApi from "../apis/orderApi";
 
-export const addOrder = createAsyncThunk(
-  "orders/createOrder",
+export const addOrderCOD = createAsyncThunk(
+  "orders/paymentOrderByCash",
   async (order, rejectWithValue) => {
     try {
-      const response = await orderApi.addOrder(order);
+      const response = await orderApi.addOrderCOD(order);
       console.log(response);
       return response;
     } catch (error) {
@@ -47,14 +47,14 @@ export const orderSlice = createSlice({
     error: null,
   },
   extraReducers: {
-    [addOrder.pending]: (state) => {
+    [addOrderCOD.pending]: (state) => {
       state.loading = true;
     },
-    [addOrder.rejected]: (state, action) => {
+    [addOrderCOD.rejected]: (state, action) => {
       state.loading = false;
       state.error = action.error;
     },
-    [addOrder.fulfilled]: (state, action) => {
+    [addOrderCOD.fulfilled]: (state, action) => {
       state.loading = false;
       state.orders = action.payload.data.OrderDetail;
       console.log(state.orders);

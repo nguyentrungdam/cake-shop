@@ -1,14 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import { PaymentWrapper } from "../../../styles/payStyle";
 import { useLocation, useNavigate } from "react-router-dom";
 import Footer from "../../../components/Footer";
 import Header from "../../../components/Header";
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { addOrderCOD } from "../../../slices/orderSlice";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 
 const Pay = () => {
   const location = useLocation();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
+  const [name, setName] = useState("");
 
   const orderItems = location.state.selected;
   console.log(orderItems);
@@ -22,25 +30,73 @@ const Pay = () => {
     return total;
   }, 0);
 
+  const getItemsToPay = () => {
+    const items = [];
+    orderItems.map((item) => {
+      items.push({
+        productId: item.Product._id,
+        productQuantity: item.Quantity,
+        productSize: item.Product_Size,
+      });
+    });
+    return items;
+  };
+
+  //handlePayment COD
+  const handlePaymentCOD = async () => {
+    const orderCOD = {
+      orderEmail: email,
+      orderFullName: name,
+      orderAddress: address,
+      orderPhone: phone,
+      productList: getItemsToPay(),
+    };
+
+    try {
+      var res = await dispatch(addOrderCOD(orderCOD)).unwrap();
+      if (res.status === 200) {
+        notify("Order successfully!");
+        setTimeout(function () {
+          navigate("/");
+        }, 1500);
+      }
+    } catch (error) {
+      alert(
+        "Số lượng sản phẩm trong kho không đủ ! Vui lòng chọn sản phẩm khác"
+      );
+      // navigate(-1);
+      return;
+    }
+  };
+
+  const notify = (message) => {
+    toast.success(message, {
+      position: toast.POSITION.TOP_RIGHT,
+      autoClose: 1000,
+    });
+  };
   return (
     <>
       <Header></Header>
+      <ToastContainer />
       <PaymentWrapper>
         <div className="contact-info">
           <div className="header-item--logo">
             <h1 className="site-header__logo">Payment</h1>
           </div>
           <div className="main-contact">
-            <form action="" className="form-payment">
+            <div className="form-payment">
               <div className="form-wrapper">
                 <div className="contact-infomation">
                   <div className="title">
                     <h2 className="h2">Contact information</h2>
                   </div>
                   <input
-                    type="text"
+                    type="email"
                     placeholder="Your email"
                     className="input "
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                   <div className="email-click">
                     <input type="checkbox" className="checkbox " />
@@ -53,16 +109,30 @@ const Pay = () => {
                     type="text"
                     placeholder="Full name"
                     className="input "
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
                   />
-                  <input type="text" placeholder="Address" className="input " />
-                  <input type="text" placeholder="Phone" className="input " />
+                  <input
+                    type="text"
+                    placeholder="Address"
+                    className="input "
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                  />
+                  <input
+                    type="text"
+                    placeholder="Phone"
+                    className="input "
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                  />
                 </div>
                 <div className="back-cart">
                   <div>
                     <button
-                      type="submit"
+                      // type="submit"
                       className="btn"
-                      onClick={() => navigate("/list-product")}
+                      onClick={handlePaymentCOD}
                     >
                       <span className="continue">Create an order</span>
                     </button>
@@ -89,7 +159,7 @@ const Pay = () => {
                   </div>
                 </div>
               </div>
-            </form>
+            </div>
           </div>
         </div>
         <div className="cart-info">

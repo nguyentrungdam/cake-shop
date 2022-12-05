@@ -1,8 +1,8 @@
 import axios from "./axios";
 
 const OrderApi = {
-  addOrder: (order) => {
-    const url = "/orders/createOrder";
+  addOrderCOD: (order) => {
+    const url = "/orders/paymentOrderByCash";
     return axios.post(url, order);
   },
   //! don't use
