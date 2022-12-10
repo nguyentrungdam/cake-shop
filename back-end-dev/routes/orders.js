@@ -227,7 +227,7 @@ const upload = multer()
  *               items:
  *                 $ref: '#/components/schemas/Order'
  */
-  router.get("/getOrderById", isAuthenticatedAccount, authorizeRoles('admin'), getOrderById);
+  router.get("/getOrderById", isAuthenticatedAccount, getOrderById);
 
  /**
  * @swagger

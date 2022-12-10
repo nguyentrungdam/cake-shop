@@ -272,7 +272,9 @@ exports.getOrderById = catchAsyncErrors(async (req, res, next) => {
     return next(err);
   }
 
-  const OrderDetail = await orderDetail.find({ Order: Id, isDelete: false });
+  const OrderDetail = await orderDetail
+    .find({ Order: Id, isDelete: false })
+    .populate("Product");
 
   const total = OrderDetail.length || 0;
 
@@ -761,7 +763,7 @@ exports.paymentOrderByOnline = catchAsyncErrors(async (req, res, next) => {
         "payer": {
             "payment_method": "paypal",
             "payer_info": {
-              "country_code": "Ho Chi Minh"
+              "country_code": "VN"
             }
         },
         "redirect_urls": {
@@ -779,7 +781,7 @@ exports.paymentOrderByOnline = catchAsyncErrors(async (req, res, next) => {
                   "postal_code":"10000",
                   "country_code":"VN",
                   "phone": orderPhone
-              },
+                }
             },
             "amount": {
                 "currency": "USD",
@@ -906,6 +908,7 @@ exports.paymentSuccess = catchAsyncErrors(async (req, res, next) => {
 
   const execute_payment_json = {
       "payer_id": payerId,
+      "123": "123",
       "transactions": [{
           "amount": {
               "currency": "USD",
@@ -914,23 +917,16 @@ exports.paymentSuccess = catchAsyncErrors(async (req, res, next) => {
       }]
   };
 
-  let errorCheck = 0;
+  paypal.payment.execute(paymentId, execute_payment_json, async function(error, payment) {
+    if (error) {
+      await session.abortTransaction();
+      session.endSession();
   
-  const test = await paypal.payment.execute(paymentId, execute_payment_json, function(error, payment) {
-      if (error) {
-        errorCheck = 1;
-      } else {
-        errorCheck = 0;
-      }
+      const err = new Error("An error occurred during the checkout process");
+      return next(err);
+    } else {
+    }
   });
-
-  if (errorCheck == 1) {
-    await session.abortTransaction();
-    session.endSession();
-
-    const err = new Error("An error occurred during the checkout process");
-    return next(err);
-  }
 
   // UPDATE order
   tempOrder.Amount = totalPrice;
@@ -957,6 +953,9 @@ exports.paymentSuccess = catchAsyncErrors(async (req, res, next) => {
     const err = new Error("An error occurred during order payment");
     return next(err);
   }
+
+  // await session.commitTransaction();
+  // session.endSession();
 
   res.json({
     success: true,
