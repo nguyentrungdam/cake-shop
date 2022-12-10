@@ -908,7 +908,6 @@ exports.paymentSuccess = catchAsyncErrors(async (req, res, next) => {
 
   const execute_payment_json = {
       "payer_id": payerId,
-      "123": "123",
       "transactions": [{
           "amount": {
               "currency": "USD",
