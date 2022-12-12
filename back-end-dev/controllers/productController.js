@@ -33,11 +33,9 @@ exports.getProductList = catchAsyncErrors(async (req, res, next) => {
     // let tempProduct;
     // const Product = await product.find();
     // for (var i = 0; i < Product.length; i++) {
-    //     Product[i].Size = [
-    //         { name: 'Small'},
-    //         { name: 'Normal'},
-    //         { name: 'Large'},
-    //     ]
+    //     if (Product[i].Quantity == 0) {
+    //         Product[i].Quantity = 10;
+    //     }
     //     tempProduct = await Product[i].save(pointTransaction);
     //     if (!tempProduct) {
     //         await session.abortTransaction()
@@ -51,6 +49,10 @@ exports.getProductList = catchAsyncErrors(async (req, res, next) => {
     // await session.commitTransaction()
     // session.endSession();
     // const total = Product.length;
+
+    // res.json({
+    //     success: true,
+    // })
     
 
     const page = req.query.page;
@@ -227,17 +229,17 @@ exports.filterProduct = catchAsyncErrors(async (req, res, next) => {
 
     //const tempSort = ['nameasc', 'namedesc', 'priceasc', 'pricedesc']
     if (!tempCategory) {
-        total = await product.find({ isDelete: false }).sort([[ field, sort]]).countDocuments();
+        total = await product.find().sort([[ field, sort]]).countDocuments();
         Product = await pagination(
-            product.find({ isDelete: false }).sort([[ field, sort]]).populate("Category"),
+            product.find().sort([[ field, sort]]).populate("Category"),
             page,
             8
         )
     }
     else {
-        total = await product.find({ Category: tempCategory, isDelete: false}).sort([[ field, sort]]).countDocuments();
+        total = await product.find({ Category: tempCategory}).sort([[ field, sort]]).countDocuments();
         Product = await pagination(
-            product.find({ Category: tempCategory, isDelete: false}).sort([[ field, sort]]).populate("Category"),
+            product.find({ Category: tempCategory}).sort([[ field, sort]]).populate("Category"),
             page,
             8
         )
