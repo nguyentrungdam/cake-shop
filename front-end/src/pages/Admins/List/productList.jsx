@@ -6,7 +6,11 @@ import Header from "../../../components/NavbarAdmin/Header";
 import LeftNavbar from "../../../components/NavbarAdmin/LeftNavbar";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getProducts, deleteProductById } from "../../../slices/productSlice";
+import {
+  getProducts,
+  deleteProductById,
+  filterProducts,
+} from "../../../slices/productSlice";
 import ReactPaginate from "react-paginate";
 
 function ProductList() {
@@ -20,7 +24,8 @@ function ProductList() {
     page: nextPage,
   };
   useEffect(() => {
-    dispatch(getProducts(obj));
+    // dispatch(getProducts(obj));
+    dispatch(filterProducts(obj));
   }, [nextPage]);
 
   useEffect(() => {
@@ -88,7 +93,7 @@ function ProductList() {
               <th style={{ textAlign: "center" }}>Quantity</th>
               <th style={{ textAlign: "center" }}>Images</th>
               <th style={{ textAlign: "center" }}>Delete</th>
-              <th></th>
+              <th style={{ textAlign: "center" }}>Detail</th>
             </tr>
           </tbody>
           {products.map((item, index) => (

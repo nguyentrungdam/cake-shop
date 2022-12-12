@@ -24,6 +24,7 @@ import { getProductInCart } from "./slices/cartSlice";
 import CategoryList from "./pages/Admins/List/categoryList";
 import AddCategory from "./pages/Admins/Add/addCategory";
 import DisableProductList from "./pages/Admins/List/disableProductList";
+import OrderHistory from "./pages/Clients/Payment/OrderHistory";
 
 //---------------------
 function App() {
@@ -51,6 +52,7 @@ function App() {
       <Route path="/account" element={<Account />} />
       <Route path="/search" element={<Search />} />
       <Route path="/account/addresses" element={<Addresses />} />
+      <Route path="/order-history" element={<OrderHistory />} />
       <Route
         path="/admin/*"
         element={

@@ -13,24 +13,46 @@ export const addOrderCOD = createAsyncThunk(
     }
   }
 );
-//! don't use
-export const getAllOrders = createAsyncThunk(
-  "order/getAllOrders",
-  async (rejectWithValue) => {
+
+export const addOrderPaypal = createAsyncThunk(
+  "orders/paymentOrderByOnline",
+  async (order, rejectWithValue) => {
     try {
-      const response = await orderApi.getAllOrders();
+      const response = await orderApi.addOrderPaypal(order);
+      console.log(response);
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
   }
 );
-
 export const getOrdersByUser = createAsyncThunk(
-  "order/getOrdersByUser",
+  "orders/getOrderByAccount",
   async (rejectWithValue) => {
     try {
       const response = await orderApi.getOrdersByUser();
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+export const getOrdersById = createAsyncThunk(
+  "orders/getOrderById",
+  async (orderId, rejectWithValue) => {
+    try {
+      const response = await orderApi.getOrdersById(orderId);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+export const getAllOrders = createAsyncThunk(
+  "orders/getOrderList",
+  async (rejectWithValue) => {
+    try {
+      const response = await orderApi.getAllOrders();
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -42,7 +64,9 @@ export const orderSlice = createSlice({
   name: "order",
   initialState: {
     orders: [],
+    ordersDetail: [],
     order: {},
+    link: "",
     loading: false,
     error: null,
   },
@@ -57,7 +81,18 @@ export const orderSlice = createSlice({
     [addOrderCOD.fulfilled]: (state, action) => {
       state.loading = false;
       state.orders = action.payload.data.OrderDetail;
-      console.log(state.orders);
+    },
+    [addOrderPaypal.pending]: (state) => {
+      state.loading = true;
+    },
+    [addOrderPaypal.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = action.error;
+    },
+    [addOrderPaypal.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.link = action.payload.data.redirect;
+      console.log(state.link);
     },
     [getOrdersByUser.pending]: (state) => {
       state.loading = true;
@@ -68,7 +103,18 @@ export const orderSlice = createSlice({
     },
     [getOrdersByUser.fulfilled]: (state, action) => {
       state.loading = false;
-      state.orders = action.payload.data.orders;
+      state.orders = action.payload.data.Order;
+    },
+    [getOrdersById.pending]: (state) => {
+      state.loading = true;
+    },
+    [getOrdersById.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = action.error;
+    },
+    [getOrdersById.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.ordersDetail = action.payload.data.OrderDetail;
     },
     [getAllOrders.pending]: (state) => {
       state.loading = true;
@@ -79,7 +125,8 @@ export const orderSlice = createSlice({
     },
     [getAllOrders.fulfilled]: (state, action) => {
       state.loading = false;
-      state.orders = action.payload.data.orders;
+      state.orders = action.payload.data.Order;
+      console.log(state.orders);
     },
   },
 });

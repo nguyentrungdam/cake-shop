@@ -3,20 +3,34 @@ import styled from "styled-components";
 import { KeyboardArrowRight } from "@material-ui/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { signout } from "../../slices/accountSlice";
-import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 
 const Header = (props) => {
   const { account, isAuthenticated } = useSelector((state) => state.account);
-
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
+  const notify = () => {
+    toast.success("🎂 Admin Logout Success !", {
+      autoClose: 1000,
+      position: toast.POSITION.TOP_RIGHT,
+    });
+  };
+
+  const handleLogout = async (e) => {
+    e.preventDefault();
+    notify();
+    setTimeout(function () {
+      dispatch(signout());
+    }, 1500);
+  };
   return (
     <Container>
+      <ToastContainer />
       <NavbarWrapper>
         <ContainerNavbar>
           <LeftNav>
@@ -37,11 +51,7 @@ const Header = (props) => {
                 <UserImg src="https://www.kindpng.com/picc/m/10-109847_admin-icon-hd-png-download.png" />
                 <UserName>{account.FullName}</UserName>
                 <DropDownContent>
-                  <SubA
-                    onClick={() => dispatch(signout(), navigate("/signin"))}
-                  >
-                    Log out
-                  </SubA>
+                  <SubA onClick={handleLogout}>Log out</SubA>
                 </DropDownContent>
               </UserWrapper>
             ) : (
@@ -199,7 +209,7 @@ const DropDownContent = styled.div`
 `;
 
 const SubA = styled.a`
-  padding: 7px 15px;
+  padding: 7px 17px;
   text-decoration: none;
   display: block;
   text-align: right;

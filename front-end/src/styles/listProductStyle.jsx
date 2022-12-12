@@ -216,6 +216,9 @@ export const ListProductWrapper = styled.div`
     max-width: 1500px;
     margin: 0 auto;
   }
+  .page-width-historyOrder {
+    padding: 20px 40px;
+  }
   .page-width-padding {
     padding: 40px 40px;
     padding-bottom: 60px;
@@ -324,10 +327,12 @@ export const ListProductWrapper = styled.div`
     text-decoration: none;
     background: 0;
   }
+
   .grid-product__image-mask {
     position: relative;
     overflow: hidden;
   }
+
   .grid-product__meta {
     position: relative;
     padding: 10px 0 6px;
@@ -338,7 +343,24 @@ export const ListProductWrapper = styled.div`
     background: #fff;
     overflow: hidden;
   }
+  .disable-item {
+    pointer-events: none;
+    position: relative;
+  }
 
+  .hide-sold-out {
+    display: none;
+  }
+
+  .grid-product__image-mask-2 {
+    position: absolute;
+    z-index: 10;
+    width: 30%;
+    top: 10px;
+    left: 10px;
+    opacity: 1 !important;
+    /* right: 25%; */
+  }
   .image-wrap-size {
     height: 0;
     padding-bottom: 100.67516879219805%;
@@ -402,5 +424,84 @@ export const ListProductWrapper = styled.div`
   }
   .li:hover {
     background-color: pink;
+  }
+  ///////////////////////////
+  .cart-item {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+  }
+  .flex {
+    display: flex;
+  }
+  .item-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 8px;
+  }
+  .item-info {
+    margin-left: 14px;
+    flex-grow: 1;
+  }
+  .name {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-top: 4px;
+    margin-bottom: 2px;
+  }
+  .kind {
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+  .price {
+    font-size: 1rem;
+    margin-left: 30px;
+    font-weight: 600;
+  }
+  .order-title {
+    font-weight: 600;
+  }
+  .main-content2 {
+    margin-left: 50px;
+  }
+  .p-orders-history {
+    margin: 0;
+  }
+  .h3-total {
+    margin: 0;
+    padding: 0;
+  }
+  .btn-shopnow {
+    font-family: Poppins, sans-serif;
+    font-weight: 700;
+    display: inline-block;
+    user-select: none;
+    -webkit-appearance: none;
+    border-radius: 0;
+    color: #fff;
+    padding: 9px 20px;
+    transition: padding-right 0.3s, background 0.3s;
+    width: 250px;
+    min-width: 90px;
+    line-height: 1.42;
+    font-size: 0.94118em;
+    text-decoration: none;
+    text-align: center;
+    vertical-align: middle;
+    white-space: normal;
+    cursor: pointer;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    letter-spacing: 0;
+    margin: 0 0 20px 0;
+    background: #111
+      url(//cdn.shopify.com/s/files/1/0261/0108/8359/t/2/assets/button-arrow.png)
+      no-repeat 150% 35%;
+    background-size: 29px;
+    background-image: url(//cdn.shopify.com/s/files/1/0261/0108/8359/t/2/assets/button-arrow-2x.png);
+  }
+  .btn-shopnow:hover {
+    padding-right: 55px;
+    background-position: 91% 35%;
   }
 `;

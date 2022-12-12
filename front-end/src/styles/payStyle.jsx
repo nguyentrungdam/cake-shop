@@ -3,6 +3,15 @@ export const PaymentWrapper = styled.div`
   display: grid;
   min-height: 90vh;
   grid-template-columns: 56% 44%;
+  .payment-method {
+    margin-top: 50px;
+  }
+  .cod {
+    margin-right: 20px;
+  }
+  .pay-option {
+    cursor: pointer;
+  }
   .contact-info {
     padding-right: 8.4vw;
     padding-left: 5vw;

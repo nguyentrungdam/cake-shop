@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Footer from "../../../components/Footer";
@@ -11,7 +11,7 @@ const Account = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { account, isAuthenticated } = useSelector((state) => state.account);
+  const { account } = useSelector((state) => state.account);
   console.log(account);
   const notify = (prop) => {
     if (prop) {
@@ -34,6 +34,7 @@ const Account = () => {
       navigate("/signin");
     }, 1500);
   };
+
   return (
     <>
       <ToastContainer />
@@ -59,7 +60,9 @@ const Account = () => {
             <div className="grid">
               <div className="grid__item medium-up--two-thirds">
                 <h2 className="h3">Order History</h2>
-                <p>You haven't placed any orders yet.</p>
+                <a href="/order-history" className="btn-shopnow">
+                  View orders history
+                </a>
               </div>
               <div className="grid__item medium-up--one-third">
                 <h3>Account details</h3>

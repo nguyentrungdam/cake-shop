@@ -5,13 +5,20 @@ const OrderApi = {
     const url = "/orders/paymentOrderByCash";
     return axios.post(url, order);
   },
-  //! don't use
+  addOrderPaypal: (order) => {
+    const url = "/orders/paymentOrderByOnline";
+    return axios.post(url, order);
+  },
   getOrdersByUser: () => {
-    const url = "/order/getOrdersByUser";
-    return axios.post(url);
+    const url = "/orders/getOrderByAccount";
+    return axios.get(url);
+  },
+  getOrdersById: (orderId) => {
+    const url = `/orders/getOrderById?Id=${orderId}`;
+    return axios.get(url);
   },
   getAllOrders: () => {
-    const url = "/order/getAllOrders";
+    const url = "/orders/getOrderList";
     return axios.post(url);
   },
 };

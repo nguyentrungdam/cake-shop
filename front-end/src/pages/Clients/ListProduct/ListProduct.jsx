@@ -10,7 +10,7 @@ import { ListProductWrapper } from "../../../styles/listProductStyle";
 
 const ListProduct = () => {
   const dispatch = useDispatch();
-  const { products, data } = useSelector((state) => state.product);
+  const { products, data, loading } = useSelector((state) => state.product);
   console.log(data.total);
   const [category, setCategory] = useState("");
   const [sortName, setSortName] = useState("");
@@ -26,6 +26,7 @@ const ListProduct = () => {
   };
 
   useEffect(() => {
+    // dispatch(getProducts(obj.page));
     dispatch(filterProducts("all"));
   }, []);
 
@@ -42,10 +43,10 @@ const ListProduct = () => {
   useEffect(() => {
     dispatch(filterProducts(obj));
     console.log(data.total);
-    return () => {
-      setNextPage(1);
-      setPageCount();
-    };
+    // return () => {
+    //   setNextPage(1);
+    //   setPageCount();
+    // };
   }, [nextPage]);
 
   useEffect(() => {
@@ -119,7 +120,7 @@ const ListProduct = () => {
                     </div>
                   </div>
                 </div>
-                <ListProductLayout products={products} />
+                <ListProductLayout products={products} loading={loading} />
 
                 {products.length === 0 ? (
                   " "

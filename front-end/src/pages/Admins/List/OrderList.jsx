@@ -1,17 +1,20 @@
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
 import Table from "react-bootstrap/Table";
 import styled from "styled-components";
 import Header from "../../../components/NavbarAdmin/Header";
 import LeftNavbar from "../../../components/NavbarAdmin/LeftNavbar";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllOrders } from "../../../slices/orderSlice";
+import { getAllOrders, getOrdersById } from "../../../slices/orderSlice";
+import EditOrder from "../Edit/EditOrder";
 
 const Container = styled.div``;
 function OrderList() {
   const dispatch = useDispatch();
+  const { orders, ordersDetail } = useSelector((state) => state.order);
+  const [showDetail, setShowDetail] = useState(false);
+  const [amount, setAmount] = useState();
 
   useEffect(() => {
     const fetchData = () => {
@@ -20,16 +23,11 @@ function OrderList() {
     fetchData();
   }, [dispatch]);
 
-  const { orders } = useSelector((state) => state.order);
-  // const id = users._id;
-
-  // const handleDeleteUser = async () => {
-  //   const response = await dispatch(deleteUserById(id)).unwrap();
-  //   if(response.status === 204){
-  //     alert('Xóa Thành Công');
-  //   }
-  // }
-
+  const handleViewDetail = (id, amount) => {
+    setAmount(amount);
+    dispatch(getOrdersById(id)).unwrap();
+    setShowDetail(true);
+  };
   return (
     <Container>
       <Header name="Orders Management" />
@@ -54,28 +52,59 @@ function OrderList() {
             <tr>
               <th style={{ textAlign: "center" }}>Id</th>
               <th style={{ textAlign: "center" }}>Name</th>
-              <th style={{ textAlign: "center" }}>Email</th>
               <th style={{ textAlign: "center" }}>Phone</th>
               <th style={{ textAlign: "center" }}>Payment Type</th>
               <th style={{ textAlign: "center" }}>Payment Status</th>
+              <th style={{ textAlign: "center" }}>Order Status</th>
               <th style={{ textAlign: "center" }}>Total Amount</th>
+              <th style={{ textAlign: "center" }}>Detail</th>
             </tr>
           </tbody>
           {orders.map((item, index) => (
             <tbody key={item._id}>
               <tr>
-                <td style={{ textAlign: "center" }}>{index}</td>
-                <td>{item.user.name}</td>
-                <td>{item.user.email}</td>
-                <td>{item.user.phoneNumber}</td>
-                <td>{item.paymentType}</td>
-                <td>{item.paymentStatus}</td>
-                <td>{item.totalAmount}</td>
+                <td style={{ textAlign: "center" }}>{index + 1}</td>
+                <td style={{ textAlign: "center" }}>{item.Order_FullName}</td>
+                <td style={{ textAlign: "center" }}>{item.Order_Phone}</td>
+                <td style={{ textAlign: "center" }}>
+                  {item.Payment_Type}{" "}
+                  {item.Payment_Type === "online" ? "(Paypal)" : ""}
+                </td>
+                <td style={{ textAlign: "center" }}>{item.Payment_Status}</td>
+                <td style={{ textAlign: "center" }}>{item.Order_Status}</td>
+                <td style={{ textAlign: "center" }}>
+                  £
+                  {Number(item.Amount).toLocaleString("en-US", {
+                    minimumFractionDigits: 2,
+                  })}
+                </td>
+                <td>
+                  <span
+                    className="badge badge-info"
+                    style={{
+                      backgroundColor: "black",
+                      textAlign: "center",
+                      padding: "10px",
+                      margin: "8px 0 0 2px",
+                      color: "white",
+                      cursor: "pointer",
+                    }}
+                    onClick={() => handleViewDetail(item._id, item.Amount)}
+                  >
+                    View Detail
+                  </span>
+                </td>
               </tr>
             </tbody>
           ))}
         </Table>
       </div>
+      <EditOrder
+        ordersDetail={ordersDetail}
+        amount={amount}
+        showDetail={showDetail}
+        setShowDetail={setShowDetail}
+      ></EditOrder>
     </Container>
   );
 }

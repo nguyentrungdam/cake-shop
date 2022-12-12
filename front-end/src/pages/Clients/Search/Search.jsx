@@ -10,7 +10,7 @@ import ReactPaginate from "react-paginate";
 
 const Search = () => {
   const dispatch = useDispatch();
-  const { products, data } = useSelector((state) => state.product);
+  const { products, data, loading } = useSelector((state) => state.product);
   const [show, setShow] = useState("false");
   const [keyword, setKeyword] = useState("");
   const limit = 8;
@@ -98,7 +98,7 @@ const Search = () => {
                     ) : (
                       <h2>{data.total} results</h2>
                     )}
-                    <ListProductLayout products={products} />
+                    <ListProductLayout products={products} loading={loading} />
                     {products.length === 0 ? (
                       " "
                     ) : (
