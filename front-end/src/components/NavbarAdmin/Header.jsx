@@ -48,7 +48,7 @@ const Header = (props) => {
           <RightNav>
             {isAuthenticated ? (
               <UserWrapper>
-                <UserImg src="https://www.kindpng.com/picc/m/10-109847_admin-icon-hd-png-download.png" />
+                <UserImg src="https://cdn-icons-png.flaticon.com/512/3934/3934107.png" />
                 <UserName>{account.FullName}</UserName>
                 <DropDownContent>
                   <SubA onClick={handleLogout}>Log out</SubA>

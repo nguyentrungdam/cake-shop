@@ -541,4 +541,20 @@ export const Container = styled.div`
     background-color: #d2d2c4;
     border: 0 none;
   }
+  .disable-item {
+    pointer-events: none;
+    position: relative;
+  }
+  .hide-sold-out {
+    display: none !important;
+  }
+  .grid-product__image-mask-2 {
+    position: absolute;
+    z-index: 10;
+    width: 20px;
+    top: 10px;
+    left: 10px;
+    opacity: 1 !important;
+    /* right: 25%; */
+  }
 `;

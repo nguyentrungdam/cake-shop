@@ -26,7 +26,6 @@ const ListProduct = () => {
   };
 
   useEffect(() => {
-    // dispatch(getProducts(obj.page));
     dispatch(filterProducts("all"));
   }, []);
 
@@ -34,20 +33,11 @@ const ListProduct = () => {
     const fetchData = async () => {
       await dispatch(filterProducts(obj));
     };
-    if (category || sortName) {
+    if (category || sortName || nextPage) {
       fetchData();
       console.log(fetchData());
     }
-  }, [category, sortName]);
-
-  useEffect(() => {
-    dispatch(filterProducts(obj));
-    console.log(data.total);
-    // return () => {
-    //   setNextPage(1);
-    //   setPageCount();
-    // };
-  }, [nextPage]);
+  }, [category, sortName, nextPage]);
 
   useEffect(() => {
     if (!data.success) return;

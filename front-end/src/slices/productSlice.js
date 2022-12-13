@@ -61,6 +61,43 @@ export const deleteProductById = createAsyncThunk(
     }
   }
 );
+export const disableProductById = createAsyncThunk(
+  "/products/disableProduct",
+  async (productId, { rejectWithValue }) => {
+    try {
+      const response = await productApi.disableProductById(productId);
+      console.log(response);
+      // await thunkAPI.dispatch(getProducts());
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+export const enableProductById = createAsyncThunk(
+  "/products/enableProduct",
+  async (productId, { rejectWithValue }) => {
+    try {
+      const response = await productApi.enableProductById(productId);
+      console.log(response);
+      // await thunkAPI.dispatch(getProducts());
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+export const getDisableProductList = createAsyncThunk(
+  "products/getProductDisableList",
+  async (obj, rejectWithValue) => {
+    try {
+      const response = await productApi.getDisableProductList(obj.page);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
 // TODO chưa có
 export const getProductBySlug = createAsyncThunk(
   "product/getProductBySlug",
@@ -135,7 +172,6 @@ export const getProductsSearched = createAsyncThunk(
     }
   }
 );
-// TODO chưa có
 export const productSlice = createSlice({
   name: "product",
   initialState: {
@@ -203,6 +239,38 @@ export const productSlice = createSlice({
     },
     [deleteProductById.fulfilled]: (state) => {
       state.loading = false;
+    },
+    [disableProductById.pending]: (state) => {
+      state.loading = true;
+    },
+    [disableProductById.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = action.error;
+    },
+    [disableProductById.fulfilled]: (state) => {
+      state.loading = false;
+    },
+    [enableProductById.pending]: (state) => {
+      state.loading = true;
+    },
+    [enableProductById.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = action.error;
+    },
+    [enableProductById.fulfilled]: (state) => {
+      state.loading = false;
+    },
+    [getDisableProductList.pending]: (state) => {
+      state.loading = true;
+    },
+    [getDisableProductList.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = action.error;
+    },
+    [getDisableProductList.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.products = action.payload.data.Product;
+      state.data = action.payload.data;
     },
     // TODO bên dưới chưa dùng
     [getProductBySlug.pending]: (state) => {

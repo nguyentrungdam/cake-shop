@@ -23,7 +23,7 @@ function Cart() {
     Product: "",
     Product_Size: "",
   });
-
+  console.log(cartItems);
   const handleDeleteItem = async (_idProduct) => {
     await dispatch(removeItemCart(_idProduct));
   };
@@ -200,6 +200,11 @@ function Cart() {
                                         <label className="container-checkbox">
                                           <input
                                             className="Checkbox"
+                                            disabled={
+                                              item.Product.isDelete
+                                                ? "disabled"
+                                                : ""
+                                            }
                                             type="checkbox"
                                             checked={
                                               itemSelected(item)
@@ -214,12 +219,35 @@ function Cart() {
                                         </label>
                                         <a
                                           href={`/product/${item.Product._id}`}
-                                          className="cart__image"
+                                          // className="cart__image"
+                                          className={
+                                            item.Product.isDelete
+                                              ? "disable-item cart__image"
+                                              : "cart__image "
+                                          }
                                         >
+                                          <img
+                                            alt={item.Name}
+                                            className={
+                                              item.Product.isDelete
+                                                ? "grid-product__image-mask-2"
+                                                : "hide-sold-out"
+                                            }
+                                            src="https://www.pngplay.com/wp-content/uploads/6/Sold-Out-Hanging-Transparent-PNG.png"
+                                            style={{
+                                              opacity: "1",
+                                              width: "40%",
+                                            }}
+                                          />
                                           <img
                                             className="lazyautosizes lazyloaded"
                                             alt={item.Product.Name}
                                             src={item.Product.Image.Url}
+                                            style={
+                                              item.Product.isDelete
+                                                ? { opacity: "0.5" }
+                                                : {}
+                                            }
                                           />
                                         </a>
                                       </div>
@@ -252,7 +280,13 @@ function Cart() {
                                     <div className="grid grid--full cart__row--table">
                                       <div className=" grid__item one-third medium-up--one-third medium-up--text-center">
                                         <div className="product__quantity product__quantity--button">
-                                          <div className="js-qty__wrapper">
+                                          <div
+                                            className={
+                                              item.Product.isDelete
+                                                ? "disable-item js-qty__wrapper"
+                                                : "js-qty__wrapper "
+                                            }
+                                          >
                                             <span
                                               type="text"
                                               id="Quantity-7593662546171"

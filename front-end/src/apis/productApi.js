@@ -21,6 +21,18 @@ const productApi = {
     const url = `/products/deleteProduct?Id=${productId}`;
     return axios.delete(url, productId);
   },
+  disableProductById: (productId) => {
+    const url = `/products/disableProduct?idProduct=${productId}`;
+    return axios.put(url);
+  },
+  enableProductById: (productId) => {
+    const url = `/products/enableProduct?idProduct=${productId}`;
+    return axios.put(url);
+  },
+  getDisableProductList: (page) => {
+    const url = `/products/getProductDisableList?page=${page}`;
+    return axios.get(url);
+  },
   //TODO từ đây xuống là chưa làm
   getProductBySlug: (slug) => {
     const url = `/product/${slug}`;

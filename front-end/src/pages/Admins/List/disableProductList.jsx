@@ -6,8 +6,16 @@ import Header from "../../../components/NavbarAdmin/Header";
 import LeftNavbar from "../../../components/NavbarAdmin/LeftNavbar";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getProducts, deleteProductById } from "../../../slices/productSlice";
+import {
+  getProducts,
+  deleteProductById,
+  getDisableProductList,
+  enableProductById,
+} from "../../../slices/productSlice";
 import ReactPaginate from "react-paginate";
+import Loading from "../../../components/loading";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 
 function DisableProductList() {
   const [pageCount, setPageCount] = useState(0);
@@ -15,12 +23,12 @@ function DisableProductList() {
   const [nextPage, setNextPage] = useState(1);
 
   const dispatch = useDispatch();
-  const { products, data } = useSelector((state) => state.product);
+  const { products, data, loading } = useSelector((state) => state.product);
   const obj = {
     page: nextPage,
   };
   useEffect(() => {
-    dispatch(getProducts(obj));
+    dispatch(getDisableProductList(obj));
   }, [nextPage]);
 
   useEffect(() => {
@@ -32,115 +40,127 @@ function DisableProductList() {
     setNextPage(event.selected + 1);
     window.scrollTo(0, 100);
   };
+
   const handleDeleteProduct = async (id) => {
     console.log(id);
     try {
-      const response = await dispatch(deleteProductById(id)).unwrap();
-      await dispatch(getProducts(obj));
-      if (response.status === 201) {
-        alert("Xóa Thành Công");
+      const response = await dispatch(enableProductById(id)).unwrap();
+      await dispatch(getDisableProductList(obj));
+      if (response.status === 200) {
+        notify("Enable product successfully!");
       }
     } catch (err) {
-      alert("Vui lòng kiểm tra lại các thông tin cho chính xác !");
+      notify(err);
     }
   };
-
+  const notify = (message) => {
+    toast.success(message, {
+      position: toast.POSITION.TOP_RIGHT,
+      autoClose: 1000,
+    });
+  };
   return (
     <Container>
+      <ToastContainer></ToastContainer>
       <Header name="Products Management" />
       <LeftNavbar />
-      <div
-        className="container"
-        style={{
-          margin: "20px 0 0 400px",
-          display: "flex",
-          flex: "flex-end",
-          flexDirection: "column",
-        }}
-      >
-        <a href="/listproduct" className="btn-shopnow">
-          Back
-        </a>
-        <h1>Disable Products List </h1>
-        <Table
+      {loading ? (
+        <Loading />
+      ) : (
+        <div
+          className="container"
           style={{
-            width: "90%",
+            margin: "20px 0 0 400px",
+            display: "flex",
+            flex: "flex-end",
+            flexDirection: "column",
           }}
-          className="table table-bordered"
         >
-          <tbody className="thead-dark">
-            <tr>
-              <th style={{ textAlign: "center" }}>Id</th>
-              <th style={{ textAlign: "center" }}>Title</th>
-              <th style={{ textAlign: "center" }}>Price</th>
-              <th style={{ textAlign: "center" }}>Quantity</th>
-              <th style={{ textAlign: "center" }}>Images</th>
-              <th style={{ textAlign: "center" }}>Delete</th>
-              <th></th>
-            </tr>
-          </tbody>
-          {products.map((item, index) => (
-            <tbody key={item._id}>
+          <a href="/listproduct" className="btn-shopnow">
+            Back
+          </a>
+          <h1>Disable Products List </h1>
+          <Table
+            style={{
+              width: "90%",
+            }}
+            className="table table-bordered"
+          >
+            <tbody className="thead-dark">
               <tr>
-                <td style={{ textAlign: "center" }}>{index}</td>
-                <td style={{ textAlign: "center" }}>{item.Name}</td>
-                <td style={{ textAlign: "center" }}>{item.Price}</td>
-                <td style={{ textAlign: "center" }}>{item.Quantity}</td>
-                <td style={{ textAlign: "center" }}>
-                  <img
-                    style={{ width: "60px" }}
-                    src={item.Image.Url}
-                    alt={item.Name}
-                  />
-                </td>
-                <td
-                  style={{
-                    textAlign: "center",
-                    margin: " 22px 0 0 22px",
-                    cursor: "pointer",
-                  }}
-                  className="badge badge-danger"
-                  onClick={() => handleDeleteProduct(item._id)}
-                >
-                  Delete
-                </td>
-                <td>
-                  <Link
-                    to={`/product/${item._id}`}
-                    className="badge badge-info"
-                    style={{
-                      backgroundColor: "black",
-                      textAlign: "center",
-                      padding: "10px",
-                      margin: "12px 0 0 20px",
-                      color: "white",
-                    }}
-                  >
-                    View Detail
-                  </Link>
-                </td>
+                <th style={{ textAlign: "center" }}>Id</th>
+                <th style={{ textAlign: "center" }}>Title</th>
+                <th style={{ textAlign: "center" }}>Price</th>
+                <th style={{ textAlign: "center" }}>Quantity</th>
+                <th style={{ textAlign: "center" }}>Images</th>
+                <th style={{ textAlign: "center" }}>Enable</th>
+                <th></th>
               </tr>
             </tbody>
-          ))}
-        </Table>
-        <div className="contain-pagination">
-          <ReactPaginate
-            breakLabel="..."
-            nextLabel=">"
-            onPageChange={handlePageClick}
-            pageRangeDisplayed={5}
-            pageCount={pageCount}
-            previousLabel="<"
-            renderOnZeroPageCount={null}
-            className="pagination"
-            pageLinkClassName={pageCount === 1 ? `aa active` : "aa"}
-            activeLinkClassName="active"
-            pageClassName="lii"
-            previousClassName="lii"
-            nextClassName=" lii"
-          />
+            {products.map((item, index) => (
+              <tbody key={item._id}>
+                <tr>
+                  <td style={{ textAlign: "center" }}>{index}</td>
+                  <td style={{ textAlign: "center" }}>{item.Name}</td>
+                  <td style={{ textAlign: "center" }}>{item.Price}</td>
+                  <td style={{ textAlign: "center" }}>{item.Quantity}</td>
+                  <td style={{ textAlign: "center" }}>
+                    <img
+                      style={{ width: "60px" }}
+                      src={item.Image.Url}
+                      alt={item.Name}
+                    />
+                  </td>
+                  <td
+                    style={{
+                      textAlign: "center",
+                      margin: " 22px 0 0 22px",
+                      cursor: "pointer",
+                    }}
+                    className="badge badge-danger"
+                    onClick={() => handleDeleteProduct(item._id)}
+                  >
+                    Enable
+                  </td>
+                  <td>
+                    <Link
+                      to={`/product/${item._id}`}
+                      className="badge badge-info"
+                      style={{
+                        backgroundColor: "black",
+                        textAlign: "center",
+                        padding: "10px",
+                        margin: "12px 0 0 20px",
+                        color: "white",
+                      }}
+                    >
+                      View Detail
+                    </Link>
+                  </td>
+                </tr>
+              </tbody>
+            ))}
+          </Table>
+          <div className="contain-pagination">
+            <ReactPaginate
+              breakLabel="..."
+              nextLabel=">"
+              onPageChange={handlePageClick}
+              pageRangeDisplayed={5}
+              pageCount={pageCount}
+              previousLabel="<"
+              renderOnZeroPageCount={null}
+              className="pagination"
+              pageLinkClassName={pageCount === 1 ? `aa active` : "aa"}
+              activeLinkClassName="active"
+              pageClassName="lii"
+              previousClassName="lii"
+              forcePage={nextPage - 1}
+              nextClassName=" lii"
+            />
+          </div>
         </div>
-      </div>
+      )}
     </Container>
   );
 }
