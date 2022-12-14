@@ -1,7 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 
-const ViewDetail = ({ amount, showDetail, setShowDetail, ordersDetail }) => {
+const ViewDetail = ({ amount, showDetail, setShowDetail, productDetail }) => {
+  console.log(productDetail);
   return (
     <>
       {showDetail ? (
@@ -11,25 +12,26 @@ const ViewDetail = ({ amount, showDetail, setShowDetail, ordersDetail }) => {
             <Title>Your order detail: </Title>
             <div className="cart-info-wrapper">
               <div className="cart-items">
-                {ordersDetail.length > 0 &&
-                  ordersDetail.map((item) => (
+                {productDetail.length > 0 &&
+                  productDetail.map((item) => (
                     <div className="cart-item" key={item._id}>
                       <img
-                        src={item.Product.Image.Url}
-                        alt={item.Product.Name}
+                        src={item.Image.Url}
+                        alt={item.Name}
                         className="item-img"
                       />
                       <div className="item-info">
-                        <p className="name">{item.Product.Name}</p>
-                        <p className="kind">{item.Product_Size}</p>
+                        <p className="name">{item.Name}</p>
+                        <p className="kind">{item.Sweet}</p>
                       </div>
                       <span className="price">
-                        £{item.Product.Price} x {item.Quantity} = £
-                        {Number(
-                          item.Quantity * item.Product.Price
-                        ).toLocaleString("en-US", {
-                          minimumFractionDigits: 2,
-                        })}
+                        £{item.Price} x {item.Quantity} = £
+                        {Number(item.Quantity * item.Price).toLocaleString(
+                          "en-US",
+                          {
+                            minimumFractionDigits: 2,
+                          }
+                        )}
                       </span>
                     </div>
                   ))}

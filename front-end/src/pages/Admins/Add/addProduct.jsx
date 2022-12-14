@@ -18,10 +18,10 @@ const AddProduct = () => {
 
   const [productInfo, setProductInfo] = useState({
     name: "",
-    price: 0,
     description: "",
+    price: 0,
+    quantity: 0,
     category: "",
-    variants: ["Low", "Medium", "High"],
     productPictures: [],
     productPictureToChange: [],
   });
@@ -39,6 +39,10 @@ const AddProduct = () => {
   const handlePriceProduct = async (e) => {
     e.preventDefault();
     setProductInfo({ ...productInfo, price: Number(e.target.value) });
+  };
+  const handleQuantity = async (e) => {
+    e.preventDefault();
+    setProductInfo({ ...productInfo, quantity: Number(e.target.value) });
   };
 
   const handleSelectImage = (e) => {
@@ -61,17 +65,18 @@ const AddProduct = () => {
   const handleAddProduct = async () => {
     console.log(productInfo);
     const form = new FormData();
-    form.append("name", productInfo.name);
-    form.append("price", productInfo.price);
-    form.append("description", productInfo.description);
-    form.append("category", productInfo.category);
-    form.append("discountPercent", productInfo.discountPercent);
-    form.append("variants", JSON.stringify(productInfo.variants));
+    form.append("Name", productInfo.name);
+    form.append("Price", productInfo.price);
+    form.append("Description", productInfo.description);
+    form.append("Category", productInfo.category);
+    form.append("Quantity", productInfo.quantity);
     for (let pic of productInfo.productPictureToChange) {
-      form.append("productPicture", pic);
+      form.append("Image", pic);
     }
+    console.log(form);
     try {
       const res = await dispatch(addProduct(form)).unwrap();
+      console.log(res);
       if (res.status === 201) {
         alert("Add Thành Công !");
       }
@@ -94,7 +99,8 @@ const AddProduct = () => {
             <TexrAreaInput onChange={handleDescProduct} />
             <Label>Price</Label>
             <Input onChange={handlePriceProduct} />
-
+            <Label>Quantity</Label>
+            <Input onChange={handleQuantity} />
             <Label>Category</Label>
             <select
               className="form-control"
@@ -104,7 +110,7 @@ const AddProduct = () => {
               }
             >
               {categories.map((option) => (
-                <option key={option._id} value={option.Name}>
+                <option key={option._id} value={option._id}>
                   {option.Name}
                 </option>
               ))}

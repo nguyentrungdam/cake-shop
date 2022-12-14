@@ -98,6 +98,18 @@ export const getDisableProductList = createAsyncThunk(
     }
   }
 );
+export const addProduct = createAsyncThunk(
+  "products/createProduct",
+  async (product, { rejectWithValue }) => {
+    try {
+      const response = await productApi.addProduct(product);
+      // await thunkAPI.dispatch(getProducts());
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
 // TODO chưa có
 export const getProductBySlug = createAsyncThunk(
   "product/getProductBySlug",
@@ -148,7 +160,7 @@ export const updateProduct = createAsyncThunk(
   }
 );
 
-export const addProduct = createAsyncThunk(
+export const addProductssss = createAsyncThunk(
   "product/add",
   async (product, { rejectWithValue }) => {
     try {
@@ -175,6 +187,7 @@ export const getProductsSearched = createAsyncThunk(
 export const productSlice = createSlice({
   name: "product",
   initialState: {
+    product: {},
     products: [],
     productDetail: {},
     search: [],
@@ -183,6 +196,17 @@ export const productSlice = createSlice({
     data: {},
   },
   extraReducers: {
+    [addProduct.pending]: (state) => {
+      state.loading = true;
+    },
+    [addProduct.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = action.error;
+    },
+    [addProduct.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.product = action.payload.data.Product;
+    },
     [getProducts.pending]: (state) => {
       state.loading = true;
     },

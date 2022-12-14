@@ -36,6 +36,18 @@ export const deleteCategoryById = createAsyncThunk(
     }
   }
 );
+export const updateCategoryById = createAsyncThunk(
+  "categories/updateCategory",
+  async (category, rejectWithValue) => {
+    try {
+      const response = await categoryApi.updateCategoryById(category);
+      console.log(response);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
 
 export const categorySlice = createSlice({
   name: "category",
@@ -77,6 +89,17 @@ export const categorySlice = createSlice({
       state.error = action.error;
     },
     [deleteCategoryById.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.category = action.payload.data.Category;
+    },
+    [updateCategoryById.pending]: (state) => {
+      state.loading = true;
+    },
+    [updateCategoryById.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = action.error;
+    },
+    [updateCategoryById.fulfilled]: (state, action) => {
       state.loading = false;
       state.category = action.payload.data.Category;
     },

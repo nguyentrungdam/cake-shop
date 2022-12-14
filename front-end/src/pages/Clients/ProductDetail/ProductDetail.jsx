@@ -20,7 +20,7 @@ const ProductDetail = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   let idProduct = useParams();
-
+  console.log(productDetail);
   const [cartItem, setCartItem] = useState({
     product: "",
     variant: "",
@@ -105,7 +105,7 @@ const ProductDetail = () => {
         notify(1);
         newCartItem = {
           Product: cartItem.product,
-          Product_Size: cartItem.variant,
+          Product_Sweet: cartItem.variant,
           Quantity: cartItem.quantity,
         };
         console.log(newCartItem);
@@ -339,7 +339,7 @@ const ProductDetail = () => {
                                 className="variant__label"
                                 htmlFor="ProductSelect-7593662546171-option-0"
                               >
-                                Size
+                                Sweet Rate
                               </label>
 
                               <fieldset
@@ -348,7 +348,7 @@ const ProductDetail = () => {
                                 data-index="option1"
                                 id="ProductSelect-7593662546171-option-0"
                               >
-                                {productDetail.Size?.map(({ name, _id }) => (
+                                {productDetail.Sweet?.map(({ name, _id }) => (
                                   <div
                                     className="variant-input"
                                     data-index="option1"

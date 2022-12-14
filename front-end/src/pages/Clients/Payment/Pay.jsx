@@ -63,7 +63,6 @@ const Pay = () => {
         var resPaypal = await dispatch(addOrderPaypal(order)).unwrap();
         if (resPaypal.status === 200) {
           console.log(link);
-
           window.location.href = link;
         }
       }

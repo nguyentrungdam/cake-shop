@@ -1,19 +1,20 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Header from "../../../components/NavbarAdmin/Header";
 import LeftNavbar from "../../../components/NavbarAdmin/LeftNavbar";
-import {
-  getCategories,
-  deleteCategoryById,
-} from "../../../slices/categorySlice";
+import { getCategories } from "../../../slices/categorySlice";
+import EditCategory from "../Edit/EditCategory";
 
 const Container = styled.div``;
 function CategoryList() {
   const dispatch = useDispatch();
   const { categories } = useSelector((state) => state.category);
+  console.log(categories);
+  const [showDetail, setShowDetail] = useState(false);
+  const [category, setCategory] = useState();
 
   useEffect(() => {
     const fetchData = () => {
@@ -22,21 +23,24 @@ function CategoryList() {
     fetchData();
   }, [dispatch]);
 
-  const handleDeleteCategory = async (id) => {
-    const response = await dispatch(deleteCategoryById(id)).unwrap();
-    await dispatch(getCategories()).unwrap();
-    if (response.status === 201) {
-      alert("Xóa Thành Công");
-    }
+  const handleViewCategory = (item) => {
+    setCategory(item);
+    setShowDetail(true);
   };
+
   return (
     <Container>
+      <EditCategory
+        categoryItem={category}
+        showDetail={showDetail}
+        setShowDetail={setShowDetail}
+      ></EditCategory>
       <Header name="Categories Management" />
       <LeftNavbar />
       <div
         className="container"
         style={{
-          margin: "20px 0 0 400px",
+          margin: "20px 0 0 380px",
           display: "flex",
           flex: "flex-end",
           flexDirection: "column",
@@ -64,7 +68,7 @@ function CategoryList() {
             <tr>
               <th style={{ textAlign: "center" }}>Id</th>
               <th style={{ textAlign: "center" }}>Name</th>
-              <th style={{ textAlign: "center", width: "100px" }}>Delete</th>
+              <th style={{ textAlign: "center", width: "100px" }}>Update</th>
             </tr>
           </tbody>
           {categories.map((item, index) => (
@@ -81,9 +85,9 @@ function CategoryList() {
                       marginLeft: "7px",
                     }}
                     className="badge badge-danger"
-                    onClick={() => handleDeleteCategory(item._id)}
+                    onClick={() => handleViewCategory(item)}
                   >
-                    Delete
+                    Update
                   </span>
                 </td>
               </tr>

@@ -71,7 +71,7 @@ function ProductList() {
         <div
           className="container"
           style={{
-            margin: "20px 0 0 400px",
+            margin: "20px 0 0 370px",
             display: "flex",
             flex: "flex-end",
             flexDirection: "column",

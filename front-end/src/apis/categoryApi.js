@@ -13,6 +13,10 @@ const categoryApi = {
     const url = `categories/deleteCategory?categoryId=${category}`;
     return axios.delete(url, category);
   },
+  updateCategoryById: (category) => {
+    const url = "categories/updateCategory";
+    return axios.post(url, category);
+  },
 };
 
 export default categoryApi;

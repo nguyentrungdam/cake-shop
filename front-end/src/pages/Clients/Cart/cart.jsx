@@ -21,7 +21,7 @@ function Cart() {
   const [item, setItem] = useState({
     name: "",
     Product: "",
-    Product_Size: "",
+    Product_Sweet: "",
   });
   console.log(cartItems);
   const handleDeleteItem = async (_idProduct) => {
@@ -65,7 +65,7 @@ function Cart() {
         ...item,
         name: nameItem,
         Product: cartItem.Product,
-        Product_Size: cartItem.Product_Size,
+        Product_Sweet: cartItem.Product_Sweet,
       });
       setOrđerId(orderId);
       setShowDeleteItem(true);
@@ -105,7 +105,7 @@ function Cart() {
       const updateSeleted = selected.filter((newItem) => {
         return (
           newItem.Product._id !== item.Product._id ||
-          newItem.Product_Size !== item.Product_Size
+          newItem.Product_Sweet !== item.Product_Sweet
         );
       });
       setSelected(updateSeleted);
@@ -114,8 +114,8 @@ function Cart() {
 
   const itemSelected = (item) => {
     return selected.find(
-      ({ Product, Product_Size }) =>
-        Product._id === item.Product._id && Product_Size === item.Product_Size
+      ({ Product, Product_Sweet }) =>
+        Product._id === item.Product._id && Product_Sweet === item.Product_Sweet
     );
   };
 
@@ -261,7 +261,7 @@ function Cart() {
                                         </a>
 
                                         <p className="cart__product-meta">
-                                          {item.Product_Size}
+                                          {item.Product_Sweet}
                                         </p>
 
                                         <p
@@ -302,8 +302,8 @@ function Cart() {
                                                 handleDecrement(
                                                   {
                                                     Product: item.Product._id,
-                                                    Product_Size:
-                                                      item.Product_Size,
+                                                    Product_Sweet:
+                                                      item.Product_Sweet,
                                                     Quantity: -1,
                                                   },
                                                   item.Product.Name,
@@ -339,8 +339,8 @@ function Cart() {
                                                 handleIncrement(
                                                   {
                                                     Product: item.Product._id,
-                                                    Product_Size:
-                                                      item.Product_Size,
+                                                    Product_Sweet:
+                                                      item.Product_Sweet,
                                                     Quantity: 1,
                                                   },
                                                   item.Quantity,

@@ -104,6 +104,7 @@ export const orderSlice = createSlice({
     [getOrdersByUser.fulfilled]: (state, action) => {
       state.loading = false;
       state.orders = action.payload.data.Order;
+      state.ordersDetail = action.payload.data.products;
     },
     [getOrdersById.pending]: (state) => {
       state.loading = true;
