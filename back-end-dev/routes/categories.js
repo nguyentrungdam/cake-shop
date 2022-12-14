@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const {
-    createCategory,
     getCategoryList,
+    createCategory,
+    updateCategory,
     deleteCategory
 } = require('../controllers/categoryController');
 
@@ -93,6 +94,36 @@ router.get("/getCategoryList", getCategoryList);
  *                 $ref: '#/components/schemas/Category'
  */
  router.post("/createCategory", upload.none(), createCategory);
+
+/**
+ * @swagger
+ * /categories/updateCategory:
+ *   post:
+ *     summary: Returns Category
+ *     tags: [Categories]
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               idCategory:
+ *                 type: string   
+ *               Name:
+ *                 type: string 
+ *               Description:
+ *                 type: string 
+ *     responses:
+ *       200:
+ *         description: Update new Category
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Category'
+ */
+router.post("/updateCategory", upload.none(), updateCategory);
 
  /**
  * @swagger
