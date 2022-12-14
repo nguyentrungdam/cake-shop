@@ -525,6 +525,13 @@ exports.paymentOrderByCash = catchAsyncErrors(async (req, res, next) => {
   let newOrderDetail = new orderDetail();
   let amount = 0;
   const len = productList.length;
+
+  // DELETE product in order
+  const lenProduct = tempOrder.products.length;
+  for (var i = 0; i < lenProduct; i++) {
+    tempOrder.products[i].remove();
+  }
+  
   for (var i = 0; i < len; i ++) {
     // CHECK product in stock
     tempProduct = await product.findOne({ _id: productList[i].productId, isDelete: false });
@@ -656,7 +663,7 @@ exports.paymentOrderByCash = catchAsyncErrors(async (req, res, next) => {
     success: true,
     Order: tempOrder,
     total: total,
-    OrderDetail: newOrderDetail
+    //OrderDetail: newOrderDetail
   });
 });
 
@@ -701,6 +708,12 @@ exports.paymentOrderByOnline = catchAsyncErrors(async (req, res, next) => {
 
   // DELETE product in Order Detail
   await orderDetail.deleteMany({ Order: tempOrder._id }, pointTransaction)
+
+  // DELETE product in order
+  const lenProduct = tempOrder.products.length;
+  for (var i = 0; i < lenProduct; i++) {
+    tempOrder.products[i].remove();
+  }
 
   // CREATE Order Detail
   let tempLogOrderDetail = new logOrderDetail();

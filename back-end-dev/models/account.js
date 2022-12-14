@@ -37,6 +37,17 @@ const accountSchema = new schema({
         type: String,
         default: null
     },
+    Cart : [
+        {
+            productId: String,
+            productName: String,
+            productImage: String,
+            productPrice: Number,
+            productQuantity: Number,
+            productSweet: String,
+            quantityInStock: Number
+        }
+    ],
     Created_At: {
         type: Date,
         default: Date.now()
