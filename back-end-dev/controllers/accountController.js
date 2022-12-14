@@ -216,7 +216,6 @@ exports.filterAccount = catchAsyncErrors(async (req, res, next) => {
 })
 
 exports.deleteAccount = catchAsyncErrors(async (req, res, next) => {
-    console.log('Delete Account');
     const accountId = req.query.accountId;
     const ObjectId = mongoose.Types.ObjectId;
     if (!accountId || !ObjectId.isValid(accountId)) {
@@ -241,6 +240,51 @@ exports.deleteAccount = catchAsyncErrors(async (req, res, next) => {
     res.status(201).json({
         success: true,
         message: 'Account deleted'
+    })
+})
+
+exports.enableAccount = catchAsyncErrors(async (req, res, next) => {
+    const accountId = req.query.accountId;
+    const ObjectId = mongoose.Types.ObjectId;
+    if (!accountId || !ObjectId.isValid(accountId)) {
+        const err = new Error('Id id not valid');
+        return next(err);
+    }
+
+    let tempAccount = await account.findById(accountId);
+    if (!tempAccount || tempAccount.isDelete == false) {
+        const err = new Error('Account not found');
+        return next(err);
+    }
+
+    tempAccount.isDelete = false;
+    
+    const newAccount = await account.findByIdAndUpdate(accountId, tempAccount, {
+        new: true,
+        runValidators: true,
+        useFindAndModified: false
+    });
+
+    res.status(201).json({
+        success: true,
+        message: 'Account enabled'
+    })
+})
+
+exports.getAccountDisableList = catchAsyncErrors(async (req, res, next) => {
+    const page = req.query.page;
+    const total = await account.find({isDelete: true}).countDocuments();
+    const Account = await pagination(
+        account.find({isDelete: true}),
+        page,
+        10
+    )
+    
+    res.status(201).json({
+        success: true,
+        total: total,
+        totalCurrentPage: Account.length,
+        Account
     })
 })
 

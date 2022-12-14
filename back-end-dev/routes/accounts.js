@@ -12,6 +12,8 @@ const {
     resetPassword,
     filterAccount,
     deleteAccount,
+    enableAccount,
+    getAccountDisableList,
     addAddress
 } = require('../controllers/AccountController');
 
@@ -316,6 +318,56 @@ router.get("/getAccountList", isAuthenticatedAccount, authorizeRoles('admin'), g
  */
 
   router.delete("/deleteAccount", isAuthenticatedAccount, authorizeRoles('admin'), deleteAccount);
+
+ /**
+ * @swagger
+ * /accounts/enableAccount:
+ *   get:
+ *     summary: Returns message
+ *     tags: [Accounts]
+ *     parameters:
+ *     - in: query
+ *       name: accountId
+ *       description: Id account
+ *       schema:
+ *         type: string
+ *     responses:
+ *       200:
+ *         description: return message
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Account'
+ */
+
+ router.get("/enableAccount", isAuthenticatedAccount, authorizeRoles('admin'), enableAccount);
+
+  /**
+ * @swagger
+ * /accounts/getAccountDisableList:
+ *   get:
+ *     summary: Returns the list of all the Accounts
+ *     tags: [Accounts]
+ *     parameters:
+ *     - in: query
+ *       name: page
+ *       description: Current page
+ *       schema:
+ *         type: number
+ *     responses:
+ *       200:
+ *         description: The list of the Accounts
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Account'
+ */
+
+router.get("/getAccountDisableList", isAuthenticatedAccount, authorizeRoles('admin'), getAccountDisableList);
 
  /**
  * @swagger

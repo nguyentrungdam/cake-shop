@@ -325,7 +325,7 @@ const upload = multer()
  *                       type: string   
  *                     productQuantity:
  *                       type: number 
- *                     productSize:
+ *                     productSweet:
  *                       type: string 
  *     responses:
  *       200:

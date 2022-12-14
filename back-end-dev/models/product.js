@@ -41,7 +41,7 @@ const productSchema = new schema({
         }},
         { name: {
             type: String,
-            default: 'Hight'
+            default: 'High'
         }},
     ],
     Category: {

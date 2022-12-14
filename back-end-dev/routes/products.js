@@ -62,9 +62,6 @@ const upload = multer()
  *         Modified_At:
  *           type: date
  *           description: The product price
- *         Size:
- *           type: string
- *           description: The product price
  *         isDelete:
  *           type: bool
  *           description: The product price
@@ -75,7 +72,6 @@ const upload = multer()
  *         Quantity: 0
  *         Image: string
  *         Category: string
- *         Size: string
  */
 
  /**

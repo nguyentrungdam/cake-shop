@@ -36,7 +36,7 @@ exports.getProductList = catchAsyncErrors(async (req, res, next) => {
     //     Product[i].Sweet = [
     //         {name: 'Low'},
     //         {name: 'Normal'},
-    //         {name: 'Hight'}
+    //         {name: 'High'}
     //     ]
     //     tempProduct = await Product[i].save(pointTransaction);
     //     if (!tempProduct) {
@@ -60,7 +60,7 @@ exports.getProductList = catchAsyncErrors(async (req, res, next) => {
     const page = req.query.page;
     const total = await product.where({isDelete: false}).countDocuments();
     const Product = await pagination(
-        product.find({isDelete: false}).populate("Category"),
+        product.find({isDelete: false}).populate("Category").sort({ Created_At: -1 }),
         page,
         8
     )
@@ -191,7 +191,7 @@ exports.searchProduct = catchAsyncErrors(async (req, res, next) => {
     
     const total = await product.where({ ...Keyword }).countDocuments();
     const Product = await pagination(
-        product.find({ ...Keyword }).populate("Category"),
+        product.find({ ...Keyword }).populate("Category").sort({ Created_At: -1 }),
         page,
         8
     )
@@ -383,7 +383,9 @@ exports.getProductDisableList = catchAsyncErrors(async (req, res, next) => {
     const page = req.query.page;
     const total = await product.where({isDelete: true}).countDocuments();
     const Product = await pagination(
-        product.find({isDelete: true}).populate("Category"),
+        product.find({isDelete: true})
+            .populate("Category")
+            .sort({ Created_At: -1 }),
         page,
         8
     )

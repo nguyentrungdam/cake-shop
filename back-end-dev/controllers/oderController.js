@@ -551,6 +551,7 @@ exports.paymentOrderByCash = catchAsyncErrors(async (req, res, next) => {
     }
 
     // CREATE product in order
+    tempProduct.Quantity = productList[i].productQuantity;
     tempOrder.products.push(tempProduct);
   }
 
@@ -714,8 +715,9 @@ exports.paymentOrderByOnline = catchAsyncErrors(async (req, res, next) => {
       return next(err);
     }
 
-      // CREATE product in order
-      tempOrder.products.push(tempProduct);
+    // CREATE product in order
+    tempProduct.Quantity = productList[i].productQuantity;
+    tempOrder.products.push(tempProduct);
   }
 
   // UPDATE order
@@ -929,8 +931,7 @@ exports.paymentSuccess = catchAsyncErrors(async (req, res, next) => {
   
       const err = new Error("An error occurred during the checkout process");
       return next(err);
-    } else {
-    }
+    } 
   });
 
   // UPDATE order
