@@ -130,7 +130,7 @@ exports.updateProduct = catchAsyncErrors(async (req, res, next) => {
         Price: req.body.Price || oldProduct.Price,
         Quantity: req.body.Quantity || oldProduct.Quantity,
         Category: req.body.Category || oldProduct.Category,
-        Size: req.body.Size || oldProduct.Size,
+        //Sweet: req.body.Sweet || oldProduct.Sweet,
         Modified_At: Date.now(),
     }
 

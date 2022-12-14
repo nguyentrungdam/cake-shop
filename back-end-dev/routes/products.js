@@ -180,8 +180,6 @@ const upload = multer()
  *                 type: number 
  *               Category:
  *                 type: string 
- *               Size:
- *                 type: string 
  *     responses:
  *       200:
  *         description: Update product
