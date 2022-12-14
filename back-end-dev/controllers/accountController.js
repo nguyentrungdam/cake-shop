@@ -24,6 +24,56 @@ exports.registerAccount = catchAsyncErrors(async (req, res, next) => {
     sendToken(Account, res);
 })
 
+// exports.updateAccount = catchAsyncErrors(async (req, res, next) => {
+//     const session = await mongoose.startSession();
+//     session.startTransaction();
+//     const pointTransaction = { session };
+
+//     // Validate Id
+//     const { idOrder, Amount, Order_FullName, Order_Address, 
+//               Order_Phone, Order_Status, Payment_Type, Payment_Status } = req.body;
+//     const ObjectId = mongoose.Types.ObjectId;
+//     if (!idOrder || !ObjectId.isValid(idOrder)) {
+//         const err = new Error('Id id not valid');
+//         return next(err);
+//     }
+  
+//     // Check product exists in database
+//     const tempOrder = await order.findById(idOrder);
+//     if (!tempOrder || tempOrder.isDelete == true) {
+//         const err = new Error('Product not found');
+//         return next(err);
+//     }
+  
+//     // SET values in order
+//     tempOrder.Amount = Amount || tempOrder.Amount;
+//     tempOrder.Order_FullName = Order_FullName || tempOrder.Order_FullName;
+//     tempOrder.Order_Address = Order_Address || tempOrder.Order_Address;
+//     tempOrder.Order_Phone = Order_Phone || tempOrder.Order_Phone;
+//     tempOrder.Order_Status = Order_Status || tempOrder.Order_Status;
+//     tempOrder.Payment_Type = Payment_Type || tempOrder.Payment_Type;
+//     tempOrder.Payment_Status = Payment_Status || tempOrder.Payment_Status;
+//     tempOrder.Modified_At = Date.now();
+  
+//     // Update product
+//     const updateCheck = await tempOrder.save(pointTransaction);
+//     if (!updateCheck) {
+//       await session.abortTransaction();
+//       session.endSession();
+  
+//       const err = new Error("An error occurred while updating the order");
+//       return next(err);
+//     }
+  
+//     await session.commitTransaction();
+//     session.endSession();
+    
+//     res.json({
+//         success: true,
+//         Order: tempOrder
+//     })
+//   })
+
 exports.getAccountList = catchAsyncErrors(async (req, res, next) => {
     const page = req.query.page;
     const total = await account.find({isDelete: false}).countDocuments();

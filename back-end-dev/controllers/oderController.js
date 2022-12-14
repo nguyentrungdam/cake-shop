@@ -437,6 +437,56 @@ exports.createOrder = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
+exports.updateOrder = catchAsyncErrors(async (req, res, next) => {
+  const session = await mongoose.startSession();
+  session.startTransaction();
+  const pointTransaction = { session };
+
+  // Validate Id
+  const { idOrder, Amount, Order_FullName, Order_Address, 
+            Order_Phone, Order_Status, Payment_Type, Payment_Status } = req.body;
+  const ObjectId = mongoose.Types.ObjectId;
+  if (!idOrder || !ObjectId.isValid(idOrder)) {
+      const err = new Error('Id id not valid');
+      return next(err);
+  }
+
+  // Check product exists in database
+  const tempOrder = await order.findById(idOrder);
+  if (!tempOrder || tempOrder.isDelete == true) {
+      const err = new Error('Product not found');
+      return next(err);
+  }
+
+  // SET values in order
+  tempOrder.Amount = Amount || tempOrder.Amount;
+  tempOrder.Order_FullName = Order_FullName || tempOrder.Order_FullName;
+  tempOrder.Order_Address = Order_Address || tempOrder.Order_Address;
+  tempOrder.Order_Phone = Order_Phone || tempOrder.Order_Phone;
+  tempOrder.Order_Status = Order_Status || tempOrder.Order_Status;
+  tempOrder.Payment_Type = Payment_Type || tempOrder.Payment_Type;
+  tempOrder.Payment_Status = Payment_Status || tempOrder.Payment_Status;
+  tempOrder.Modified_At = Date.now();
+
+  // Update product
+  const updateCheck = await tempOrder.save(pointTransaction);
+  if (!updateCheck) {
+    await session.abortTransaction();
+    session.endSession();
+
+    const err = new Error("An error occurred while updating the order");
+    return next(err);
+  }
+
+  await session.commitTransaction();
+  session.endSession();
+  
+  res.json({
+      success: true,
+      Order: tempOrder
+  })
+})
+
 exports.paymentOrderByCash = catchAsyncErrors(async (req, res, next) => {
   const session = await mongoose.startSession();
   session.startTransaction();
@@ -551,8 +601,17 @@ exports.paymentOrderByCash = catchAsyncErrors(async (req, res, next) => {
     }
 
     // CREATE product in order
-    tempProduct.Quantity = productList[i].productQuantity;
-    tempOrder.products.push(tempProduct);
+    // tempProduct.Quantity = productList[i].productQuantity;
+    // tempOrder.products.push(tempProduct);
+    tempOrderDetail = {
+      _id: tempProduct._id,
+      Name: tempProduct.Name,
+      Image: tempProduct.Image.Url,
+      Price: tempProduct.Price,
+      Quantity: productList[i].productQuantity,
+      Sweet: productList[i].productSweet
+    }
+    tempOrder.products.push(tempOrderDetail);
   }
 
   // UPDATE order
@@ -716,8 +775,17 @@ exports.paymentOrderByOnline = catchAsyncErrors(async (req, res, next) => {
     }
 
     // CREATE product in order
-    tempProduct.Quantity = productList[i].productQuantity;
-    tempOrder.products.push(tempProduct);
+    // tempProduct.Quantity = productList[i].productQuantity;
+    // tempOrder.products.push(tempProduct);
+    tempOrderDetail = {
+      _id: tempProduct._id,
+      Name: tempProduct.Name,
+      Image: tempProduct.Image.Url,
+      Price: tempProduct.Price,
+      Quantity: productList[i].productQuantity,
+      Sweet: productList[i].productSweet
+    }
+    tempOrder.products.push(tempOrderDetail);
   }
 
   // UPDATE order

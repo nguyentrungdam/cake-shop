@@ -17,6 +17,20 @@ exports.createProduct = catchAsyncErrors(async (req, res, next) => {
         Public_Id: req.file.filename,
         Url: req.file.path
     };
+    newProduct.Sweet = [
+        { name: {
+            type: String,
+            default: 'Low'
+        }},
+        { name: {
+            type: String,
+            default: 'Normal'
+        }},
+        { name: {
+            type: String,
+            default: 'High'
+        }},
+    ]
     const Product = await product.create(newProduct);
 
     res.status(201).json({
@@ -33,17 +47,19 @@ exports.getProductList = catchAsyncErrors(async (req, res, next) => {
     // let tempProduct;
     // const Product = await product.find();
     // for (var i = 0; i < Product.length; i++) {
-    //     Product[i].Sweet = [
-    //         {name: 'Low'},
-    //         {name: 'Normal'},
-    //         {name: 'High'}
+    //     tempProduct = await product.findOne({ _id: Product[i]._id });
+    //     console.log('Size: ', tempProduct.Size);
+    //     tempProduct.Sweet = [
+    //         { name: 'Low'},
+    //         { name: 'Normal'},
+    //         { name: 'High'},
     //     ]
-    //     tempProduct = await Product[i].save(pointTransaction);
-    //     if (!tempProduct) {
+    //     updateCheck = await tempProduct.save(pointTransaction);
+    //     if (!updateCheck) {
     //         await session.abortTransaction()
     //         session.endSession();
 
-    //         const err = new Error('Error update field Sweet Product');
+    //         const err = new Error('Error update field Size Product');
     //         return next(err);
     //     }
     // }

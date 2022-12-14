@@ -9,6 +9,7 @@ const {
     getOrderById,
     removeItemCart,
     createOrder,
+    updateOrder,
     paymentOrderByCash,
     paymentOrderByOnline,
     paymentSuccess
@@ -252,6 +253,46 @@ const upload = multer()
  *                 $ref: '#/components/schemas/Order'
  */
   router.get("/removeItemCart", isAuthenticatedAccount, removeItemCart);
+
+/**
+ * @swagger
+ * /orders/updateOrder:
+ *   put:
+ *     summary: Return order detail
+ *     tags: [Orders]
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               idOrder:
+ *                 type: string   
+ *               Amount:
+ *                 type: number 
+ *               Order_FullName:
+ *                 type: string 
+ *               Order_Address:
+ *                 type: string 
+ *               Order_Phone:
+ *                 type: string 
+ *               Order_Status:
+ *                 type: string 
+ *               Payment_Type:
+ *                 type: string 
+ *               Payment_Status:
+ *                 type: string 
+ *     responses:
+ *       200:
+ *         description: The list of the orders
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Order'
+ */
+router.put("/updateOrder", isAuthenticatedAccount, authorizeRoles('admin'), updateOrder);
 
 /**
  * @swagger

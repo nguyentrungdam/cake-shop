@@ -12,6 +12,24 @@ exports.getCategoryList = catchAsyncErrors(async (req, res, next) => {
     })
 })
 
+exports.getCategoryById = catchAsyncErrors(async (req, res, next) => {
+    const tempId = req.query.Id;
+    const ObjectId = mongoose.Types.ObjectId;
+    if (!tempId || !ObjectId.isValid(tempId)) {
+        const err = new Error('Id id not valid');
+        return next(err);
+    }
+    const Category = await category.findById(tempId);
+    if (!Category || Category.isDelete == true) {
+        const err = new Error('Category not found');
+        return next(err);
+    }
+    res.status(201).json({
+        success: true,
+        Category
+    })
+})
+
 // Create new product   =>   /api/v1/admin/product/new
 exports.createCategory = catchAsyncErrors(async (req, res, next) => {
     let newCategory = new category;
@@ -40,8 +58,9 @@ exports.updateCategory = catchAsyncErrors(async (req, res, next) => {
         return next(err);
     }
 
-    tempCategory.Name = newCategory.Name;
-    tempCategory.Description = newCategory.Description;
+    tempCategory.Name = newCategory.Name || tempCategory.Name;
+    tempCategory.Description = newCategory.Description || tempCategory.Description;
+    tempCategory.Modified_At = Date.now();
     
     const Category = await category.findByIdAndUpdate(newCategory.idCategory, tempCategory, {
         new: true,

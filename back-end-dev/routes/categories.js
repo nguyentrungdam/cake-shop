@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const {
     getCategoryList,
+    getCategoryById,
     createCategory,
     updateCategory,
     deleteCategory
@@ -70,6 +71,30 @@ const upload = multer()
  */
 
 router.get("/getCategoryList", getCategoryList);
+
+ /**
+ * @swagger
+ * /categories/getCategoryById:
+ *   get:
+ *     summary: Returns category
+ *     tags: [Categories]
+ *     parameters:
+ *     - in: query
+ *       name: Id
+ *       description: Id
+ *       schema:
+ *         type: string
+ *     responses:
+ *       200:
+ *         description: Get single category
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Category'
+ */
+ router.get("/getCategoryById", getCategoryById);
 
 /**
  * @swagger

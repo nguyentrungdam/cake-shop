@@ -42,19 +42,19 @@ const orderSchema = new schema({
         type: String,
         default: 'unpaid'
     },
-    products : {
-        type: [Product.schema]  
-    },
-    // products : [
-    //     {
-    //         _id: String,
-    //         Name: String,
-    //         Image: String,
-    //         Price: Number,
-    //         Quantity: Number,
-    //         Sweet: String
-    //     }
-    // ],
+    // products : {
+    //     type: [Product.schema]  
+    // },
+    products : [
+        {
+            _id: String,
+            Name: String,
+            Image: String,
+            Price: Number,
+            Quantity: Number,
+            Sweet: String
+        }
+    ],
     Created_At: {
         type: Date,
         default: Date.now()
