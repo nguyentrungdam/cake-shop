@@ -15,7 +15,6 @@ function OrderList() {
   const { orders, ordersDetail } = useSelector((state) => state.order);
   const [showDetail, setShowDetail] = useState(false);
   const [amount, setAmount] = useState();
-
   useEffect(() => {
     const fetchData = () => {
       dispatch(getAllOrders()).unwrap();

@@ -20,7 +20,6 @@ const Pay = () => {
   const [showModal, setShowModal] = useState(false);
   const { link, loading } = useSelector((state) => state.order);
 
-  console.log(link);
   const orderItems = location.state.selected;
 
   useEffect(() => {
@@ -63,6 +62,8 @@ const Pay = () => {
       } else {
         var resPaypal = await dispatch(addOrderPaypal(order)).unwrap();
         if (resPaypal.status === 200) {
+          console.log(link);
+
           window.location.href = link;
         }
       }

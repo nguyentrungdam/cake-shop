@@ -79,8 +79,8 @@ function ProductList() {
         >
           <span>
             <Link
-              // to="/addproduct"
-              to="#"
+              to="/addproduct"
+              // to="#"
               style={{
                 color: "red",
                 fontsize: "40px",

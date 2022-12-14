@@ -6,6 +6,7 @@ import { signout } from "../../slices/accountSlice";
 import { useEffect } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
+import { Navigate } from "react-router-dom";
 
 const Header = (props) => {
   const { account, isAuthenticated } = useSelector((state) => state.account);
@@ -26,6 +27,7 @@ const Header = (props) => {
     notify();
     setTimeout(function () {
       dispatch(signout());
+      Navigate("/signin");
     }, 1500);
   };
   return (

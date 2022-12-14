@@ -14,7 +14,6 @@ const ListProduct = () => {
   console.log(data.total);
   const [category, setCategory] = useState("");
   const [sortName, setSortName] = useState("");
-
   const limit = 8;
   const [pageCount, setPageCount] = useState(0);
   const [itemOffset, setItemOffset] = useState(0);
@@ -30,14 +29,19 @@ const ListProduct = () => {
   }, []);
 
   useEffect(() => {
+    dispatch(filterProducts(obj));
+  }, [nextPage]);
+
+  useEffect(() => {
     const fetchData = async () => {
       await dispatch(filterProducts(obj));
+      await setNextPage(1);
     };
-    if (category || sortName || nextPage) {
+    if (category || sortName) {
       fetchData();
       console.log(fetchData());
     }
-  }, [category, sortName, nextPage]);
+  }, [category, sortName]);
 
   useEffect(() => {
     if (!data.success) return;
@@ -130,7 +134,7 @@ const ListProduct = () => {
                       pageClassName="li"
                       previousClassName="li"
                       nextClassName=" li"
-                      initialPage={0}
+                      forcePage={nextPage - 1}
                     />
                   </div>
                 )}

@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 const EditOrder = ({ amount, showDetail, setShowDetail, ordersDetail }) => {
+  console.log(ordersDetail);
   return (
     <>
       {showDetail ? (
@@ -50,6 +51,28 @@ const EditOrder = ({ amount, showDetail, setShowDetail, ordersDetail }) => {
                 </div>
               </div>
             </div>
+            <div className="order-status">
+              <div className="order-status-title">Order status:</div>
+              <select
+                className="order-status-select"
+                // value={productInfo.category}
+                // onChange={(e) =>
+                //   setProductInfo({ ...productInfo, category: e.target.value })
+                // }
+              >
+                <option>await</option>
+                <option>order</option>
+                <option>delivering</option>
+                <option>done</option>
+              </select>
+
+              <span
+                className="badge-info"
+                // onClick={() => handleViewDetail(item._id, item.Amount)}
+              >
+                Update
+              </span>
+            </div>
           </DialogWrapper>
         </Background>
       ) : null}
@@ -70,6 +93,27 @@ const Background = styled.div`
   justify-content: center;
   align-items: center;
   z-index: 1000;
+
+  .badge-info {
+    background-color: black;
+    text-align: center;
+    padding: 4px 6px;
+    margin-left: 144px;
+    border-radius: 3px;
+    color: white;
+    cursor: pointer;
+  }
+  .order-status {
+    display: flex;
+  }
+  .order-status-title {
+    font-size: 1.2rem;
+    font-weight: 500;
+  }
+  .order-status-select {
+    margin-left: 10px;
+    width: 110px;
+  }
   .cart-info-wrapper {
     margin-top: 20px;
     border-bottom: 1px solid #ccc;
@@ -117,9 +161,6 @@ const Background = styled.div`
     padding: 20px 0;
     display: flex;
     flex-direction: column;
-  }
-  .sub-total-price:not(:last-child) {
-    border-bottom: 1px solid #ccc;
   }
 
   .sub-total-wrapper {

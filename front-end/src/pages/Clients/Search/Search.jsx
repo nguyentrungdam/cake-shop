@@ -24,14 +24,12 @@ const Search = () => {
   const handleSearch = async (e) => {
     e.preventDefault();
     await dispatch(searchProducts(obj));
+    await setNextPage(1);
     setShow("true");
   };
+
   useEffect(() => {
     dispatch(searchProducts(obj));
-    return () => {
-      setNextPage(1);
-      setPageCount();
-    };
   }, [nextPage]);
 
   useEffect(() => {
@@ -117,6 +115,7 @@ const Search = () => {
                           pageClassName="li"
                           previousClassName="li"
                           nextClassName=" li"
+                          forcePage={nextPage - 1}
                         />
                       </div>
                     )}

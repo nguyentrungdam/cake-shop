@@ -3,7 +3,7 @@ import styled from "styled-components";
 function Loading() {
   return (
     <Wrapper>
-      <div class="container-2">
+      <div class="container-middle">
         <span class="tiktok-loader"></span>
       </div>
     </Wrapper>
@@ -16,7 +16,7 @@ const Wrapper = styled.div`
     margin: 0;
     box-sizing: border-box;
   }
-  .container-2 {
+  .container-middle {
     height: 100vh;
     display: flex;
     align-items: center;
