@@ -101,7 +101,7 @@ const upload = multer()
  *         Quantity:
  *           type: number
  *           description: The log order detail quantity
- *         Product_Size:
+ *         Product_Sweet:
  *           type: string
  *           description: The log order detail product size
  *         Created_At:
@@ -116,7 +116,7 @@ const upload = multer()
  *       example:
  *         Product: string
  *         Quantity: 0
- *         Product_Size: string
+ *         Product_Sweet: string
  */
 
  /**
@@ -282,7 +282,7 @@ const upload = multer()
  *                       type: string   
  *                     productQuantity:
  *                       type: number 
- *                     productSize:
+ *                     productSweet:
  *                       type: string 
  *     responses:
  *       200:

@@ -23,7 +23,7 @@ const logOrderDetailSchema = new schema({
         type: Number,
         default: null
     },
-    Product_Size: {
+    Product_Sweet: {
         type: String,
         default: null
     },

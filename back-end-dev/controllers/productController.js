@@ -33,15 +33,17 @@ exports.getProductList = catchAsyncErrors(async (req, res, next) => {
     // let tempProduct;
     // const Product = await product.find();
     // for (var i = 0; i < Product.length; i++) {
-    //     if (Product[i].Quantity == 0) {
-    //         Product[i].Quantity = 10;
-    //     }
+    //     Product[i].Sweet = [
+    //         {name: 'Low'},
+    //         {name: 'Normal'},
+    //         {name: 'Hight'}
+    //     ]
     //     tempProduct = await Product[i].save(pointTransaction);
     //     if (!tempProduct) {
     //         await session.abortTransaction()
     //         session.endSession();
 
-    //         const err = new Error('Error update field Size Product');
+    //         const err = new Error('Error update field Sweet Product');
     //         return next(err);
     //     }
     // }

@@ -104,7 +104,7 @@ exports.getProductInCart = catchAsyncErrors(async (req, res, next) => {
 //     tempOrderDetail.Product = tempLogOrderDetail[i].Product;
 //     tempOrderDetail.Price = tempProduct.Price;
 //     tempOrderDetail.Quantity = tempLogOrderDetail[i].Quantity;
-//     tempOrderDetail.Product_Size = tempLogOrderDetail[i].Product_Size;
+//     tempOrderDetail.Product_Sweet = tempLogOrderDetail[i].Product_Sweet;
 
 //     OrderDetail = await orderDetail.create([tempOrderDetail], pointTransaction);
 
@@ -139,7 +139,7 @@ exports.getProductInCart = catchAsyncErrors(async (req, res, next) => {
 exports.addToCart = catchAsyncErrors(async (req, res, next) => {
   //get data
   const tempAccount = req.Account;
-  const { Product, Quantity, Product_Size } = req.body;
+  const { Product, Quantity, Product_Sweet } = req.body;
 
   //validate product id
   const ObjectId = mongoose.Types.ObjectId;
@@ -179,7 +179,7 @@ exports.addToCart = catchAsyncErrors(async (req, res, next) => {
   let LogOrderDetail;
   let tempLogOrderDetail = await logOrderDetail.findOne({
     Product: Product,
-    Product_Size: Product_Size,
+    Product_Sweet: Product_Sweet,
     isDelete: 0,
   });
   if (!tempLogOrderDetail) {
@@ -190,7 +190,7 @@ exports.addToCart = catchAsyncErrors(async (req, res, next) => {
       Product: Product,
       Account: tempAccount._id,
       Quantity: Quantity,
-      Product_Size: Product_Size,
+      Product_Sweet: Product_Sweet,
     };
     LogOrderDetail = await logOrderDetail.create(tempLogOrderDetail);
   } else {
@@ -383,7 +383,7 @@ exports.createOrder = catchAsyncErrors(async (req, res, next) => {
       Account: tempAccount._id,
       Product: productList[i].productId,
       Quantity: productList[i].productQuantity,
-      Product_Size: productList[i].productSize
+      Product_Sweet: productList[i].productSweet
       })
     if(!tempLogOrderDetail) {
       await session.abortTransaction();
@@ -408,7 +408,7 @@ exports.createOrder = catchAsyncErrors(async (req, res, next) => {
     tempOrderDetail.Product = productList[i].productId;
     tempOrderDetail.Price = tempProduct.Price;
     tempOrderDetail.Quantity = productList[i].productQuantity;
-    tempOrderDetail.Product_Size = tempLogOrderDetail.Product_Size;
+    tempOrderDetail.Product_Sweet = tempLogOrderDetail.Product_Sweet;
 
     newOrderDetail = await orderDetail.create([tempOrderDetail], pointTransaction);
     if(!newOrderDetail) {
@@ -511,7 +511,7 @@ exports.paymentOrderByCash = catchAsyncErrors(async (req, res, next) => {
       Account: tempAccount._id,
       Product: productList[i].productId,
       Quantity: productList[i].productQuantity,
-      Product_Size: productList[i].productSize
+      Product_Sweet: productList[i].productSweet
       })
     if(!tempLogOrderDetail) {
       await session.abortTransaction();
@@ -528,7 +528,7 @@ exports.paymentOrderByCash = catchAsyncErrors(async (req, res, next) => {
     tempOrderDetail.Product = productList[i].productId;
     tempOrderDetail.Price = tempProduct.Price;
     tempOrderDetail.Quantity = productList[i].productQuantity;
-    tempOrderDetail.Product_Size = tempLogOrderDetail.Product_Size;
+    tempOrderDetail.Product_Sweet = tempLogOrderDetail.Product_Sweet;
 
     // CREATE order detail
     newOrderDetail = await orderDetail.create([tempOrderDetail], pointTransaction);
@@ -549,6 +549,9 @@ exports.paymentOrderByCash = catchAsyncErrors(async (req, res, next) => {
       const err = new Error("An error occurred during delete product in cart");
       return next(err);
     }
+
+    // CREATE product in order
+    tempOrder.products.push(tempProduct);
   }
 
   // UPDATE order
@@ -682,7 +685,7 @@ exports.paymentOrderByOnline = catchAsyncErrors(async (req, res, next) => {
       Account: tempAccount._id,
       Product: productList[i].productId,
       Quantity: productList[i].productQuantity,
-      Product_Size: productList[i].productSize
+      Product_Sweet: productList[i].productSweet
       })
     if(!tempLogOrderDetail) {
       await session.abortTransaction();
@@ -699,7 +702,7 @@ exports.paymentOrderByOnline = catchAsyncErrors(async (req, res, next) => {
     tempOrderDetail.Product = productList[i].productId;
     tempOrderDetail.Price = tempProduct.Price;
     tempOrderDetail.Quantity = productList[i].productQuantity;
-    tempOrderDetail.Product_Size = tempLogOrderDetail.Product_Size;
+    tempOrderDetail.Product_Sweet = tempLogOrderDetail.Product_Sweet;
 
     // CREATE order detail
     newOrderDetail = await orderDetail.create([tempOrderDetail], pointTransaction);
@@ -710,6 +713,9 @@ exports.paymentOrderByOnline = catchAsyncErrors(async (req, res, next) => {
       const err = new Error("An error occurred during order creation");
       return next(err);
     }
+
+      // CREATE product in order
+      tempOrder.products.push(tempProduct);
   }
 
   // UPDATE order
@@ -859,7 +865,7 @@ exports.paymentSuccess = catchAsyncErrors(async (req, res, next) => {
       Account: tempAccount._id,
       Product: tempOrderDetail[i].Product,
       Quantity: tempOrderDetail[i].Quantity,
-      Product_Size: tempOrderDetail[i].Product_Size,
+      Product_Sweet: tempOrderDetail[i].Product_Sweet,
       isDelete: false
     })
 

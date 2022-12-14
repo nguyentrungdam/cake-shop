@@ -30,10 +30,10 @@ const productSchema = new schema({
             default: null
         }
     },
-    Size: [
+    Sweet: [
         { name: {
             type: String,
-            default: 'Small'
+            default: 'Low'
         }},
         { name: {
             type: String,
@@ -41,7 +41,7 @@ const productSchema = new schema({
         }},
         { name: {
             type: String,
-            default: 'Large'
+            default: 'Hight'
         }},
     ],
     Category: {

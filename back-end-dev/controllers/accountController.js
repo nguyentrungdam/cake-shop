@@ -268,7 +268,7 @@ exports.addAddress = catchAsyncErrors(async (req, res, next) => {
         const err = new Error("An error occurred during add account address");
         return next(err);
     }
-  
+
     res.json({
       success: true,
       message: "Add account address success"

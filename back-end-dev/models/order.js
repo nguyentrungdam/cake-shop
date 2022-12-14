@@ -2,6 +2,7 @@
 const { request } = require('express');
 const mongoose = require('mongoose')
 const schema = mongoose.Schema;
+const Product = require("../models/product");
 
 const orderSchema = new schema({
     Account: {
@@ -41,6 +42,19 @@ const orderSchema = new schema({
         type: String,
         default: 'unpaid'
     },
+    products : {
+        type: [Product.schema]  
+    },
+    // products : [
+    //     {
+    //         _id: String,
+    //         Name: String,
+    //         Image: String,
+    //         Price: Number,
+    //         Quantity: Number,
+    //         Sweet: String
+    //     }
+    // ],
     Created_At: {
         type: Date,
         default: Date.now()
