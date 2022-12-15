@@ -45,7 +45,8 @@ const accountSchema = new schema({
             productPrice: Number,
             productQuantity: Number,
             productSweet: String,
-            quantityInStock: Number
+            quantityInStock: Number,
+            isDelete: String
         }
     ],
     Created_At: {

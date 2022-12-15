@@ -25,121 +25,33 @@ exports.getProductInCart = catchAsyncErrors(async (req, res, next) => {
   //get data
   const tempAccount = req.Account;
 
-  const LogOrderDetail = await logOrderDetail
-    .find({ Account: tempAccount._id })
-    .populate("Product");
-  const total = LogOrderDetail.length;
+  let updateCheck;
 
-  //console.log('quantity: ', LogOrderDetail[0].Product.Quantity);
+  // UPDATE price and quantity in cart
+  let tempProduct;
+  const lenCart = tempAccount.Cart.length || 0;
+  for (var i = 0; i < lenCart; i++) {
+    tempProduct = await product.findOne({ _id: tempAccount.Cart[i].productId });
+    tempAccount.Cart[i].Price = tempProduct.Price;
+    tempAccount.Cart[i].quantityInStock = tempProduct.Quantity;
+    tempAccount.Cart[i].isDelete = tempProduct.isDelete;
+  }
+
+  updateCheck = await tempAccount.save();
 
   res.status(201).json({
     success: true,
-    total: total,
-    LogOrderDetail,
+    total: lenCart,
+    Cart: tempAccount.Cart,
   });
 });
-
-// exports.addOrder = catchAsyncErrors(async (req, res, next) => {
-//   const session = await mongoose.startSession();
-//   session.startTransaction();
-//   const pointTransaction = { session };
-
-//   //get data
-//   const tempAccount = req.Account;
-
-//   // check order with account and status
-//   let tempOrder = await order.findOne({
-//     Account: tempAccount._id,
-//     Order_Status: "await",
-//     isDelete: 0,
-//   });
-//   if (!tempOrder) {
-//     const err = new Error("An error in process ordering");
-//     err.name = "Cart Empty";
-//     return next(err);
-//   }
-
-//   // check product in cart
-//   const tempLogOrderDetail = await logOrderDetail.find({
-//     Order: tempOrder._id,
-//     //Account: tempAccount._id, // Use for advanced ordering feature
-//     isDelete: 0,
-//   });
-
-//   if (!tempLogOrderDetail) {
-//     const err = new Error("Cart empty");
-//     return next(err);
-//   }
-
-//   // Insert product into model order detail
-//   // Delete product in model log order detail
-//   let tempProduct;
-//   let tempOrderDetail;
-//   let OrderDetail;
-//   let Product;
-//   let Order;
-//   let totalPrice = 0;
-//   for (var i = 0; i < tempLogOrderDetail.length; i++) {
-//     tempProduct = await product.findOne({
-//       _id: tempLogOrderDetail[i].Product,
-//       isDelete: 0,
-//     });
-//     if (!tempProduct) {
-//       await session.abortTransaction();
-//       session.endSession();
-
-//       const err = new Error("Product not found");
-//       return next(err);
-//     }
-//     if (tempProduct.Quantity < tempLogOrderDetail[i].Quantity) {
-//       await session.abortTransaction();
-//       session.endSession();
-
-//       const err = new Error("Not enough product quantity");
-//       return next(err);
-//     }
-
-//     tempOrderDetail = new orderDetail();
-//     tempOrderDetail.Order = tempLogOrderDetail[i].Order;
-//     tempOrderDetail.Product = tempLogOrderDetail[i].Product;
-//     tempOrderDetail.Price = tempProduct.Price;
-//     tempOrderDetail.Quantity = tempLogOrderDetail[i].Quantity;
-//     tempOrderDetail.Product_Sweet = tempLogOrderDetail[i].Product_Sweet;
-
-//     OrderDetail = await orderDetail.create([tempOrderDetail], pointTransaction);
-
-//     // Delete product in model log detail order
-//     tempLogOrderDetail[i].isDelete = 1;
-//     Product = await tempLogOrderDetail[i].save(pointTransaction);
-
-//     // TOTAL price order
-//     totalPrice += tempProduct.Price;
-
-//     // UPDATE product quantity
-//     tempProduct.Quantity -= tempLogOrderDetail[i].Quantity;
-//     Order = await tempProduct.save(pointTransaction);
-//   }
-
-//   // Update order status in model order
-//   tempOrder.Amount = totalPrice;
-//   tempOrder.Order_Status = "order";
-//   tempOrder.Order_Date = Date.now();
-//   tempOrder.Modified_At = Date.now();
-//   Order = await tempOrder.save(pointTransaction);
-
-//   await session.commitTransaction();
-//   session.endSession();
-
-//   res.status(201).json({
-//     success: true,
-//     Order,
-//   });
-// });
 
 exports.addToCart = catchAsyncErrors(async (req, res, next) => {
   //get data
   const tempAccount = req.Account;
   const { Product, Quantity, Product_Sweet } = req.body;
+
+  let updateCheck;
 
   //validate product id
   const ObjectId = mongoose.Types.ObjectId;
@@ -161,55 +73,80 @@ exports.addToCart = catchAsyncErrors(async (req, res, next) => {
     return next(err);
   }
 
-  //check order with account
-  let tempOrder = await order.findOne({
-    Account: tempAccount._id,
-    Order_Status: "await",
-    isDelete: 0,
-  });
-  if (!tempOrder) {
-    tempOrder = new order();
-    tempOrder = {
-      Account: tempAccount._id,
-    };
-    tempOrder = await order.create(tempOrder);
+  // //check order with account
+  // let tempOrder = await order.findOne({
+  //   Account: tempAccount._id,
+  //   Order_Status: "await",
+  //   isDelete: 0,
+  // });
+  // if (!tempOrder) {
+  //   tempOrder = new order();
+  //   tempOrder = {
+  //     Account: tempAccount._id,
+  //   };
+  //   tempOrder = await order.create(tempOrder);
+  // }
+
+  // //check product in cart
+  // let LogOrderDetail;
+  // let tempLogOrderDetail = await logOrderDetail.findOne({
+  //   Product: Product,
+  //   Product_Sweet: Product_Sweet,
+  //   isDelete: 0,
+  // });
+  // if (!tempLogOrderDetail) {
+  //   //if not exist product in cart -> create product in cart
+  //   tempLogOrderDetail = new logOrderDetail();
+  //   tempLogOrderDetail = {
+  //     Order: null, //tempOrder._id,
+  //     Product: Product,
+  //     Account: tempAccount._id,
+  //     Quantity: Quantity,
+  //     Product_Sweet: Product_Sweet,
+  //   };
+  //   LogOrderDetail = await logOrderDetail.create(tempLogOrderDetail);
+  // } else {
+  //   // if exist product in cart -> update quantity
+  //   tempLogOrderDetail.Quantity += Quantity;
+  //   LogOrderDetail = await tempLogOrderDetail.save();
+  // }
+
+  const lenCart = tempAccount.Cart.length || 0;
+  let updateQuantity = 0;
+  let newItemCart;
+  // UPDATE product quantity in cart
+  for(var i = 0; i < lenCart; i ++) {
+    if(tempAccount.Cart[i].productId == Product) {
+      tempAccount.Cart[i].productQuantity += Quantity;
+      updateQuantity++;
+      break;
+    }
   }
-
-  //check product in cart
-  let LogOrderDetail;
-  let tempLogOrderDetail = await logOrderDetail.findOne({
-    Product: Product,
-    Product_Sweet: Product_Sweet,
-    isDelete: 0,
-  });
-  if (!tempLogOrderDetail) {
-    //if not exist product in cart -> create product in cart
-    tempLogOrderDetail = new logOrderDetail();
-    tempLogOrderDetail = {
-      Order: null, //tempOrder._id,
-      Product: Product,
-      Account: tempAccount._id,
-      Quantity: Quantity,
-      Product_Sweet: Product_Sweet,
-    };
-    LogOrderDetail = await logOrderDetail.create(tempLogOrderDetail);
-  } else {
-    // if exist product in cart -> update quantity
-    tempLogOrderDetail.Quantity += Quantity;
-    LogOrderDetail = await tempLogOrderDetail.save();
+  // CREATE product in cart
+  if(updateQuantity == 0) {
+    newItemCart = {
+      productId: tempProduct._id,
+      productName: tempProduct.Name,
+      productImage: tempProduct.Image.Url,
+      productPrice: tempProduct.Price,
+      productQuantity: Quantity,
+      productSweet: Product_Sweet,
+      quantityInStock: tempProduct.Quantity
+    }
+    tempAccount.Cart.push(newItemCart);
   }
+  updateCheck = await tempAccount.save();
 
-  LogOrderDetail = await logOrderDetail.find({
-    Account: tempAccount._id,
-    isDelete: 0,
-  }).populate("Product");
+  // LogOrderDetail = await logOrderDetail.find({
+  //   Account: tempAccount._id,
+  //   isDelete: 0,
+  // }).populate("Product");
 
-  const total = LogOrderDetail.length;
+  // const total = LogOrderDetail.length;
 
   res.status(201).json({
     success: true,
-    total: total,
-    LogOrderDetail,
+    Cart: tempAccount.Cart,
   });
 });
 
@@ -291,19 +228,35 @@ exports.removeItemCart = catchAsyncErrors(async (req, res, next) => {
   session.startTransaction();
   const pointTransaction = { session };
 
+  //get data
   const itemCartId = req.query.itemCartId
+  const tempAccount = req.Account;
 
-  const item = await logOrderDetail.findById(itemCartId)
-  if (!item) {
+  // INIT values
+  let createCheck;
+  let updateCheck;
+  let deleteCheck;
+
+  // const item = await logOrderDetail.findById(itemCartId)
+  // if (!item) {
+  //   await session.abortTransaction();
+  //   session.endSession();
+
+  //   const err = new Error("Item in card not found");
+  //   return next(err);
+  // }
+  // // item.isDelete = true;
+  // // item.save(pointTransaction)
+  // await logOrderDetail.deleteOne({ _id: itemCartId })
+  tempAccount.Cart.id(itemCartId).remove();
+  updateCheck = await tempAccount.save(pointTransaction);
+  if (!updateCheck) {
     await session.abortTransaction();
     session.endSession();
 
-    const err = new Error("Item in card not found");
+    const err = new Error("An error occurred during remove item cart");
     return next(err);
   }
-  // item.isDelete = true;
-  // item.save(pointTransaction)
-  await logOrderDetail.deleteOne({ _id: itemCartId })
 
   await session.commitTransaction();
   session.endSession();
@@ -338,102 +291,6 @@ exports.totalSales = catchAsyncErrors(async (req, res, next) => {
   res.status(201).json({
     success: true,
     totalSales: totalSales,
-  });
-});
-
-exports.createOrder = catchAsyncErrors(async (req, res, next) => {
-  const session = await mongoose.startSession();
-  session.startTransaction();
-  const pointTransaction = { session };
-  
-  //get data
-  const tempAccount = req.Account;
-  const productList = req.body || "null";
-
-  // CHECK order
-  const tempOrder = await order.findOne({ Account: tempAccount._id, Order_Status: "await", isDelete: false});
-  if (!tempOrder) {
-    const err = new Error("Shopping cart error");
-    return next(err);
-  }
-
-  // DELETE product in Order Detail
-  await orderDetail.deleteMany({ Order: tempOrder._id }, pointTransaction)
-
-  // CREATE Order Detail
-  let tempLogOrderDetail = new logOrderDetail();
-  let tempOrderDetail = new orderDetail();
-  let tempProduct = new product();
-  let newOrderDetail = new orderDetail();
-  let amount = 0;
-  const len = productList.length;
-  for (var i = 0; i < len; i ++) {
-    // CHECK product in stock
-    tempProduct = await product.findOne({ _id: productList[i].productId, isDelete: false });
-    if(!tempProduct) {
-      await session.abortTransaction();
-      session.endSession();
-
-      const err = new Error("Product not found in stock");
-      return next(err);
-    }
-
-    // CHECK product in cart
-    tempLogOrderDetail = await logOrderDetail.findOne({
-      Account: tempAccount._id,
-      Product: productList[i].productId,
-      Quantity: productList[i].productQuantity,
-      Product_Sweet: productList[i].productSweet
-      })
-    if(!tempLogOrderDetail) {
-      await session.abortTransaction();
-      session.endSession();
-
-      const err = new Error("Product not found in cart");
-      return next(err);
-    }
-
-    // CHECK product quantity
-    if (tempProduct.Quantity < productList[i].productQuantity) {
-      await session.abortTransaction();
-      session.endSession();
-
-      const err = new Error("Not enough product quantity");
-      return next(err);
-    }
-
-    // SET value for Order Detail
-    amount += (tempProduct.Price * productList[i].productQuantity);
-    tempOrderDetail.Order = tempOrder._id;
-    tempOrderDetail.Product = productList[i].productId;
-    tempOrderDetail.Price = tempProduct.Price;
-    tempOrderDetail.Quantity = productList[i].productQuantity;
-    tempOrderDetail.Product_Sweet = tempLogOrderDetail.Product_Sweet;
-
-    newOrderDetail = await orderDetail.create([tempOrderDetail], pointTransaction);
-    if(!newOrderDetail) {
-      await session.abortTransaction();
-      session.endSession();
-
-      const err = new Error("An error occurred during order creation");
-      return next(err);
-    }
-  }
-
-  // UPDATE amount order
-  tempOrder.Amount = amount;
-  await tempOrder.save(pointTransaction);
-
-  await session.commitTransaction();
-  session.endSession();
-
-  newOrderDetail = await orderDetail.find({ Order: tempOrder._id, isDelete: false });
-  const total = newOrderDetail.length || 0;
-
-  res.json({
-    success: true,
-    total: total,
-    OrderDetail: newOrderDetail
   });
 });
 
