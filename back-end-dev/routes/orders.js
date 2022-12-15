@@ -349,6 +349,10 @@ router.put("/updateOrder", isAuthenticatedAccount, authorizeRoles('admin'), upda
  *           schema:
  *             type: object
  *             properties:
+ *               redirectSuccess:
+ *                 type: string   
+ *               redirectFail:
+ *                 type: string 
  *               orderEmail:
  *                 type: string   
  *               orderFullName:

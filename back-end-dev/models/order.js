@@ -14,6 +14,10 @@ const orderSchema = new schema({
         type: Number,
         default: null
     },
+    Order_Email: {
+        type: String,
+        default: null
+    },
     Order_FullName: {
         type: String,
         default: null
