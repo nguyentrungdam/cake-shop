@@ -303,6 +303,9 @@ exports.disableProduct = catchAsyncErrors(async (req, res, next) => {
         return next(err);
     }
 
+    //get data
+    const tempAccount = req.Account;
+
     // Check product exists in database
     const oldProduct = await product.findById(idProduct);
     if (!oldProduct) {
@@ -310,22 +313,49 @@ exports.disableProduct = catchAsyncErrors(async (req, res, next) => {
         return next(err);
     }
 
-    // CHECK product in order ==> not disable
-    const checkOrderDetail = await orderDetail.find({ Product: idProduct, isDelete: false })
-    // if (checkOrderDetail) {
-    //     const err = new Error('The product being ordered cannot be disabled');
-    //     return next(err);
-    // }
-
-    const lenOrderDetail = checkOrderDetail.length;
-    let tempOrder = new order();
-    for (var i = 0; i < lenOrderDetail; i++) {
-        tempOrder = order.findOne({ _id: checkOrderDetail[i].Order, isDelete: false })
-        if (tempOrder.Order_Status != 'await' || tempOrder.Order_Status != "done") {
-            const err = new Error('The product being ordered cannot be disabled');
-            return next(err);
+    let lenOrder = 0;
+    let lenProductInOrder = 0;
+    let tempOrder = await order.find({ Order_Status: 'order', isDelete: false })
+    lenOrder = tempOrder.length || 0;
+    for (var i = 0; i < lenOrder; i++) {
+        lenProductInOrder = tempOrder[i].products.length || 0;
+        for (var j = 0; j < lenProductInOrder; j++) {
+            if (tempOrder[i].products[j]._id == idProduct) {
+                const err = new Error('The product being ordered cannot be disabled');
+                return next(err);
+            }
         }
     }
+
+
+    tempOrder = await order.find({ Order_Status: 'order', isDelete: false })
+    lenOrder = tempOrder.length || 0;
+    for (var i = 0; i < lenOrder; i++) {
+        lenProductInOrder = tempOrder[i].products.length || 0;
+        for (var j = 0; j < lenProductInOrder; j++) {
+            if (tempOrder[i].products[j]._id == idProduct) {
+                const err = new Error('The product being ordered cannot be disabled');
+                return next(err);
+            }
+        }
+    }
+
+    // // CHECK product in order ==> not disable
+    // const checkOrderDetail = await orderDetail.find({ Product: idProduct, isDelete: false })
+    // // if (checkOrderDetail) {
+    // //     const err = new Error('The product being ordered cannot be disabled');
+    // //     return next(err);
+    // // }
+
+    // const lenOrderDetail = checkOrderDetail.length;
+    // let tempOrder = new order();
+    // for (var i = 0; i < lenOrderDetail; i++) {
+    //     tempOrder = order.findOne({ _id: checkOrderDetail[i].Order, isDelete: false })
+    //     if (tempOrder.Order_Status != 'await' || tempOrder.Order_Status != "done") {
+    //         const err = new Error('The product being ordered cannot be disabled');
+    //         return next(err);
+    //     }
+    // }
 
     // Update isDelete is true
     const tempProduct = {
