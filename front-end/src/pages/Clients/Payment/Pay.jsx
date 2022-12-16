@@ -19,9 +19,8 @@ const Pay = () => {
   const [payType, setPayType] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const { link, loading } = useSelector((state) => state.order);
-
   const orderItems = location.state.selected;
-
+  // console.log(orderItems);
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -69,9 +68,11 @@ const Pay = () => {
         }
       } else {
         var resPaypal = await dispatch(addOrderPaypal(order1)).unwrap();
+        console.log(resPaypal);
         if (resPaypal.status === 200) {
-          console.log(link);
-          window.location.href = link;
+          const a = resPaypal.data.redirect;
+          // console.log(a);
+          window.location.href = a;
         }
       }
     } catch (error) {
@@ -80,7 +81,6 @@ const Pay = () => {
       return;
     }
   };
-  console.log(link);
 
   return (
     <>

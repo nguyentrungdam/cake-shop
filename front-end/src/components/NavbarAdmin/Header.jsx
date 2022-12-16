@@ -25,8 +25,8 @@ const Header = (props) => {
   const handleLogout = async (e) => {
     e.preventDefault();
     notify();
+    dispatch(signout());
     setTimeout(function () {
-      dispatch(signout());
       Navigate("/signin");
     }, 1500);
   };
@@ -37,7 +37,7 @@ const Header = (props) => {
         <ContainerNavbar>
           <LeftNav>
             <div className="header-item--logo">
-              <a href="/" className="logo-link">
+              <a href="/admin" className="logo-link">
                 <h1 className="site-header__logo">Cakes By Damn</h1>
               </a>
             </div>

@@ -24,6 +24,7 @@ import CategoryList from "./pages/Admins/List/categoryList";
 import AddCategory from "./pages/Admins/Add/addCategory";
 import DisableProductList from "./pages/Admins/List/disableProductList";
 import OrderHistory from "./pages/Clients/Payment/OrderHistory";
+import ProtectedUser from "./ProtectedUser";
 
 //---------------------
 function App() {
@@ -41,17 +42,59 @@ function App() {
   }, [isAuthenticated]);
   return (
     <Routes>
-      <Route path="/" element={<HomePage />} />
+      <Route
+        path="/"
+        element={
+          <ProtectedUser isLoggedIn={isAuthenticated}>
+            <HomePage />
+          </ProtectedUser>
+        }
+      />
       <Route path="/signin" element={<Signin />} />
       <Route path="/signup" element={<Signup />} />
-      <Route path="/list-product" element={<ListProduct />} />
-      <Route path="/product/:id" element={<ProductDetail />} />
-      <Route path="/cart" element={<Cart />} />
-      <Route path="/payment" element={<Pay />} />
+      <Route
+        path="/list-product"
+        element={
+          <ProtectedUser isLoggedIn={isAuthenticated}>
+            <ListProduct />
+          </ProtectedUser>
+        }
+      />
+      <Route
+        path="/cart"
+        element={
+          <ProtectedUser isLoggedIn={isAuthenticated}>
+            <Cart />
+          </ProtectedUser>
+        }
+      />
+      <Route
+        path="/payment"
+        element={
+          <ProtectedUser isLoggedIn={isAuthenticated}>
+            <Pay />
+          </ProtectedUser>
+        }
+      />
       <Route path="/account" element={<Account />} />
-      <Route path="/search" element={<Search />} />
-      <Route path="/account/addresses" element={<Addresses />} />
-      <Route path="/order-history" element={<OrderHistory />} />
+      <Route
+        path="/search"
+        element={
+          <ProtectedUser isLoggedIn={isAuthenticated}>
+            <Search />
+          </ProtectedUser>
+        }
+      />
+      {/* <Route path="/account/addresses" element={<Addresses />} /> */}
+      <Route
+        path="/order-history"
+        element={
+          <ProtectedUser isLoggedIn={isAuthenticated}>
+            <OrderHistory />
+          </ProtectedUser>
+        }
+      />
+      <Route path="/product/:id" element={<ProductDetail />} />
       <Route
         path="/admin/*"
         element={

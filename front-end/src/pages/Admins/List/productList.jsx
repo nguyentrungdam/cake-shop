@@ -31,7 +31,7 @@ function ProductList() {
   };
   useEffect(() => {
     // dispatch(getProducts(obj));
-    dispatch(filterProducts(obj));
+    dispatch(getProducts(obj));
   }, [nextPage]);
 
   useEffect(() => {
