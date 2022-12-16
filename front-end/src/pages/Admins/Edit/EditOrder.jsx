@@ -1,79 +1,123 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { getAllOrders, updateOrdersStatus } from "../../../slices/orderSlice";
+import Loading from "../../../components/loading";
 
-const EditOrder = ({ amount, showDetail, setShowDetail, ordersDetail }) => {
-  console.log(ordersDetail);
+const EditOrder = ({
+  amount,
+  showDetail,
+  setShowDetail,
+  ordersDetail,
+  id,
+  loading,
+  orderStatus,
+}) => {
+  const [orderState, setOrderState] = useState("");
+  const dispatch = useDispatch();
+
+  const handleUpdate = async () => {
+    console.log(id);
+    console.log(orderState);
+
+    const res = await dispatch(
+      updateOrdersStatus({
+        idOrder: id,
+        Order_Status: orderState,
+      })
+    );
+    console.log(res);
+    await setShowDetail(false);
+    if (res.status === 200) {
+      notify("Updated successfully!");
+    }
+    await dispatch(getAllOrders()).unwrap();
+  };
+
+  const notify = (message) => {
+    toast.success(message, {
+      position: toast.POSITION.TOP_RIGHT,
+      autoClose: 1000,
+    });
+  };
   return (
     <>
       {showDetail ? (
         <Background>
-          <DialogWrapper style={{ display: "inline-table" }}>
-            <ButtonWhite onClick={() => setShowDetail(false)}>X</ButtonWhite>
-            <Title>User order detail: </Title>
-            <div className="cart-info-wrapper">
-              <div className="cart-items">
-                {ordersDetail.length > 0 &&
-                  ordersDetail.map((item) => (
-                    <div className="cart-item" key={item._id}>
-                      <div className="cart-item">
-                        <img
-                          src={item.Product.Image.Url}
-                          alt={item.Product.Name}
-                          className="item-img"
-                        />
-                        <div className="item-info">
-                          <p className="name">{item.Product.Name}</p>
-                          <p className="kind">{item.Product_Size}</p>
+          <ToastContainer />
+          {loading ? (
+            <Loading></Loading>
+          ) : (
+            <DialogWrapper style={{ display: "inline-table" }}>
+              <ButtonWhite onClick={() => setShowDetail(false)}>X</ButtonWhite>
+              <Title>User order detail: </Title>
+              <div className="cart-info-wrapper">
+                <div className="cart-items">
+                  {ordersDetail.length > 0 &&
+                    ordersDetail.map((item) => (
+                      <div
+                        className="cart-item"
+                        key={item._id + Math.random(1, 5)}
+                      >
+                        <div className="cart-item">
+                          <img
+                            src={item.Image}
+                            alt={item.Name}
+                            className="item-img"
+                          />
+                          <div className="item-info">
+                            <p className="name">{item.Name}</p>
+                            <p className="kind">{item.Sweet}</p>
+                          </div>
                         </div>
+                        <span className="price">
+                          £
+                          {Number(item.Quantity * item.Price).toLocaleString(
+                            "en-US",
+                            {
+                              minimumFractionDigits: 2,
+                            }
+                          )}
+                        </span>
                       </div>
-                      <span className="price">
-                        £
-                        {Number(
-                          item.Quantity * item.Product.Price
-                        ).toLocaleString("en-US", {
-                          minimumFractionDigits: 2,
-                        })}
-                      </span>
-                    </div>
-                  ))}
-              </div>
-            </div>
-            <div className="sub-total-price">
-              <div className="sub-total-wrapper">
-                <div className="sub-total">Total</div>
-                <div className="item-price-wrapper">
-                  <span className="price-total">
-                    £
-                    {Number(amount).toLocaleString("en-US", {
-                      minimumFractionDigits: 2,
-                    })}
-                  </span>
+                    ))}
                 </div>
               </div>
-            </div>
-            <div className="order-status">
-              <div className="order-status-title">Order status:</div>
-              <select
-                className="order-status-select"
-                // value={productInfo.category}
-                // onChange={(e) =>
-                //   setProductInfo({ ...productInfo, category: e.target.value })
-                // }
-              >
-                <option>await</option>
-                <option>order</option>
-                <option>delivering</option>
-                <option>done</option>
-              </select>
+              <div className="sub-total-price">
+                <div className="sub-total-wrapper">
+                  <div className="sub-total">Total</div>
+                  <div className="item-price-wrapper">
+                    <span className="price-total">
+                      £
+                      {Number(amount).toLocaleString("en-US", {
+                        minimumFractionDigits: 2,
+                      })}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div className="order-status">
+                <div className="order-status-title">
+                  Order status: {orderStatus}
+                </div>
+                <select
+                  className="order-status-select"
+                  value={orderState}
+                  onChange={(e) => setOrderState(e.target.value)}
+                >
+                  <option value="order">order</option>
+                  <option value="delivering">delivering</option>
+                  <option value="done">done</option>
+                </select>
 
-              <span
-                className="badge-info"
-                // onClick={() => handleViewDetail(item._id, item.Amount)}
-              >
-                Update
-              </span>
-            </div>
-          </DialogWrapper>
+                <span className="badge-info" onClick={handleUpdate}>
+                  Update
+                </span>
+              </div>
+            </DialogWrapper>
+          )}
         </Background>
       ) : null}
     </>
@@ -98,7 +142,7 @@ const Background = styled.div`
     background-color: black;
     text-align: center;
     padding: 4px 6px;
-    margin-left: 144px;
+    margin-left: 70px;
     border-radius: 3px;
     color: white;
     cursor: pointer;
@@ -111,7 +155,7 @@ const Background = styled.div`
     font-weight: 500;
   }
   .order-status-select {
-    margin-left: 10px;
+    margin-left: 27px;
     width: 110px;
   }
   .cart-info-wrapper {

@@ -37,6 +37,10 @@ const productApi = {
     const url = "/products/createProduct";
     return axios.post(url, product);
   },
+  updateProduct: (product) => {
+    const url = "/products/updateProduct";
+    return axios.put(url, product);
+  },
   //TODO từ đây xuống là chưa làm
   getProductBySlug: (slug) => {
     const url = `/product/${slug}`;
@@ -49,11 +53,6 @@ const productApi = {
   addProductReview: (review) => {
     const url = "/product/addProductReview";
     return axios.post(url, review);
-  },
-
-  updateProduct: (product) => {
-    const url = "/product/update";
-    return axios.post(url, product);
   },
   searchByProductName: (text) => {
     const url = "/product/searchByProductName";

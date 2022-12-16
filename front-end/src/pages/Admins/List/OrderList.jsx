@@ -12,9 +12,12 @@ import EditOrder from "../Edit/EditOrder";
 const Container = styled.div``;
 function OrderList() {
   const dispatch = useDispatch();
-  const { orders, ordersDetail } = useSelector((state) => state.order);
+  const { orders, ordersDetail, loading } = useSelector((state) => state.order);
   const [showDetail, setShowDetail] = useState(false);
   const [amount, setAmount] = useState();
+  const [id, setId] = useState("");
+  const [orderStatus, setOrderStatus] = useState("");
+
   useEffect(() => {
     const fetchData = () => {
       dispatch(getAllOrders()).unwrap();
@@ -22,11 +25,14 @@ function OrderList() {
     fetchData();
   }, [dispatch]);
 
-  const handleViewDetail = (id, amount) => {
+  const handleViewDetail = (id, amount, status) => {
     setAmount(amount);
+    setId(id);
+    setOrderStatus(status);
     dispatch(getOrdersById(id)).unwrap();
     setShowDetail(true);
   };
+
   return (
     <Container>
       <Header name="Orders Management" />
@@ -59,7 +65,7 @@ function OrderList() {
               <th style={{ textAlign: "center" }}>Detail</th>
             </tr>
           </tbody>
-          {orders.map((item, index) => (
+          {orders?.map((item, index) => (
             <tbody key={item._id}>
               <tr>
                 <td style={{ textAlign: "center" }}>{index + 1}</td>
@@ -88,7 +94,9 @@ function OrderList() {
                       color: "white",
                       cursor: "pointer",
                     }}
-                    onClick={() => handleViewDetail(item._id, item.Amount)}
+                    onClick={() =>
+                      handleViewDetail(item._id, item.Amount, item.Order_Status)
+                    }
                   >
                     View Detail
                   </span>
@@ -99,6 +107,9 @@ function OrderList() {
         </Table>
       </div>
       <EditOrder
+        id={id}
+        loading={loading}
+        orderStatus={orderStatus}
         ordersDetail={ordersDetail}
         amount={amount}
         showDetail={showDetail}

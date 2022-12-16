@@ -20,7 +20,6 @@ const ProductDetail = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   let idProduct = useParams();
-  console.log(productDetail);
   const [cartItem, setCartItem] = useState({
     product: "",
     variant: "",
@@ -30,6 +29,7 @@ const ProductDetail = () => {
   useEffect(() => {
     const fetchData = async () => {
       const response = await dispatch(getProductById(idProduct.id)).unwrap();
+      console.log(response);
       setCartItem({ ...cartItem, product: response.data.Product._id });
     };
     fetchData();
@@ -81,7 +81,7 @@ const ProductDetail = () => {
   const handleAddCart = async (e) => {
     e.preventDefault();
     if (!cartItem.variant) {
-      notify(0, "Please choose size!");
+      notify(0, "Please choose sweet rate!");
     } else if (!isAuthenticated) {
       navigate("/signin");
     } else {
@@ -603,7 +603,7 @@ const ProductDetail = () => {
                             >
                               <div className="grid-product__content">
                                 <a
-                                  href="/products/pastel-pink-name-age-cake?pr_prod_strat=description&amp;pr_rec_id=e9aaa09bd&amp;pr_rec_pid=7736219238651&amp;pr_ref_pid=4323356278887&amp;pr_seq=uniform"
+                                  href="/list-product"
                                   className="grid-product__link "
                                 >
                                   <div className="grid-product__image-mask">
@@ -645,7 +645,7 @@ const ProductDetail = () => {
                             >
                               <div className="grid-product__content">
                                 <a
-                                  href="/products/pastel-blue-age-cake?pr_prod_strat=description&amp;pr_rec_id=e9aaa09bd&amp;pr_rec_pid=7736177656059&amp;pr_ref_pid=4323356278887&amp;pr_seq=uniform"
+                                  href="/list-product"
                                   className="grid-product__link "
                                 >
                                   <div className="grid-product__image-mask">
@@ -687,7 +687,7 @@ const ProductDetail = () => {
                             >
                               <div className="grid-product__content">
                                 <a
-                                  href="/products/sprinkle-party?pr_prod_strat=description&amp;pr_rec_id=e9aaa09bd&amp;pr_rec_pid=4624459038823&amp;pr_ref_pid=4323356278887&amp;pr_seq=uniform"
+                                  href="/list-product"
                                   className="grid-product__link "
                                 >
                                   <div className="grid-product__image-mask">

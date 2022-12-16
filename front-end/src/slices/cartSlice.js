@@ -46,7 +46,7 @@ export const cartSlice = createSlice({
     },
     [addToCart.fulfilled]: (state, action) => {
       state.loading = false;
-      state.cartItems = action.payload.data.LogOrderDetail;
+      state.cartItems = action.payload.data.Cart;
       state.data = action.payload.data.total;
     },
     [getProductInCart.pending]: (state) => {
@@ -58,7 +58,7 @@ export const cartSlice = createSlice({
     },
     [getProductInCart.fulfilled]: (state, action) => {
       state.loading = false;
-      state.cartItems = action.payload.data.LogOrderDetail;
+      state.cartItems = action.payload.data.Cart;
     },
     [removeItemCart.pending]: (state) => {
       state.loading = true;

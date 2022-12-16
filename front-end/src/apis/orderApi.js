@@ -21,6 +21,10 @@ const OrderApi = {
     const url = "/orders/getOrderList";
     return axios.post(url);
   },
+  updateOrdersStatus: (orderId) => {
+    const url = `/orders/updateOrder`;
+    return axios.put(url, orderId);
+  },
 };
 
 export default OrderApi;

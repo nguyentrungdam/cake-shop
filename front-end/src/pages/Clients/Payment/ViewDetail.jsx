@@ -16,7 +16,7 @@ const ViewDetail = ({ amount, showDetail, setShowDetail, productDetail }) => {
                   productDetail.map((item) => (
                     <div className="cart-item" key={item._id}>
                       <img
-                        src={item.Image.Url}
+                        src={item.Image}
                         alt={item.Name}
                         className="item-img"
                       />

@@ -27,7 +27,7 @@ const Pay = () => {
   }, []);
 
   const totalPrice = orderItems.reduce((total, priceItem) => {
-    total += priceItem.Product?.Price * priceItem.Quantity;
+    total += priceItem?.productPrice * priceItem.productQuantity;
     return total;
   }, 0);
 
@@ -35,9 +35,9 @@ const Pay = () => {
     const items = [];
     orderItems.map((item) => {
       items.push({
-        productId: item.Product._id,
-        productQuantity: item.Quantity,
-        productSize: item.Product_Size,
+        productId: item.productId,
+        productQuantity: item.productQuantity,
+        productSweet: item.productSweet,
       });
     });
     return items;
@@ -52,7 +52,15 @@ const Pay = () => {
       orderPhone: phone,
       productList: getItemsToPay(),
     };
-
+    const order1 = {
+      redirectSuccess: "https://translate.google.com",
+      redirectFail: "https://translate.google.com",
+      orderEmail: email,
+      orderFullName: name,
+      orderAddress: address,
+      orderPhone: phone,
+      productList: getItemsToPay(),
+    };
     try {
       if (payType === 1) {
         var resCOD = await dispatch(addOrderCOD(order)).unwrap();
@@ -60,7 +68,7 @@ const Pay = () => {
           setShowModal(true);
         }
       } else {
-        var resPaypal = await dispatch(addOrderPaypal(order)).unwrap();
+        var resPaypal = await dispatch(addOrderPaypal(order1)).unwrap();
         if (resPaypal.status === 200) {
           console.log(link);
           window.location.href = link;
@@ -72,6 +80,7 @@ const Pay = () => {
       return;
     }
   };
+  console.log(link);
 
   return (
     <>
@@ -194,25 +203,25 @@ const Pay = () => {
               <div className="cart-items">
                 {orderItems.length > 0 &&
                   orderItems.map((item) => (
-                    <div className="cart-item" key={item._id}>
+                    <div className="cart-item" key={item.productId}>
                       <div className="item-img-wrapper">
                         <img
-                          src={item.Product.Image.Url}
+                          src={item.productImage}
                           alt="1"
                           className="item-img"
                         />
                       </div>
                       <div className="item-info">
-                        <p className="name">{item.Product.Name}</p>
+                        <p className="name">{item.productName}</p>
                         <div className="kind-div">
-                          <p className="kind">{item.Product_Size}</p>
+                          <p className="kind">{item.productSweet}</p>
                         </div>
                       </div>
                       <div className="item-price-wrapper">
                         <span className="price">
                           £
                           {Number(
-                            item.Quantity * item.Product.Price
+                            item.productQuantity * item.productPrice
                           ).toLocaleString("en-US", {
                             minimumFractionDigits: 2,
                           })}

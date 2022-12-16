@@ -87,7 +87,7 @@ const AddProduct = () => {
 
   return (
     <React.Fragment>
-      <Header name="Thêm sản phẩm" />
+      <Header name="Add product" />
       <LeftNavbar />
       <Container>
         <Title>Product Information</Title>

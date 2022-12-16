@@ -19,15 +19,14 @@ function Cart() {
   const { cartItems, loading } = useSelector((state) => state.cart);
   const [orđerId, setOrđerId] = useState("");
   const [item, setItem] = useState({
-    name: "",
-    Product: "",
-    Product_Sweet: "",
+    productName: "",
+    productId: "",
+    productSweet: "",
   });
-  console.log(cartItems);
   const handleDeleteItem = async (_idProduct) => {
     await dispatch(removeItemCart(_idProduct));
   };
-
+  console.log(cartItems);
   const notify = (message) => {
     toast.warn(message, {
       position: toast.POSITION.TOP_RIGHT,
@@ -35,13 +34,13 @@ function Cart() {
     });
   };
   const handleIncrement = async (cartItem, currentQuantity, index) => {
-    const a = cartItems?.[index].Product.Quantity;
+    const a = cartItems?.[index].quantityInStock;
     let quantity = cartItem.Quantity + currentQuantity;
     if (quantity > a) {
       notify("🎂 The quantity is maximum!");
     } else if (quantity <= a) {
       const updateSelect = selected.map((item) => {
-        if (item.Product._id === cartItem.Product) {
+        if (item.productId === cartItem.Product) {
           return { ...item, Quantity: cartItem.Quantity };
         }
         return item;
@@ -59,7 +58,6 @@ function Cart() {
     orderId
   ) => {
     let quantity = cartItem.Quantity + currentQuantity;
-    console.log(quantity);
     if (quantity === 0) {
       setItem({
         ...item,
@@ -71,7 +69,7 @@ function Cart() {
       setShowDeleteItem(true);
     } else {
       const updateSelect = selected.map((item) => {
-        if (item.Product._id === cartItem.product) {
+        if (item.productId === cartItem.product) {
           return { ...item, Quantity: cartItem.Quantity };
         }
         return item;
@@ -84,38 +82,59 @@ function Cart() {
   const handleSelectedAll = (e) => {
     const isChecked = e.target.checked;
     if (isChecked) {
-      setSelected(cartItems);
+      const selectCartItem = cartItems.filter((item) => {
+        return item.isDelete === "false";
+      });
+      setSelected(selectCartItem);
     } else {
       setSelected([]);
     }
   };
+  const selectCartItem = cartItems.filter((item) => {
+    return item.isDelete === "false";
+  });
 
-  const isSelectedAll = cartItems?.length === selected?.length;
+  const isSelectedAll =
+    selectCartItem.length === selected.length && selected.length !== 0;
 
   const totalPrice = selected.reduce((total, priceItem) => {
-    total += priceItem.Product?.Price * priceItem.Quantity;
+    total += priceItem?.productPrice * priceItem.productQuantity;
     return total;
   }, 0);
 
   const handleSelected = (e, item) => {
     const isChecked = e.target.checked;
     if (isChecked) {
-      setSelected([...selected, item]);
+      setSelected([
+        ...selected,
+        {
+          productId: item.productId,
+          productSweet: item.productSweet,
+          productQuantity: item.productQuantity,
+          productPrice: item.productPrice,
+          productImage: item.productImage,
+          productName: item.productName,
+        },
+      ]);
+      console.log(item);
+      console.log(selected);
     } else {
       const updateSeleted = selected.filter((newItem) => {
         return (
-          newItem.Product._id !== item.Product._id ||
-          newItem.Product_Sweet !== item.Product_Sweet
+          newItem.productId !== item.productId ||
+          newItem.productSweet !== item.productSweet
         );
       });
       setSelected(updateSeleted);
+      console.log(item);
+      console.log(selected);
     }
   };
 
   const itemSelected = (item) => {
     return selected.find(
-      ({ Product, Product_Sweet }) =>
-        Product._id === item.Product._id && Product_Sweet === item.Product_Sweet
+      ({ productId, productSweet }) =>
+        productId === item.productId && productSweet === item.productSweet
     );
   };
 
@@ -192,7 +211,7 @@ function Cart() {
                           {/* items */}
                           {cartItems.length > 0 &&
                             cartItems.map((item, index) => (
-                              <div className="cart__row" key={item._id}>
+                              <div className="cart__row" key={item.productId}>
                                 <div className="grid grid--full cart__row--table-large">
                                   <div className="grid__item medium-up--three-fifths">
                                     <div className="grid">
@@ -200,12 +219,12 @@ function Cart() {
                                         <label className="container-checkbox">
                                           <input
                                             className="Checkbox"
+                                            type="checkbox"
                                             disabled={
-                                              item.Product.isDelete
-                                                ? "disabled"
+                                              item.isDelete === "true"
+                                                ? "checked"
                                                 : ""
                                             }
-                                            type="checkbox"
                                             checked={
                                               itemSelected(item)
                                                 ? "checked"
@@ -218,18 +237,18 @@ function Cart() {
                                           <span className="checkmark"></span>
                                         </label>
                                         <a
-                                          href={`/product/${item.Product._id}`}
+                                          href={`/product/${item.productId}`}
                                           // className="cart__image"
                                           className={
-                                            item.Product.isDelete
+                                            item.isDelete === "true"
                                               ? "disable-item cart__image"
                                               : "cart__image "
                                           }
                                         >
                                           <img
-                                            alt={item.Name}
+                                            alt={item.productName}
                                             className={
-                                              item.Product.isDelete
+                                              item.isDelete === "true"
                                                 ? "grid-product__image-mask-2"
                                                 : "hide-sold-out"
                                             }
@@ -241,10 +260,10 @@ function Cart() {
                                           />
                                           <img
                                             className="lazyautosizes lazyloaded"
-                                            alt={item.Product.Name}
-                                            src={item.Product.Image.Url}
+                                            alt={item.productName}
+                                            src={item.productImage}
                                             style={
-                                              item.Product.isDelete
+                                              item.isDelete === "true"
                                                 ? { opacity: "0.5" }
                                                 : {}
                                             }
@@ -254,14 +273,14 @@ function Cart() {
 
                                       <div className="grid__item three-quarters cake-info">
                                         <a
-                                          href={`/product/${item.Product._id}`}
+                                          href={`/product/${item.productId}`}
                                           className="h4 cart__product-name"
                                         >
-                                          {item.Product.Name}
+                                          {item.productName}
                                         </a>
 
                                         <p className="cart__product-meta">
-                                          {item.Product_Sweet}
+                                          {item.productSweet}
                                         </p>
 
                                         <p
@@ -282,7 +301,7 @@ function Cart() {
                                         <div className="product__quantity product__quantity--button">
                                           <div
                                             className={
-                                              item.Product.isDelete
+                                              item.isDelete === "true"
                                                 ? "disable-item js-qty__wrapper"
                                                 : "js-qty__wrapper "
                                             }
@@ -292,7 +311,7 @@ function Cart() {
                                               id="Quantity-7593662546171"
                                               className="js-qty__num"
                                             >
-                                              {item.Quantity}
+                                              {item.productQuantity}
                                             </span>
                                             <button
                                               type="button"
@@ -301,13 +320,13 @@ function Cart() {
                                               onClick={() =>
                                                 handleDecrement(
                                                   {
-                                                    Product: item.Product._id,
+                                                    Product: item.productId,
                                                     Product_Sweet:
-                                                      item.Product_Sweet,
+                                                      item.productSweet,
                                                     Quantity: -1,
                                                   },
-                                                  item.Product.Name,
-                                                  item.Quantity,
+                                                  item.productName,
+                                                  item.productQuantity,
                                                   item._id
                                                 )
                                               }
@@ -338,12 +357,12 @@ function Cart() {
                                               onClick={() =>
                                                 handleIncrement(
                                                   {
-                                                    Product: item.Product._id,
+                                                    Product: item.productId,
                                                     Product_Sweet:
-                                                      item.Product_Sweet,
+                                                      item.productSweet,
                                                     Quantity: 1,
                                                   },
-                                                  item.Quantity,
+                                                  item.productQuantity,
                                                   index
                                                 )
                                               }
@@ -376,11 +395,11 @@ function Cart() {
                                           <span className="appikon-cart-item-line-price">
                                             <span className="discounted_price appkion_original_price">
                                               <span className="money">
-                                                £{item.Product.Price} x{" "}
-                                                {item.Quantity} = £
+                                                £{item.productPrice} x{" "}
+                                                {item.productQuantity} = £
                                                 {Number(
-                                                  item.Quantity *
-                                                    item.Product.Price
+                                                  item.productQuantity *
+                                                    item.productPrice
                                                 ).toLocaleString("en-US", {
                                                   minimumFractionDigits: 2,
                                                 })}

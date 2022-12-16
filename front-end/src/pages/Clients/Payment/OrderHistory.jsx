@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Footer from "../../../components/Footer";
 import Header from "../../../components/Header";
-import { getOrdersById, getOrdersByUser } from "../../../slices/orderSlice";
+import { getOrdersByUser } from "../../../slices/orderSlice";
 import { ListProductWrapper } from "../../../styles/listProductStyle";
 import moment from "moment";
 import ViewDetail from "./ViewDetail";
@@ -13,7 +13,7 @@ const OrderHistory = () => {
   const [showDetail, setShowDetail] = useState(false);
   const [amount, setAmount] = useState();
   const [productDetail, setProductDetail] = useState();
-  const { orders, ordersDetail, loading } = useSelector((state) => state.order);
+  const { orders, loading } = useSelector((state) => state.order);
   console.log(orders);
   useEffect(() => {
     dispatch(getOrdersByUser());
@@ -40,9 +40,9 @@ const OrderHistory = () => {
                   <div className="collection-filter">
                     <div className="grid grid--uniform">
                       <div className="list-orders">
-                        <h3 className="h3-total">Total: {orders.length}</h3>
-                        {orders.length > 0 &&
-                          orders.map((item, index) => (
+                        <h3 className="h3-total">Total: {orders?.length}</h3>
+                        {orders?.length > 0 &&
+                          orders?.map((item, index) => (
                             <div className="cart-item" key={item._id}>
                               <h4>Detail of order: {index + 1}</h4>
                               <p className="p-orders-history">

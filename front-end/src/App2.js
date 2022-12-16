@@ -2,11 +2,10 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, Routes } from "react-router-dom";
-import Dashboard from "./pages/Admins/Dashboard/Dashboard";
 import ProductList from "./pages/Admins/List/productList";
 import UserList from "./pages/Admins/List/userList";
 import AddProduct from "./pages/Admins/Add/addProduct";
-import EditProduct from "./pages/Admins/Edit/editProduct";
+import EditProduct from "./pages/Admins/Edit/EditProduct";
 import AddTrademark from "./pages/Admins/Add/addTrademark";
 import OrderList from "./pages/Admins/List/OrderList";
 import Account from "./pages/Clients/Account/Account";
@@ -66,7 +65,7 @@ function App() {
       <Route path="/listUser/*" element={<UserList />} />
       <Route path="/addproduct/*" element={<AddProduct />} />
       <Route path="/addcategory/*" element={<AddCategory />} />
-      <Route path="/editproduct/:id" element={<EditProduct />} />
+      <Route path="/editproduct/*" element={<EditProduct />} />
       <Route path="/addtrademark/*" element={<AddTrademark />} />
       <Route path="/listorder/*" element={<OrderList />} />
       <Route path="/listcategory/*" element={<CategoryList />} />

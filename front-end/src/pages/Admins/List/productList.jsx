@@ -4,12 +4,13 @@ import Table from "react-bootstrap/Table";
 import styled from "styled-components";
 import Header from "../../../components/NavbarAdmin/Header";
 import LeftNavbar from "../../../components/NavbarAdmin/LeftNavbar";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getProducts,
   filterProducts,
   disableProductById,
+  getProductById,
 } from "../../../slices/productSlice";
 import ReactPaginate from "react-paginate";
 import Loading from "../../../components/loading";
@@ -18,6 +19,8 @@ import { ToastContainer, toast } from "react-toastify";
 
 function ProductList() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const limit = 8;
   const [pageCount, setPageCount] = useState(0);
   const [nextPage, setNextPage] = useState(1);
@@ -27,8 +30,8 @@ function ProductList() {
     page: nextPage,
   };
   useEffect(() => {
-    dispatch(getProducts(obj));
-    // dispatch(filterProducts(obj));
+    // dispatch(getProducts(obj));
+    dispatch(filterProducts(obj));
   }, [nextPage]);
 
   useEffect(() => {
@@ -42,6 +45,7 @@ function ProductList() {
     setNextPage(event.selected + 1);
     window.scrollTo(0, 100);
   };
+
   const handleDisableProduct = async (id) => {
     console.log(id);
     try {
@@ -54,6 +58,18 @@ function ProductList() {
       notify(err);
     }
   };
+  const handleViewEditProduct = async (id) => {
+    console.log(id);
+    try {
+      const response = await dispatch(getProductById(id)).unwrap();
+      if (response.status === 201) {
+        navigate("/editproduct");
+      }
+    } catch (err) {
+      notify(err);
+    }
+  };
+  console.log(products);
   const notify = (message) => {
     toast.success(message, {
       position: toast.POSITION.TOP_RIGHT,
@@ -80,7 +96,6 @@ function ProductList() {
           <span>
             <Link
               to="/addproduct"
-              // to="#"
               style={{
                 color: "red",
                 fontsize: "40px",
@@ -89,6 +104,7 @@ function ProductList() {
               +Add product
             </Link>
           </span>
+
           <a href="/disablelistproduct" className="btn-shopnow">
             Disable Products List
           </a>
@@ -106,8 +122,9 @@ function ProductList() {
                 <th style={{ textAlign: "center" }}>Price</th>
                 <th style={{ textAlign: "center" }}>Quantity</th>
                 <th style={{ textAlign: "center" }}>Images</th>
-                <th style={{ textAlign: "center" }}>Delete</th>
+                <th style={{ textAlign: "center" }}>Disable</th>
                 <th style={{ textAlign: "center" }}>Detail</th>
+                <th style={{ textAlign: "center" }}>Update</th>
               </tr>
             </tbody>
             {products.map((item, index) => (
@@ -127,7 +144,7 @@ function ProductList() {
                   <td
                     style={{
                       textAlign: "center",
-                      margin: " 22px 0 0 22px",
+                      margin: " 22px 6px 0px 8px",
                       cursor: "pointer",
                     }}
                     className="badge badge-danger"
@@ -135,20 +152,46 @@ function ProductList() {
                   >
                     Disable
                   </td>
-                  <td>
+                  <td
+                    className={
+                      item.Quantity === 0 || item.isDelete
+                        ? "disable-item "
+                        : " "
+                    }
+                  >
                     <Link
                       to={`/product/${item._id}`}
-                      className="badge badge-info"
+                      className={
+                        item.Quantity === 0 || item.isDelete
+                          ? "disable-item-2 badge badge-info"
+                          : "badge badge-info "
+                      }
                       style={{
                         backgroundColor: "black",
                         textAlign: "center",
                         padding: "10px",
-                        margin: "12px 0 0 20px",
+                        margin: "12px 0 0 6px",
                         color: "white",
                       }}
                     >
                       View Detail
                     </Link>
+                  </td>
+                  <td>
+                    <span
+                      onClick={() => handleViewEditProduct(item._id)}
+                      className="badge badge-info"
+                      style={{
+                        backgroundColor: "black",
+                        textAlign: "center",
+                        padding: "10px",
+                        margin: "12px 0 0 6px",
+                        color: "white",
+                        cursor: "pointer",
+                      }}
+                    >
+                      Update
+                    </span>
                   </td>
                 </tr>
               </tbody>
@@ -178,6 +221,13 @@ function ProductList() {
   );
 }
 const Container = styled.div`
+  .disable-item {
+    cursor: not-allowed;
+  }
+  .disable-item-2 {
+    pointer-events: none;
+    opacity: 0.5;
+  }
   .contain-pagination {
     padding: 0;
     margin-top: 50px;

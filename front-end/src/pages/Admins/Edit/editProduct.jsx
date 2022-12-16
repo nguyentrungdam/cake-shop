@@ -1,25 +1,200 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-// import { GrUploadOption } from "react-icons/gr";
 import Header from "../../../components/NavbarAdmin/Header";
 import LeftNavbar from "../../../components/NavbarAdmin/LeftNavbar";
-import { getProductBySlug, updateProduct } from "../../../slices/productSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { updateProduct } from "../../../slices/productSlice";
+import { getCategories } from "../../../slices/categorySlice";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
+
+const EditProduct = () => {
+  const { productDetail } = useSelector((state) => state.product);
+  console.log(productDetail);
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const fetchData = () => {
+      dispatch(getCategories()).unwrap();
+    };
+    fetchData();
+  }, [dispatch]);
+  const { categories } = useSelector((state) => state.category);
+
+  const [productInfo, setProductInfo] = useState({
+    name: "",
+    description: "",
+    price: 0,
+    quantity: 0,
+    category: "",
+  });
+
+  const handleNameProduct = async (e) => {
+    e.preventDefault();
+    setProductInfo({ ...productInfo, name: e.target.value });
+  };
+
+  const handleDescProduct = async (e) => {
+    e.preventDefault();
+    setProductInfo({ ...productInfo, description: e.target.value });
+  };
+
+  const handlePriceProduct = async (e) => {
+    e.preventDefault();
+    setProductInfo({ ...productInfo, price: Number(e.target.value) });
+  };
+  const handleQuantity = async (e) => {
+    e.preventDefault();
+    setProductInfo({ ...productInfo, quantity: Number(e.target.value) });
+  };
+  const notify = (message) => {
+    toast.success(message, {
+      position: toast.POSITION.TOP_RIGHT,
+      autoClose: 1000,
+    });
+  };
+  const handleAddProduct = async (id) => {
+    try {
+      const res = await dispatch(
+        updateProduct({
+          Id: id,
+          Name: productInfo.name,
+          Description: productInfo.description,
+          Price: productInfo.price,
+          Quantity: productInfo.quantity,
+          Category: productInfo.category,
+        })
+      ).unwrap();
+      console.log(res);
+      if (res.status === 200) {
+        notify("Update product successfully!");
+      }
+    } catch (err) {
+      notify(err);
+    }
+  };
+
+  return (
+    <React.Fragment>
+      <Header name="Edit product" />
+      <ToastContainer />
+      <LeftNavbar />
+      <Container>
+        <a href="/listproduct" className="btn-shopnow">
+          Back
+        </a>
+        <Title>Product Information</Title>
+        <Wrapper1>
+          <Wrapper2>
+            <Label>Name</Label>
+            <Input
+              defaultValue={productDetail.Name}
+              onChange={handleNameProduct}
+            />
+            <Label>Description</Label>
+            <TexrAreaInput
+              defaultValue={productDetail.Description}
+              onChange={handleDescProduct}
+            />
+            <Label>Price</Label>
+            <Input
+              defaultValue={productDetail.Price}
+              onChange={handlePriceProduct}
+            />
+            <Label>Quantity</Label>
+            <Input
+              defaultValue={productDetail.Quantity}
+              onChange={handleQuantity}
+            />
+            <Label>Category</Label>
+            <select
+              className="form-control"
+              value={productInfo.category}
+              onChange={(e) =>
+                setProductInfo({ ...productInfo, category: e.target.value })
+              }
+            >
+              {categories.map((option) => (
+                <option key={option._id} value={option._id}>
+                  {option.Name}
+                </option>
+              ))}
+            </select>
+          </Wrapper2>
+        </Wrapper1>
+        <Wrapper1 style={{ justifyContent: "center", alignContent: "center" }}>
+          <ButtonPrimary onClick={() => handleAddProduct(productDetail._id)}>
+            Update Product
+          </ButtonPrimary>
+        </Wrapper1>
+      </Container>
+    </React.Fragment>
+  );
+};
 
 const Container = styled.div`
   height: 90vh;
-  width: 81rem;
-  margin-left: 15rem;
+  width: auto;
+  margin-left: 21rem;
   display: flex;
   flex-direction: column;
   background: #fff;
   padding-top: 20px;
+  .btn-shopnow {
+    font-family: Poppins, sans-serif;
+    font-weight: 700;
+    display: inline-block;
+    user-select: none;
+    -webkit-appearance: none;
+    border-radius: 0;
+    color: #fff;
+    padding: 9px 20px;
+    transition: padding-right 0.3s, background 0.3s;
+    width: 100px;
+    min-width: 90px;
+    line-height: 1.42;
+    font-size: 0.94118em;
+    text-decoration: none;
+    text-align: center;
+    vertical-align: middle;
+    white-space: normal;
+    cursor: pointer;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    letter-spacing: 0;
+    margin: 20px 0 20px 0;
+    background: #111
+      url(//cdn.shopify.com/s/files/1/0261/0108/8359/t/2/assets/button-arrow.png)
+      no-repeat 150% 35%;
+    background-size: 29px;
+    background-image: url(//cdn.shopify.com/s/files/1/0261/0108/8359/t/2/assets/button-arrow-2x.png);
+  }
+  .btn-shopnow:hover {
+    padding-right: 55px;
+    background-position: 91% 35%;
+  }
 `;
 const Wrapper2 = styled.section`
   display: flex;
   flex-direction: column;
+  .wrapChooseImg {
+    position: relative;
+
+    &:hover {
+      button {
+        background-color: #e96a50;
+      }
+    }
+  }
+
+  .chooseFile {
+    position: relative;
+    max-width: 100px;
+    height: 40px;
+    z-index: 2;
+    cursor: pointer;
+    opacity: 0;
+  }
 `;
 const Wrapper1 = styled.section`
   display: flex;
@@ -29,17 +204,10 @@ const Wrapper1 = styled.section`
 const Title = styled.h1`
   font-size: 20px;
   font-weight: 500;
-  color: #ee4d2d;
+  color: #ff01bd;
   margin-left: 40px;
 `;
-const Item = styled.div`
-  display: flex;
-  flex-direction: row;
 
-  Label {
-    padding-right: 10px;
-  }
-`;
 const Label = styled.label`
   font-size: 16px;
   font-weight: 500;
@@ -53,10 +221,7 @@ const Input = styled.input`
   border-radius: 5px;
   padding-left: 10px;
 `;
-const InputShort = styled(Input)`
-  width: 100px;
-  margin-right: 50px;
-`;
+
 const TexrAreaInput = styled.textarea`
   resize: none;
   height: 100px;
@@ -69,161 +234,35 @@ const TexrAreaInput = styled.textarea`
   padding: 10px;
 `;
 const ButtonShort = styled.button`
-  background: #ee4d2d;
+  background: #ff01bd;
   color: #fff;
-  height: 35px;
-  width: 100px;
   border: none;
-  border-radius: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
-
-  :hover {
-    background-color: #e96a50;
-  }
+  position: relative;
+  top: 0;
+  left: 0;
+  height: 40px;
+  width: 150px;
+  z-index: 1;
+  cursor: pointer;
+  border-radius: 2px;
 `;
-// const ImgProduct = styled.div`
-//   background-color: #999;
-//   width: 400px;
-//   height: 200px;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   border-radius: 5px;
-//   cursor: pointer;
-// `;
+const ImgProduct = styled.img`
+  background-color: #999;
+  width: 200px;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  object-fit: cover;
+`;
 const ButtonPrimary = styled(ButtonShort)`
   height: 40px;
   width: 200px;
+  margin-top: 30px;
 `;
-const EditProduct = () => {
-
-    const dispatch = useDispatch();
-    let idProduct = useParams();
-    
-    // const [category, setCategory] = useState('');
-    const { productDetail } = useSelector((state) => state.product);
-    const _id = productDetail._id;
-
-    const [name, setName] = useState(productDetail.name);
-    const [description, setDesc] = useState(productDetail.description);
-    const [price, setPrice] = useState(productDetail.price);
-    const [discountPercent, setSaleOff] = useState(productDetail.discountPercent);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            const response = await dispatch(getProductBySlug(idProduct.id)).unwrap();
-        };
-        // console.log(productDetail);
-        fetchData();
-    }, []);
-
-    const handleName = async(e) => {
-      e.preventDefault();
-      setName(e.target.value);
-    }
-
-    const handleDesc = async(e) => {
-      e.preventDefault();
-      setDesc(e.target.value);
-    }
-
-    const handlePrice = async(e) => {
-      e.preventDefault();
-      setPrice(e.target.value);
-    }
-
-    const handleSaleOff = async(e) => {
-      e.preventDefault();
-      setSaleOff(e.target.value);
-    }
-
-    // const handleCategory = async(e) => {
-    //   e.preventDefault(); 
-    //   setCategory(e.target.value);
-    // }
-
-    const handleEditProduct = async () => {
-      const response = await dispatch(updateProduct({ _id, name, description, price, discountPercent })).unwrap();
-      if(response.status === 202){
-        alert('Edit Thành Công');
-      }
-    }
-
-    return (
-        <React.Fragment>
-            <Header />
-            <LeftNavbar />
-            <Container>
-                <Title>THÔNG TIN SẢN PHẨM</Title>
-                <Wrapper1>
-                    <Wrapper2 key={productDetail._id}>
-                        <Label>Tên sản phẩm</Label>
-                        <Input 
-                          name={productDetail._id} 
-                          defaultValue={productDetail.name} 
-                          onChange={handleName}
-                        />
-                        <Label>Mô tả</Label>
-                        <TexrAreaInput 
-                          name={productDetail._id}  
-                          defaultValue={productDetail.description} 
-                          onChange={handleDesc}
-                        />
-                        <Label>Giá sản phẩm</Label>
-                        <Input 
-                          name={productDetail._id} 
-                          defaultValue={productDetail.price} 
-                          onChange={handlePrice}
-                        />
-                        <Label>Giảm</Label>
-                        <Input 
-                          name={productDetail._id} 
-                          defaultValue={productDetail.discountPercent} 
-                          onChange={handleSaleOff}
-                        />
-                        {/* <Label>ID Categories</Label>
-                        <Input 
-                          name={productDetail._id} 
-                          defaultValue={productDetail.category.name} 
-                          onChange={handleCategory}
-                        /> */}
-                        <Item style={{ padding: "20px 0px" }}>
-                            <Label>Phân loại hàng</Label>
-                            <InputShort name={productDetail._id} defaultValue={productDetail.variants?.[0].name}/>
-                            <Label>Số lượng</Label>
-                            <InputShort name={productDetail._id} defaultValue={productDetail.variants?.[0].quantity}/>
-                        </Item>
-                    </Wrapper2>
-                    <Wrapper2>
-                        <Label>Hình ảnh</Label>
-                        <img  
-                            style={{ height: "25rem", width: "25rem" }} 
-                            name={productDetail._id} 
-                            src={productDetail.productPictures?.[0]}
-                        />
-                        <Wrapper1
-                            style={{
-                                justifyContent: "center",
-                                alignContent: "center",
-                                margin: "15px",
-                            }}
-                        >
-                            <ButtonShort>Upload Ảnh</ButtonShort>
-                        </Wrapper1>
-                    </Wrapper2>
-                </Wrapper1>
-                <Wrapper1 style={{ justifyContent: "center", alignContent: "center" }}>
-                    <ButtonPrimary 
-                      onClick={() => handleEditProduct()}
-                    >
-                      Lưu
-                    </ButtonPrimary>
-                </Wrapper1>
-            </Container>
-        </React.Fragment>
-    );
-};
 
 export default EditProduct;

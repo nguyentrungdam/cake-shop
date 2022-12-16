@@ -59,7 +59,18 @@ export const getAllOrders = createAsyncThunk(
     }
   }
 );
-
+export const updateOrdersStatus = createAsyncThunk(
+  "orders/updateOrder",
+  async (orderId, rejectWithValue, dispatch) => {
+    try {
+      const response = await orderApi.updateOrdersStatus(orderId);
+      await dispatch(getAllOrders());
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
 export const orderSlice = createSlice({
   name: "order",
   initialState: {
@@ -80,7 +91,7 @@ export const orderSlice = createSlice({
     },
     [addOrderCOD.fulfilled]: (state, action) => {
       state.loading = false;
-      state.orders = action.payload.data.OrderDetail;
+      state.orders = action.payload.data.Order;
     },
     [addOrderPaypal.pending]: (state) => {
       state.loading = true;
@@ -104,7 +115,7 @@ export const orderSlice = createSlice({
     [getOrdersByUser.fulfilled]: (state, action) => {
       state.loading = false;
       state.orders = action.payload.data.Order;
-      state.ordersDetail = action.payload.data.products;
+      state.ordersDetail = action.payload.data.Order.products;
     },
     [getOrdersById.pending]: (state) => {
       state.loading = true;
@@ -115,7 +126,7 @@ export const orderSlice = createSlice({
     },
     [getOrdersById.fulfilled]: (state, action) => {
       state.loading = false;
-      state.ordersDetail = action.payload.data.OrderDetail;
+      state.ordersDetail = action.payload.data.Order.products;
     },
     [getAllOrders.pending]: (state) => {
       state.loading = true;
@@ -127,7 +138,18 @@ export const orderSlice = createSlice({
     [getAllOrders.fulfilled]: (state, action) => {
       state.loading = false;
       state.orders = action.payload.data.Order;
-      console.log(state.orders);
+    },
+
+    [updateOrdersStatus.pending]: (state) => {
+      state.loading = true;
+    },
+    [updateOrdersStatus.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = action.error;
+    },
+    [updateOrdersStatus.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.orders = action.payload.data.Order;
     },
   },
 });

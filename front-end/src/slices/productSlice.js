@@ -110,6 +110,18 @@ export const addProduct = createAsyncThunk(
     }
   }
 );
+export const updateProduct = createAsyncThunk(
+  "products/updateProduct",
+  async (product, { rejectWithValue }) => {
+    try {
+      const response = await productApi.updateProduct(product);
+      // await thunkAPI.dispatch(getProducts());
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
 // TODO chưa có
 export const getProductBySlug = createAsyncThunk(
   "product/getProductBySlug",
@@ -147,7 +159,7 @@ export const addProductReview = createAsyncThunk(
   }
 );
 
-export const updateProduct = createAsyncThunk(
+export const updateProductttt = createAsyncThunk(
   "product/update",
   async (product, { rejectWithValue }) => {
     try {
@@ -204,6 +216,17 @@ export const productSlice = createSlice({
       state.error = action.error;
     },
     [addProduct.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.product = action.payload.data.Product;
+    },
+    [updateProduct.pending]: (state) => {
+      state.loading = true;
+    },
+    [updateProduct.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = action.error;
+    },
+    [updateProduct.fulfilled]: (state, action) => {
       state.loading = false;
       state.product = action.payload.data.Product;
     },
@@ -329,28 +352,6 @@ export const productSlice = createSlice({
     [addProductReview.fulfilled]: (state, action) => {
       state.loading = false;
       state.productDetail = action.payload.data.product;
-    },
-    [updateProduct.pending]: (state) => {
-      state.loading = true;
-    },
-    [updateProduct.rejected]: (state, action) => {
-      state.loading = false;
-      state.error = action.error;
-    },
-    [updateProduct.fulfilled]: (state, action) => {
-      state.loading = false;
-      state.products = action.payload.data.products;
-    },
-    [addProduct.pending]: (state) => {
-      state.loading = true;
-    },
-    [addProduct.rejected]: (state, action) => {
-      state.loading = false;
-      state.error = action.error;
-    },
-    [addProduct.fulfilled]: (state, action) => {
-      state.loading = false;
-      state.products = action.payload.data.products;
     },
     [getProductsSearched.pending]: (state) => {
       state.loading = true;
