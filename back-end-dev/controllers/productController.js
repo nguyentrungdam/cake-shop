@@ -340,23 +340,6 @@ exports.disableProduct = catchAsyncErrors(async (req, res, next) => {
         }
     }
 
-    // // CHECK product in order ==> not disable
-    // const checkOrderDetail = await orderDetail.find({ Product: idProduct, isDelete: false })
-    // // if (checkOrderDetail) {
-    // //     const err = new Error('The product being ordered cannot be disabled');
-    // //     return next(err);
-    // // }
-
-    // const lenOrderDetail = checkOrderDetail.length;
-    // let tempOrder = new order();
-    // for (var i = 0; i < lenOrderDetail; i++) {
-    //     tempOrder = order.findOne({ _id: checkOrderDetail[i].Order, isDelete: false })
-    //     if (tempOrder.Order_Status != 'await' || tempOrder.Order_Status != "done") {
-    //         const err = new Error('The product being ordered cannot be disabled');
-    //         return next(err);
-    //     }
-    // }
-
     // Update isDelete is true
     const tempProduct = {
         Name: oldProduct.Name,

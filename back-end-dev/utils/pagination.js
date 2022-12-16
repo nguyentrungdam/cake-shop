@@ -5,6 +5,8 @@ module.exports = function(model, page, itemsPerPage) {
     const skip = resPerPage * (currentPage - 1);
 
     model = model.limit(resPerPage).skip(skip);
+    console.log('resPerPage: ', resPerPage);
+    console.log('skip: ', skip);
     return model;
 }
 

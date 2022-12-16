@@ -84,6 +84,7 @@ exports.addToCart = catchAsyncErrors(async (req, res, next) => {
       break;
     }
   }
+
   // CREATE product in cart
   if(updateQuantity == 0) {
     newItemCart = {
@@ -325,13 +326,16 @@ exports.paymentOrderByCash = catchAsyncErrors(async (req, res, next) => {
   // CHECK order
   const tempOrder = await order.findOne({ Account: tempAccount._id, Order_Status: "await", isDelete: false});
   if (!tempOrder) {
-    const err = new Error("Shopping cart error");
-    return next(err);
+    let newOrder = new order();
+    newOrder.Account = tempAccount._id;
+    await order.create(newOrder);
+  }
+  else {
+    tempOrder.products = [];
   }
 
   // DELETE product in order
-  tempOrder.products = [];
-
+  
   // PROCESS
   let tempOrderDetail = new orderDetail();
   let tempProduct = new product();
@@ -489,15 +493,16 @@ exports.paymentOrderByOnline = catchAsyncErrors(async (req, res, next) => {
   // CHECK order
   const tempOrder = await order.findOne({ Account: tempAccount._id, Order_Status: "await", isDelete: false});
   if (!tempOrder) {
-    await session.abortTransaction();
-    session.endSession();
-
-    const err = new Error("Shopping cart error");
-    return next(err);
+    let newOrder = new order();
+    newOrder.Account = tempAccount._id;
+    await order.create(newOrder);
+  }
+  else {
+    // DELETE product in order
+    tempOrder.products = [];
   }
 
-  // DELETE product in order
-  tempOrder.products = [];
+
 
   // PROCESS
   let tempOrderDetail = new orderDetail();
