@@ -51,7 +51,7 @@ exports.addToCart = catchAsyncErrors(async (req, res, next) => {
   const tempAccount = req.Account;
   const { Product, Quantity, Product_Sweet } = req.body;
 
-  let updateCheck;
+  let updateCheck = 0;
 
   //validate product id
   const ObjectId = mongoose.Types.ObjectId;
@@ -78,34 +78,32 @@ exports.addToCart = catchAsyncErrors(async (req, res, next) => {
   let newItemCart;
   // UPDATE product quantity in cart
   for(var i = 0; i < lenCart; i ++) {
-    if(tempAccount.Cart[i].productId == Product) {
+    if( 1 == 1
+      && tempAccount.Cart[i].productId == Product
+      && tempAccount.Cart[i].productSweet == Product_Sweet) {
       tempAccount.Cart[i].productQuantity += Quantity;
       updateQuantity++;
+      updateCheck = await tempAccount.save();
       break;
     }
   }
 
-  // CREATE product in cart
-  if(updateQuantity == 0) {
-    newItemCart = {
-      productId: tempProduct._id,
-      productName: tempProduct.Name,
-      productImage: tempProduct.Image.Url,
-      productPrice: tempProduct.Price,
-      productQuantity: Quantity,
-      productSweet: Product_Sweet,
-      quantityInStock: tempProduct.Quantity
+  if(updateCheck == 0) {
+    // CREATE product in cart
+    if(updateQuantity == 0) {
+      newItemCart = {
+        productId: tempProduct._id,
+        productName: tempProduct.Name,
+        productImage: tempProduct.Image.Url,
+        productPrice: tempProduct.Price,
+        productQuantity: Quantity,
+        productSweet: Product_Sweet,
+        quantityInStock: tempProduct.Quantity
+      }
+      tempAccount.Cart.push(newItemCart);
     }
-    tempAccount.Cart.push(newItemCart);
+    updateCheck = await tempAccount.save();
   }
-  updateCheck = await tempAccount.save();
-
-  // LogOrderDetail = await logOrderDetail.find({
-  //   Account: tempAccount._id,
-  //   isDelete: 0,
-  // }).populate("Product");
-
-  // const total = LogOrderDetail.length;
 
   res.status(201).json({
     success: true,
