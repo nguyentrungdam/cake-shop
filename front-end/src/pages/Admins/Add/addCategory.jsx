@@ -41,18 +41,18 @@ const AddCategory = () => {
 
   return (
     <React.Fragment>
-      <Header name="Thêm sản phẩm" />
+      <Header name="Add category" />
       <LeftNavbar />
       <Container>
         <a href="/listcategory" className="btn-shopnow">
           Back
         </a>
-        <Title>THÔNG TIN PHÂN LOẠI</Title>
+        <Title>Category Information</Title>
         <Wrapper1>
           <Wrapper2>
-            <Label>Tên phân loại</Label>
+            <Label>Name</Label>
             <Input onChange={handleNameProduct} />
-            <Label>Mô tả</Label>
+            <Label>Description</Label>
             <TexrAreaInput onChange={handleDescProduct} />
           </Wrapper2>
         </Wrapper1>
@@ -64,7 +64,7 @@ const AddCategory = () => {
           }}
         >
           <ButtonPrimary onClick={() => handleAddCategory()}>
-            THÊM PHÂN LOẠI
+            Add Category
           </ButtonPrimary>
         </Wrapper1>
       </Container>
