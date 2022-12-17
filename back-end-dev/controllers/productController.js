@@ -11,25 +11,22 @@ const { findOne } = require('../models/logOrderDetail');
 
 // Create new product   =>   /api/v1/admin/product/new
 exports.createProduct = catchAsyncErrors(async (req, res, next) => {
-    let newProduct = new product;
+    let newProduct = new product();
     newProduct = req.body;
     newProduct.Image = {
         Public_Id: req.file.filename,
         Url: req.file.path
     };
     newProduct.Sweet = [
-        { name: {
-            type: String,
-            default: 'Low'
-        }},
-        { name: {
-            type: String,
-            default: 'Normal'
-        }},
-        { name: {
-            type: String,
-            default: 'High'
-        }},
+        { 
+            name: 'Low'
+        },
+        { 
+            name: 'Normal'
+        },
+        { 
+            name: 'High'
+        },
     ]
     const Product = await product.create(newProduct);
 
