@@ -13,13 +13,14 @@ import styled from "styled-components";
 
 const ProductDetail = () => {
   const { productDetail, loading } = useSelector((state) => state.product);
-  const { isAuthenticated } = useSelector((state) => state.account);
+  const { isAuthenticated, account } = useSelector((state) => state.account);
   const { cartItems } = useSelector((state) => state.cart);
   const [isSelected, setIsSelected] = useState("");
   const [openIframe, setOpenIframe] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
   let idProduct = useParams();
+  console.log(account);
   const [cartItem, setCartItem] = useState({
     product: "",
     variant: "",
@@ -80,43 +81,47 @@ const ProductDetail = () => {
   // Handle add cart
   const handleAddCart = async (e) => {
     e.preventDefault();
-    if (!cartItem.variant) {
-      notify(0, "Please choose sweet rate!");
-    } else if (!isAuthenticated) {
-      navigate("/signin");
+    if (account.Role === "admin") {
+      notify(0, "Only user can do it!");
     } else {
-      let cartObject;
-      if (cartItems) {
-        cartObject = cartItems.find(
-          (item) =>
-            item.Product?._id === cartItem.product &&
-            item.Size?.name === cartItem.variant
-        );
-      }
-
-      let newCartItem = {};
-      if (cartObject) {
-        newCartItem = {
-          product: cartObject.Product?._id,
-          variant: cartObject.Size?.name,
-          quantity: cartItem.quantity,
-        };
+      if (!cartItem.variant) {
+        notify(0, "Please choose sweet rate!");
+      } else if (!isAuthenticated) {
+        navigate("/signin");
       } else {
-        notify(1);
-        newCartItem = {
-          Product: cartItem.product,
-          Product_Sweet: cartItem.variant,
-          Quantity: cartItem.quantity,
-        };
-        console.log(newCartItem);
-        console.log(cartItem);
-      }
-      const res = await dispatch(addToCart({ ...newCartItem }));
-      if (res.error) {
-        alert("Đã xảy ra lỗi! Vui lòng thử lại.");
-        notify(-1, "Error! Please try again.");
+        let cartObject;
+        if (cartItems) {
+          cartObject = cartItems.find(
+            (item) =>
+              item.Product?._id === cartItem.product &&
+              item.Size?.name === cartItem.variant
+          );
+        }
 
-        return;
+        let newCartItem = {};
+        if (cartObject) {
+          newCartItem = {
+            product: cartObject.Product?._id,
+            variant: cartObject.Size?.name,
+            quantity: cartItem.quantity,
+          };
+        } else {
+          notify(1);
+          newCartItem = {
+            Product: cartItem.product,
+            Product_Sweet: cartItem.variant,
+            Quantity: cartItem.quantity,
+          };
+          console.log(newCartItem);
+          console.log(cartItem);
+        }
+        const res = await dispatch(addToCart({ ...newCartItem }));
+        if (res.error) {
+          alert("Đã xảy ra lỗi! Vui lòng thử lại.");
+          notify(-1, "Error! Please try again.");
+
+          return;
+        }
       }
     }
   };
