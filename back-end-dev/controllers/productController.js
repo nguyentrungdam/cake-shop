@@ -17,6 +17,9 @@ exports.createProduct = catchAsyncErrors(async (req, res, next) => {
         Public_Id: req.file.filename,
         Url: req.file.path
     };
+    if (newProduct.Quantity > 0) {
+        newProduct.quantityStatus = true
+    }
     newProduct.Sweet = [
         { 
             name: 'Low'
@@ -45,8 +48,11 @@ exports.getProductList = catchAsyncErrors(async (req, res, next) => {
     // const Product = await product.find();
     // for (var i = 0; i < Product.length; i++) {
     //     tempProduct = await product.findOne({ _id: Product[i]._id });
-    //     if (tempProduct.Modified_At == null) {
-    //         tempProduct.Modified_At = tempProduct.Created_At
+    //     if (tempProduct.Quantity > 0) {
+    //         tempProduct.quantityStatus = true;
+    //     }
+    //     else {
+    //         tempProduct.quantityStatus = false;
     //     }
     //     updateCheck = await tempProduct.save(pointTransaction);
     //     if (!updateCheck) {
@@ -70,7 +76,7 @@ exports.getProductList = catchAsyncErrors(async (req, res, next) => {
     const page = req.query.page;
     const total = await product.where({isDelete: false}).countDocuments();
     const Product = await pagination(
-        product.find({isDelete: false}).populate("Category").sort([ ['isDelete', 1], ['Modified_At', -1] ]),
+        product.find({isDelete: false}).populate("Category").sort([ ['isDelete', 1], ['quantityStatus', -1], ['Modified_At', -1] ]),
         page,
         8
     )
@@ -126,6 +132,12 @@ exports.updateProduct = catchAsyncErrors(async (req, res, next) => {
         Category: req.body.Category || oldProduct.Category,
         //Sweet: req.body.Sweet || oldProduct.Sweet,
         Modified_At: Date.now(),
+    }
+    if (tempProduct.Quantity > 0) {
+        tempProduct.quantityStatus = true;
+    }
+    else {
+        tempProduct.quantityStatus = false;
     }
 
     // Update product
@@ -201,7 +213,7 @@ exports.searchProduct = catchAsyncErrors(async (req, res, next) => {
     
     const total = await product.where({ ...Keyword }).countDocuments();
     const Product = await pagination(
-        product.find({ ...Keyword }).populate("Category").sort({ isDelete: 1, Modified_At: -1 }),
+        product.find({ ...Keyword }).populate("Category").sort({ isDelete: 1, quantityStatus: -1, Modified_At: -1 }),
         page,
         8
     )
@@ -242,17 +254,17 @@ exports.filterProduct = catchAsyncErrors(async (req, res, next) => {
     //const tempSort = ['nameasc', 'namedesc', 'priceasc', 'pricedesc']
     //[ 'isDelete', 1 ]
     if (!tempCategory) {
-        total = await product.find().sort([[ 'isDelete', 1 ], [ field, sort], [ 'Modified_At', -1 ]]).countDocuments();
+        total = await product.find().sort([[ 'isDelete', 1 ], ['quantityStatus', -1], [ field, sort], [ 'Modified_At', -1 ]]).countDocuments();
         Product = await pagination(
-            product.find().sort([[ 'isDelete', 1 ], [ field, sort], [ 'Modified_At', -1 ]]).populate("Category"),
+            product.find().sort([[ 'isDelete', 1 ], ['quantityStatus', -1], [ field, sort], [ 'Modified_At', -1 ]]).populate("Category"),
             page,
             8
         )
     }
     else {
-        total = await product.find({ Category: tempCategory}).sort([[ 'isDelete', 1 ], [ field, sort], [ 'Modified_At', -1 ]]).countDocuments();
+        total = await product.find({ Category: tempCategory}).sort([[ 'isDelete', 1 ], ['quantityStatus', -1], [ field, sort], [ 'Modified_At', -1 ]]).countDocuments();
         Product = await pagination(
-            product.find({ Category: tempCategory}).sort([[ 'isDelete', 1 ], [ field, sort], [ 'Modified_At', -1 ]]).populate("Category"),
+            product.find({ Category: tempCategory}).sort([[ 'isDelete', 1 ], ['quantityStatus', -1], [ field, sort], [ 'Modified_At', -1 ]]).populate("Category"),
             page,
             8
         )
@@ -408,7 +420,7 @@ exports.getProductDisableList = catchAsyncErrors(async (req, res, next) => {
     const Product = await pagination(
         product.find({isDelete: true})
             .populate("Category")
-            .sort({ isDelete: 1, Modified_At: -1 }),
+            .sort({ isDelete: 1, quantityStatus: -1, Modified_At: -1 }),
         page,
         8
     )

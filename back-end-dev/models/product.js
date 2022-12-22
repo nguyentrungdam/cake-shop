@@ -20,6 +20,10 @@ const productSchema = new schema({
         type: Number,
         default: null
     }, 
+    quantityStatus: {
+        type: Boolean,
+        default: 0
+    }, 
     Image: {
         Public_Id: {
             type: String,

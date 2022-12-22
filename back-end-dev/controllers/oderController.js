@@ -394,6 +394,12 @@ exports.paymentOrderByCash = catchAsyncErrors(async (req, res, next) => {
 
     //UPDATE product quantity in stock
     tempProduct.Quantity -= productList[i].productQuantity;
+    if (tempProduct.Quantity > 0) {
+      tempProduct.quantityStatus = true;
+    }
+    else {
+      tempProduct.quantityStatus = false;
+    }
     updateCheck = await tempProduct.save(pointTransaction);
     if(!updateCheck) {
       await session.abortTransaction();
@@ -768,6 +774,12 @@ exports.paymentSuccess = catchAsyncErrors(async (req, res, next) => {
 
     // UPDATE product quantity
     tempProduct.Quantity -= tempOrder.products[i].Quantity;
+    if (tempProduct.Quantity > 0) {
+      tempProduct.quantityStatus = true;
+    }
+    else {
+      tempProduct.quantityStatus = false;
+    }
     updateCheck = await tempProduct.save(pointTransaction);
     if(!updateCheck) {
       await session.abortTransaction();
@@ -906,6 +918,12 @@ exports.cancelOrder = catchAsyncErrors(async (req, res, next) => {
     }
 
     tempProduct.Quantity += tempOrder.products[i].Quantity;
+    if (tempProduct.Quantity > 0) {
+      tempProduct.quantityStatus = true;
+    }
+    else {
+      tempProduct.quantityStatus = false;
+    }
     updateCheck = await tempProduct.save(pointTransaction);
     if (!updateCheck) {
       await session.abortTransaction();
