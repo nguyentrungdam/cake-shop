@@ -25,6 +25,10 @@ const OrderApi = {
     const url = `/orders/updateOrder`;
     return axios.put(url, orderId);
   },
+  cancelOrderById: (orderId) => {
+    const url = `/orders/cancelOrder?orderId=${orderId}`;
+    return axios.put(url);
+  },
 };
 
 export default OrderApi;

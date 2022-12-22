@@ -13,15 +13,21 @@ const OrderHistory = () => {
   const [showDetail, setShowDetail] = useState(false);
   const [amount, setAmount] = useState();
   const [productDetail, setProductDetail] = useState();
+  const [orderInfo, setOrderInfo] = useState({
+    orderId: "",
+    orderPayType: "",
+  });
+
   const { orders, loading } = useSelector((state) => state.order);
   console.log(orders);
   useEffect(() => {
     dispatch(getOrdersByUser());
   }, []);
 
-  const handleViewDetail = (amount, products) => {
+  const handleViewDetail = (amount, products, id, payType) => {
     setAmount(amount);
     setProductDetail(products);
+    setOrderInfo({ orderId: id, orderPayType: payType });
     setShowDetail(true);
   };
 
@@ -75,7 +81,12 @@ const OrderHistory = () => {
                               <span
                                 className="btn-shopnow"
                                 onClick={() =>
-                                  handleViewDetail(item.Amount, item.products)
+                                  handleViewDetail(
+                                    item.Amount,
+                                    item.products,
+                                    item._id,
+                                    item.Payment_Type
+                                  )
                                 }
                               >
                                 View order detail
@@ -90,6 +101,7 @@ const OrderHistory = () => {
             </div>
           </main>
           <ViewDetail
+            orderInfo={orderInfo}
             productDetail={productDetail}
             amount={amount}
             showDetail={showDetail}

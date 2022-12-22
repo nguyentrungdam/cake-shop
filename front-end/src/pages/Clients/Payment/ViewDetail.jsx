@@ -1,12 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
+import { cancelOrderById } from "../../../slices/orderSlice";
+import CancelOrder from "./CancelOrder";
 
-const ViewDetail = ({ amount, showDetail, setShowDetail, productDetail }) => {
+const ViewDetail = ({
+  amount,
+  showDetail,
+  setShowDetail,
+  productDetail,
+  orderInfo,
+}) => {
   console.log(productDetail);
+  console.log(orderInfo);
+  const dispatch = useDispatch();
+  const [showCancelOrder, setShowCancelOrder] = useState(false);
+
+  const handleCancelOrder = async (_idProduct) => {
+    await dispatch(cancelOrderById(_idProduct));
+  };
+
   return (
     <>
       {showDetail ? (
         <Background>
+          <CancelOrder
+            orderInfo={orderInfo}
+            productDetail={productDetail}
+            handleCancelOrder={handleCancelOrder}
+            showCancelOrder={showCancelOrder}
+            setShowCancelOrder={setShowCancelOrder}
+            setShowDetail={setShowDetail}
+          ></CancelOrder>
           <DialogWrapper style={{ display: "inline-table" }}>
             <ButtonWhite onClick={() => setShowDetail(false)}>X</ButtonWhite>
             <Title>Your order detail: </Title>
@@ -50,6 +75,16 @@ const ViewDetail = ({ amount, showDetail, setShowDetail, productDetail }) => {
                 </div>
               </div>
             </div>
+            {orderInfo.orderPayType === "cash" ? (
+              <span
+                className="btn-cancel-order"
+                onClick={() => setShowCancelOrder(true)}
+              >
+                Cancel Order
+              </span>
+            ) : (
+              ""
+            )}
           </DialogWrapper>
         </Background>
       ) : null}
@@ -69,7 +104,7 @@ const Background = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 500;
   .cart-info-wrapper {
     margin-top: 20px;
     border-bottom: 1px solid #ccc;
@@ -127,6 +162,33 @@ const Background = styled.div`
     flex-grow: 1;
     font-size: 1.2rem;
     font-weight: 500;
+  }
+  .btn-cancel-order {
+    -webkit-line-clamp: 1;
+    font-size: 1rem;
+    box-sizing: border-box;
+    display: flex;
+    border-radius: 2px;
+    align-items: center;
+    justify-content: center;
+    text-transform: capitalize;
+    cursor: pointer;
+    height: 30px;
+    padding: 5px 5px;
+    min-width: 30px;
+    outline: 0;
+    background: #fff;
+    color: #555;
+    border: 1px solid rgba(0, 0, 0, 0.09);
+    box-shadow: 0 1px 1px 0 rgb(0 0 0 / 3%);
+
+    overflow: visible;
+    flex: 1;
+    :hover {
+      /* background: rgba(0, 0, 0, 0.02); */
+      background: red;
+      color: white;
+    }
   }
 `;
 
