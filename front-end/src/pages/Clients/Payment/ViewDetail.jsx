@@ -173,7 +173,7 @@ const Background = styled.div`
     justify-content: center;
     text-transform: capitalize;
     cursor: pointer;
-    height: 30px;
+    height: 40px;
     padding: 5px 5px;
     min-width: 30px;
     outline: 0;
@@ -181,7 +181,6 @@ const Background = styled.div`
     color: #555;
     border: 1px solid rgba(0, 0, 0, 0.09);
     box-shadow: 0 1px 1px 0 rgb(0 0 0 / 3%);
-
     overflow: visible;
     flex: 1;
     :hover {
