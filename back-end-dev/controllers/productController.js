@@ -322,7 +322,6 @@ exports.disableProduct = catchAsyncErrors(async (req, res, next) => {
         }
     }
 
-
     tempOrder = await order.find({ Order_Status: 'order', isDelete: false })
     lenOrder = tempOrder.length || 0;
     for (var i = 0; i < lenOrder; i++) {

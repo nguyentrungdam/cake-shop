@@ -871,6 +871,15 @@ exports.cancelOrder = catchAsyncErrors(async (req, res, next) => {
     return next(err);
   }
 
+  // CHECK order payment type
+  if (tempOrder.Payment_Type != 'cash') {
+    await session.abortTransaction();
+    session.endSession();
+
+    const err = new Error("Can't cancel online payment order");
+    return next(err);
+  }
+
   // UPDATE order status
   tempOrder.Order_Status = 'cancel'
   updateCheck = await tempOrder.save(pointTransaction);
