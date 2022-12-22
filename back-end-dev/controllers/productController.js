@@ -45,12 +45,9 @@ exports.getProductList = catchAsyncErrors(async (req, res, next) => {
     // const Product = await product.find();
     // for (var i = 0; i < Product.length; i++) {
     //     tempProduct = await product.findOne({ _id: Product[i]._id });
-    //     console.log('Size: ', tempProduct.Size);
-    //     tempProduct.Sweet = [
-    //         { name: 'Low'},
-    //         { name: 'Normal'},
-    //         { name: 'High'},
-    //     ]
+    //     if (tempProduct.Modified_At == null) {
+    //         tempProduct.Modified_At = tempProduct.Created_At
+    //     }
     //     updateCheck = await tempProduct.save(pointTransaction);
     //     if (!updateCheck) {
     //         await session.abortTransaction()
@@ -73,7 +70,7 @@ exports.getProductList = catchAsyncErrors(async (req, res, next) => {
     const page = req.query.page;
     const total = await product.where({isDelete: false}).countDocuments();
     const Product = await pagination(
-        product.find({isDelete: false}).populate("Category").sort({ Created_At: -1 }),
+        product.find({isDelete: false}).populate("Category").sort([ ['isDelete', 1], ['Modified_At', -1] ]),
         page,
         8
     )
@@ -204,7 +201,7 @@ exports.searchProduct = catchAsyncErrors(async (req, res, next) => {
     
     const total = await product.where({ ...Keyword }).countDocuments();
     const Product = await pagination(
-        product.find({ ...Keyword }).populate("Category").sort({ Created_At: -1 }),
+        product.find({ ...Keyword }).populate("Category").sort({ isDelete: 1, Modified_At: -1 }),
         page,
         8
     )
@@ -243,18 +240,19 @@ exports.filterProduct = catchAsyncErrors(async (req, res, next) => {
     let total;
 
     //const tempSort = ['nameasc', 'namedesc', 'priceasc', 'pricedesc']
+    //[ 'isDelete', 1 ]
     if (!tempCategory) {
-        total = await product.find().sort([[ field, sort]]).countDocuments();
+        total = await product.find().sort([[ 'isDelete', 1 ], [ field, sort], [ 'Modified_At', -1 ]]).countDocuments();
         Product = await pagination(
-            product.find().sort([[ field, sort]]).populate("Category"),
+            product.find().sort([[ 'isDelete', 1 ], [ field, sort], [ 'Modified_At', -1 ]]).populate("Category"),
             page,
             8
         )
     }
     else {
-        total = await product.find({ Category: tempCategory}).sort([[ field, sort]]).countDocuments();
+        total = await product.find({ Category: tempCategory}).sort([[ 'isDelete', 1 ], [ field, sort], [ 'Modified_At', -1 ]]).countDocuments();
         Product = await pagination(
-            product.find({ Category: tempCategory}).sort([[ field, sort]]).populate("Category"),
+            product.find({ Category: tempCategory}).sort([[ 'isDelete', 1 ], [ field, sort], [ 'Modified_At', -1 ]]).populate("Category"),
             page,
             8
         )
@@ -411,7 +409,7 @@ exports.getProductDisableList = catchAsyncErrors(async (req, res, next) => {
     const Product = await pagination(
         product.find({isDelete: true})
             .populate("Category")
-            .sort({ Created_At: -1 }),
+            .sort({ isDelete: 1, Modified_At: -1 }),
         page,
         8
     )
