@@ -837,3 +837,81 @@ exports.paymentSuccess = catchAsyncErrors(async (req, res, next) => {
   await session.commitTransaction();
   session.endSession();
 });
+
+exports.cancelOrder = catchAsyncErrors(async (req, res, next) => {
+  const session = await mongoose.startSession();
+  session.startTransaction();
+  const pointTransaction = { session };
+
+  //get data
+  const { orderId }  = req.query
+  const tempAccount = req.Account;
+
+  // INIT values
+  let createCheck;
+  let updateCheck;
+  let deleteCheck;
+
+  // CHECK order exists
+  const tempOrder = await order.findOne({ _id: orderId, isDelete: false })
+  if (!tempOrder) {
+    await session.abortTransaction();
+    session.endSession();
+
+    const err = new Error("Order not found");
+    return next(err);
+  }
+
+  // CHECK order status
+  if (tempOrder.Order_Status != 'order') {
+    await session.abortTransaction();
+    session.endSession();
+
+    const err = new Error("Cancel order only when status is order");
+    return next(err);
+  }
+
+  // UPDATE order status
+  tempOrder.Order_Status = 'cancel'
+  updateCheck = await tempOrder.save(pointTransaction);
+  if (!updateCheck) {
+    await session.abortTransaction();
+    session.endSession();
+
+    const err = new Error("An error occurred during cancel order");
+    return next(err);
+  }
+
+  // UPDATE product quantity
+  let tempProduct;
+  const lenProducts = tempOrder.products.length
+  for (var i = 0; i < lenProducts; i++) {
+    // CHECK product exists
+    tempProduct = await product.findOne({ _id: tempOrder.products[i]._id })
+    if (!tempProduct) {
+      await session.abortTransaction();
+      session.endSession();
+  
+      const err = new Error("An error occurred during cancel order");
+      return next(err);
+    }
+
+    tempProduct.Quantity += tempOrder.products[i].Quantity;
+    updateCheck = await tempProduct.save(pointTransaction);
+    if (!updateCheck) {
+      await session.abortTransaction();
+      session.endSession();
+  
+      const err = new Error("An error occurred during cancel order");
+      return next(err);
+    }
+  }
+
+  await session.commitTransaction();
+  session.endSession();
+
+  res.status(201).json({
+    success: true,
+    message: 'Cancel order success'
+  });
+});

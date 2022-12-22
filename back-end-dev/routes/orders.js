@@ -12,7 +12,8 @@ const {
     updateOrder,
     paymentOrderByCash,
     paymentOrderByOnline,
-    paymentSuccess
+    paymentSuccess,
+    cancelOrder
 } = require('../controllers/oderController')
 
 const { 
@@ -401,5 +402,29 @@ router.put("/updateOrder", isAuthenticatedAccount, authorizeRoles('admin'), upda
  *                 $ref: '#/components/schemas/Order'
  */
   router.get("/paymentSuccess", isAuthenticatedAccount, paymentSuccess);
+
+ /**
+ * @swagger
+ * /orders/cancelOrder:
+ *   put:
+ *     summary: Returns message
+ *     tags: [Orders]
+ *     parameters:
+ *     - in: query
+ *       name: orderId
+ *       description: Order Id
+ *       schema:
+ *         type: string
+ *     responses:
+ *       200:
+ *         description: message
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Order'
+ */
+ router.put("/cancelOrder", isAuthenticatedAccount, cancelOrder);
 
   module.exports = router;
