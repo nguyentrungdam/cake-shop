@@ -1,6 +1,5 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import accountReducer from "../slices/accountSlice";
-import addressReducer from "../slices/addressSlice";
 import productReducer from "../slices/productSlice";
 import categoryReducer from "../slices/categorySlice";
 import cartReducer from "../slices/cartSlice";
@@ -27,7 +26,6 @@ const persistConfig = {
 const rootReducer = combineReducers({
   account: accountReducer,
   cart: cartReducer,
-  address: addressReducer,
   product: productReducer,
   category: categoryReducer,
   user: userReducer,

@@ -165,13 +165,11 @@ function Cart() {
               <>
                 <div className="NullCart">
                   <div className="NullCartLogo"></div>
-                  <div className="NullCartTitle">
-                    Giỏ hàng của bạn còn trống
-                  </div>
+                  <div className="NullCartTitle">Your cart is empty!</div>
                   <Link to="/list-product" className="LinkBuy">
                     <span>
                       <div className="NullCartButton">
-                        <div className="NullCartBuyNow">MUA NGAY</div>
+                        <div className="NullCartBuyNow">Buy Now</div>
                       </div>
                     </span>
                   </Link>
@@ -494,11 +492,11 @@ function Cart() {
         ) : (
           <div className="NullCart">
             <div className="NullCartLogo"></div>
-            <div className="NullCartTitle">Vui lòng đăng nhập!</div>
+            <div className="NullCartTitle">Please Login!</div>
             <Link to="/signin" className="LinkBuy">
               <span>
                 <div className="NullCartButton">
-                  <div className="NullCartBuyNow">Tại đây</div>
+                  <div className="NullCartBuyNow">Here</div>
                 </div>
               </span>
             </Link>

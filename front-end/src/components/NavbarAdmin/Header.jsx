@@ -26,9 +26,7 @@ const Header = (props) => {
     e.preventDefault();
     notify();
     dispatch(signout());
-    setTimeout(function () {
-      Navigate("/signin");
-    }, 1500);
+    Navigate("/signin");
   };
   return (
     <Container>

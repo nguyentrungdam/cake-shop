@@ -6,10 +6,8 @@ import ProductList from "./pages/Admins/List/productList";
 import UserList from "./pages/Admins/List/userList";
 import AddProduct from "./pages/Admins/Add/addProduct";
 import EditProduct from "./pages/Admins/Edit/EditProduct";
-import AddTrademark from "./pages/Admins/Add/addTrademark";
 import OrderList from "./pages/Admins/List/OrderList";
 import Account from "./pages/Clients/Account/Account";
-import Addresses from "./pages/Clients/Account/Addresses";
 import Cart from "./pages/Clients/Cart/cart";
 import HomePage from "./pages/Clients/HomePage/HomePage";
 import ListProduct from "./pages/Clients/ListProduct/ListProduct";
@@ -42,32 +40,11 @@ function App() {
   }, [isAuthenticated]);
   return (
     <Routes>
-      <Route
-        path="/"
-        element={
-          <ProtectedUser isLoggedIn={isAuthenticated}>
-            <HomePage />
-          </ProtectedUser>
-        }
-      />
+      <Route path="/" element={<HomePage />} />
       <Route path="/signin" element={<Signin />} />
       <Route path="/signup" element={<Signup />} />
-      <Route
-        path="/list-product"
-        element={
-          <ProtectedUser isLoggedIn={isAuthenticated}>
-            <ListProduct />
-          </ProtectedUser>
-        }
-      />
-      <Route
-        path="/cart"
-        element={
-          <ProtectedUser isLoggedIn={isAuthenticated}>
-            <Cart />
-          </ProtectedUser>
-        }
-      />
+      <Route path="/list-product" element={<ListProduct />} />
+      <Route path="/cart" element={<Cart />} />
       <Route
         path="/payment"
         element={
@@ -77,14 +54,7 @@ function App() {
         }
       />
       <Route path="/account" element={<Account />} />
-      <Route
-        path="/search"
-        element={
-          <ProtectedUser isLoggedIn={isAuthenticated}>
-            <Search />
-          </ProtectedUser>
-        }
-      />
+      <Route path="/search" element={<Search />} />
       {/* <Route path="/account/addresses" element={<Addresses />} /> */}
       <Route
         path="/order-history"
@@ -109,7 +79,6 @@ function App() {
       <Route path="/addproduct/*" element={<AddProduct />} />
       <Route path="/addcategory/*" element={<AddCategory />} />
       <Route path="/editproduct/*" element={<EditProduct />} />
-      <Route path="/addtrademark/*" element={<AddTrademark />} />
       <Route path="/listorder/*" element={<OrderList />} />
       <Route path="/listcategory/*" element={<CategoryList />} />
     </Routes>

@@ -5,7 +5,8 @@ import LeftNavbar from "../../../components/NavbarAdmin/LeftNavbar";
 import { useDispatch, useSelector } from "react-redux";
 import { addProduct } from "../../../slices/productSlice";
 import { getCategories } from "../../../slices/categorySlice";
-
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 const AddProduct = () => {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -61,7 +62,24 @@ const AddProduct = () => {
     };
     reader.readAsDataURL(e.target.files[0]);
   };
-
+  const notify = (prop, message) => {
+    if (prop === 1) {
+      toast.success("🎂 Add to Basket Success!", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 1000,
+      });
+    } else if (prop === 0) {
+      toast.warn(message, {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 1000,
+      });
+    } else {
+      toast.error(message, {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 1000,
+      });
+    }
+  };
   const handleAddProduct = async () => {
     console.log(productInfo);
     const form = new FormData();
@@ -78,16 +96,17 @@ const AddProduct = () => {
       const res = await dispatch(addProduct(form)).unwrap();
       console.log(res);
       if (res.status === 201) {
-        alert("Add Thành Công !");
+        notify(1, "Create product successfully!");
       }
     } catch (err) {
-      alert("Vui lòng kiểm tra lại các thông tin cho chính xác !");
+      notify(2, err);
     }
   };
 
   return (
     <React.Fragment>
       <Header name="Add product" />
+      <ToastContainer />
       <LeftNavbar />
       <Container>
         <Title>Product Information</Title>

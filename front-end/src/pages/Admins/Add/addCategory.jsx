@@ -5,7 +5,8 @@ import LeftNavbar from "../../../components/NavbarAdmin/LeftNavbar";
 import { useDispatch } from "react-redux";
 import { createCategory } from "../../../slices/categorySlice";
 import { Link } from "react-router-dom";
-
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 const AddCategory = () => {
   const dispatch = useDispatch();
   const [CategoryInfo, setCategoryInfo] = useState({
@@ -22,7 +23,24 @@ const AddCategory = () => {
     e.preventDefault();
     setCategoryInfo({ ...CategoryInfo, description: e.target.value });
   };
-
+  const notify = (prop, message) => {
+    if (prop === 1) {
+      toast.success("🎂 Add to Basket Success!", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 1000,
+      });
+    } else if (prop === 0) {
+      toast.warn(message, {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 1000,
+      });
+    } else {
+      toast.error(message, {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 1000,
+      });
+    }
+  };
   const handleAddCategory = async () => {
     const form = new FormData();
     form.append("Name", CategoryInfo.name);
@@ -32,16 +50,17 @@ const AddCategory = () => {
       console.log(res);
 
       if (res.status === 201) {
-        alert("Add Thành Công !");
+        notify(1, "Create category successfully!");
       }
     } catch (err) {
-      alert("Vui lòng kiểm tra lại các thông tin cho chính xác !");
+      notify(2, err);
     }
   };
 
   return (
     <React.Fragment>
       <Header name="Add category" />
+      <ToastContainer />
       <LeftNavbar />
       <Container>
         <a href="/listcategory" className="btn-shopnow">

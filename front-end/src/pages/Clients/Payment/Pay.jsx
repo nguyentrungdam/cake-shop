@@ -18,9 +18,9 @@ const Pay = () => {
   const [name, setName] = useState("");
   const [payType, setPayType] = useState(0);
   const [showModal, setShowModal] = useState(false);
-  const { link, loading } = useSelector((state) => state.order);
+  const { loading } = useSelector((state) => state.order);
   const orderItems = location.state.selected;
-  // console.log(orderItems);
+  console.log(orderItems);
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
