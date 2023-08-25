@@ -53,9 +53,15 @@ Các bạn có thể đăng ký tài khoản user trên web
 
 Tài khoản admin
 
-Email: adminson@gmail.com
+Email: admin@gmail.com
 
-Pass: 12345678
+Pass: 123456
+
+Tài khoản user
+
+Email: dam@gmail.com
+
+Pass: 123456
 
 ### `npm run build` fails to minify
 
