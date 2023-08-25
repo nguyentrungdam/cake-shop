@@ -2,7 +2,7 @@
   "name": "shopee__group",
   "version": "0.1.0",
   "private": true,
-  "proxy": "https://cake-shop-685d.onrender.com",
+  "proxy": "https://cake-shop-9su5.onrender.com",
   "dependencies": {
     "@emotion/react": "^11.10.0",
     "@emotion/styled": "^11.10.0",
