@@ -13,7 +13,7 @@ dotenv.config({
   debug: false,
 });
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 10000;
 connectDatabase();
 
 const options = {
