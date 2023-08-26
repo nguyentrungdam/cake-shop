@@ -1,6 +1,6 @@
 import axios from "axios";
 
-// const api = "http://localhost:5000";
+// const api = "http://localhost:10000";
 const api = "https://cake-shop-9su5.onrender.com";
 
 const axiosInstance = axios.create({

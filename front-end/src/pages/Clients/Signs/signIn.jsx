@@ -38,14 +38,21 @@ export default function Signin() {
           setErrIcon("success");
           notify(1);
           setTimeout(function () {
+            console.log(res.data);
             navigate("/");
           }, 1500);
-        } else {
+        } else if (res.data.success && res.data.account.Role === "admin") {
           setErr("Admin đăng nhập thành công");
           setErrIcon("success");
           notify(0);
           setTimeout(function () {
+            console.log(res.data);
             navigate("/admin");
+          }, 1500);
+        } else {
+          notify(2);
+          setTimeout(function () {
+            navigate("/signin");
           }, 1500);
         }
       } catch (error) {
@@ -55,13 +62,18 @@ export default function Signin() {
     }
   };
   const notify = (prop) => {
-    if (prop) {
+    if (prop === 1) {
       toast.success("🎂 User Login Success !", {
         position: toast.POSITION.TOP_RIGHT,
         autoClose: 1000,
       });
-    } else {
+    } else if (prop === 0) {
       toast.success("🎂 Admin Login Success !", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 1000,
+      });
+    } else {
+      toast.error("Eror! Please login again!", {
         position: toast.POSITION.TOP_RIGHT,
         autoClose: 1000,
       });
